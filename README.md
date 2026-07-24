@@ -6,6 +6,8 @@ Caldeira VM is a deterministic embedded virtual machine designed for microcontro
 
 It provides a stable execution environment for embedded applications, allowing software portability across supported hardware targets while maintaining predictable execution behavior.
 
+`curl -sL https://raw.githubusercontent.com/giuseppe-palmeri/Caldeira-VM-Releases/main/caldeira-bootstrap.sh | bash`
+
 ---
 
 ## Vision
