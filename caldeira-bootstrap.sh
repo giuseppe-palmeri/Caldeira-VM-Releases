@@ -1,51 +1,146 @@
 #!/bin/bash
-# Caldeira VM SDK - Bootstrap
-# Download the latest SDK from GitHub Releases.
+# Caldeira VM SDK Bootstrap
+# Download and manage Caldeira VM SDK versions.
 #
 # Usage:
-#   curl -sL https://github.com/giuseppe-palmeri/Caldeira-VM-Releases/.../caldeira-bootstrap.sh | bash
-#   bash caldeira-bootstrap.sh [--install-dir <path>]
+#   bash caldeira-bootstrap.sh                    # Install the latest version
+#   bash caldeira-bootstrap.sh --list-versions    # Show installed versions
+#   bash caldeira-bootstrap.sh --use <version>    # Switch to a specific version
+#
+# Quick install:
+#   curl -sL https://raw.githubusercontent.com/giuseppe-palmeri/Caldeira-VM-Releases/main/caldeira-bootstrap.sh | bash
 set -euo pipefail
 
 REPO="giuseppe-palmeri/Caldeira-VM-Releases"
 API_URL="https://api.github.com/repos/$REPO/releases/latest"
 
-# Default install directory
-INSTALL_DIR="${CALDEIRA_SDK:-$HOME/.caldeira/sdk}"
+# Root directory
+CALDEIRA_ROOT="${CALDEIRA_ROOT:-$HOME/.caldeira}"
+VERSIONS_DIR="$CALDEIRA_ROOT/versions"
+CURRENT_LINK="$CALDEIRA_ROOT/current"
 
 # Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 CYAN='\033[0;36m'
+YELLOW='\033[1;33m'
 NC='\033[0m'
 
 echo -e "${CYAN}== Caldeira VM SDK Bootstrap ==${NC}"
 echo ""
 
-# Parse arguments
-while [[ $# -gt 0 ]]; do
+# ── Helper: get current version tag from API ──
+get_latest_tag() {
+    curl -s "$API_URL" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+print(d.get('tag_name', ''))
+" 2>/dev/null || echo ""
+}
+
+get_latest_zip_url() {
+    curl -s "$API_URL" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+for a in d.get('assets', []):
+    if a['name'].endswith('-linux.zip'):
+        print(a['browser_download_url'])
+        break
+" 2>/dev/null || true
+}
+
+# ── Command: list installed versions ──
+cmd_list_versions() {
+    echo "Installed versions:"
+    echo ""
+    if [ ! -d "$VERSIONS_DIR" ] || [ -z "$(ls -A "$VERSIONS_DIR" 2>/dev/null)" ]; then
+        echo "  (none)"
+        echo ""
+        echo "Install the latest version:"
+        echo "  bash caldeira-bootstrap.sh"
+        return
+    fi
+
+    local current=""
+    if [ -L "$CURRENT_LINK" ]; then
+        current=$(readlink "$CURRENT_LINK")
+        current="${current#versions/}"
+    fi
+
+    for ver in "$VERSIONS_DIR"/*/; do
+        ver=$(basename "$ver")
+        if [ "$ver" = "$current" ]; then
+            echo -e "  ${GREEN}* ${ver}${NC} (active)"
+        else
+            echo "    $ver"
+        fi
+    done
+    echo ""
+    echo "Switch version:"
+    echo "  bash caldeira-bootstrap.sh --use <version>"
+}
+
+# ── Command: switch version ──
+cmd_use_version() {
+    local version="$1"
+    if [ ! -d "$VERSIONS_DIR/$version" ]; then
+        echo -e "${RED}Error: version '$version' is not installed.${NC}"
+        echo ""
+        echo "Installed versions:"
+        for ver in "$VERSIONS_DIR"/*/; do
+            echo "  - $(basename "$ver")"
+        done
+        exit 1
+    fi
+
+    ln -snf "versions/$version" "$CURRENT_LINK"
+    echo "$version" > "$CALDEIRA_ROOT/VERSION"
+    echo -e "${GREEN}Switched to ${version}${NC}"
+    echo ""
+    echo "  CALDEIRA_SDK=$CURRENT_LINK"
+    echo "  PATH=\$CALDEIRA_SDK/bin:\$PATH"
+}
+
+# ── Parse arguments ──
+if [[ $# -gt 0 ]]; then
     case "$1" in
+        --list-versions|ls)
+            cmd_list_versions
+            exit 0
+            ;;
+        --use|use)
+            if [ -z "${2:-}" ]; then
+                echo "Usage: bash caldeira-bootstrap.sh --use <version>"
+                exit 1
+            fi
+            cmd_use_version "$2"
+            exit 0
+            ;;
         --install-dir)
-            INSTALL_DIR="$2"
-            shift 2
+            echo "Error: --install-dir is no longer supported."
+            echo "The SDK is now managed in ~/.caldeira/versions/"
+            echo "Use: bash caldeira-bootstrap.sh --use <version>"
+            exit 1
             ;;
         --help|-h)
-            echo "Usage: bash caldeira-bootstrap.sh [--install-dir <path>]"
+            echo "Usage: bash caldeira-bootstrap.sh [command]"
             echo ""
-            echo "Download and install the latest Caldeira VM SDK."
-            echo ""
-            echo "Options:"
-            echo "  --install-dir <path>  Install directory"
-            echo "                        (default: \$CALDEIRA_SDK or ~/.caldeira/sdk)"
+            echo "Commands:"
+            echo "  (no args)             Install or update the latest version"
+            echo "  --list-versions, ls   Show installed versions"
+            echo "  --use <version>       Switch to a specific version"
             echo "  --help, -h            Show this help"
             exit 0
             ;;
         *)
-            echo "Unknown option: $1"
+            echo -e "${RED}Unknown option: $1${NC}"
+            echo "Usage: bash caldeira-bootstrap.sh [--list-versions|--use <version>|--help]"
             exit 1
             ;;
     esac
-done
+fi
+
+# ── No arguments: install/update the latest version ──
 
 # Check dependencies
 for cmd in curl python3 unzip; do
@@ -55,54 +150,43 @@ for cmd in curl python3 unzip; do
     fi
 done
 
-# Step 1: Query latest release
+# Query latest release
 echo -e "  ${CYAN}*${NC} Checking latest version..."
-RELEASE_JSON=$(curl -s "$API_URL")
-if [ -z "$RELEASE_JSON" ]; then
+TAG=$(get_latest_tag)
+if [ -z "$TAG" ]; then
     echo -e "${RED}Error: Could not reach GitHub API.${NC}"
     exit 1
 fi
 
-# Extract version tag
-TAG=$(echo "$RELEASE_JSON" | python3 -c "
-import sys, json
-d = json.load(sys.stdin)
-print(d.get('tag_name', 'unknown'))
-" 2>/dev/null || echo "unknown")
-
-# Find the SDK zip asset URL
-ZIP_URL=$(echo "$RELEASE_JSON" | python3 -c "
-import sys, json
-d = json.load(sys.stdin)
-for a in d.get('assets', []):
-    if a['name'].endswith('-linux.zip'):
-        print(a['browser_download_url'])
-        break
-" 2>/dev/null || true)
-
+ZIP_URL=$(get_latest_zip_url)
 if [ -z "$ZIP_URL" ]; then
     echo -e "${RED}Error: No SDK zip found in the latest release.${NC}"
     exit 1
 fi
 
-echo -e "  ${CYAN}*${NC} Latest version: ${TAG}"
+echo -e "  ${CYAN}*${NC} Latest:  ${TAG}"
 
-# Step 2: Check if already installed and up-to-date
-VERSION_FILE="$INSTALL_DIR/VERSION"
-if [ -f "$VERSION_FILE" ]; then
-    INSTALLED_VERSION=$(cat "$VERSION_FILE")
-    if [ "$INSTALLED_VERSION" = "$TAG" ]; then
+# Check if already installed
+if [ -d "$VERSIONS_DIR/$TAG" ]; then
+    # Check if it's the active version
+    local current=""
+    if [ -L "$CURRENT_LINK" ]; then
+        current=$(readlink "$CURRENT_LINK")
+        current="${current#versions/}"
+    fi
+    if [ "$current" = "$TAG" ]; then
         echo -e "  ${GREEN}*${NC} Already up-to-date (${TAG}). Nothing to do."
         echo ""
-        echo "  To force reinstall: rm -rf \"$INSTALL_DIR\" && bash caldeira-bootstrap.sh"
+        echo "  Versions:"
+        bash "$0" --list-versions
         exit 0
     fi
-    echo -e "  ${CYAN}*${NC} Installed: ${INSTALLED_VERSION} -> updating to ${TAG}"
-else
-    echo -e "  ${CYAN}*${NC} Not installed yet."
+    echo -e "  ${CYAN}*${NC} Already downloaded, switching to ${TAG}..."
+    cmd_use_version "$TAG"
+    exit 0
 fi
 
-# Step 3: Download
+# Download
 echo -e "  ${CYAN}*${NC} Downloading..."
 TMP_DIR=$(mktemp -d)
 TMP_ZIP="$TMP_DIR/caldeira-sdk.zip"
@@ -114,48 +198,47 @@ if [ ! -f "$TMP_ZIP" ] || [ ! -s "$TMP_ZIP" ]; then
     exit 1
 fi
 
-# Step 4: Extract
-echo -e "  ${CYAN}*${NC} Extracting to $INSTALL_DIR..."
-mkdir -p "$INSTALL_DIR"
+# Extract to versions/<tag>/
+echo -e "  ${CYAN}*${NC} Installing version ${TAG}..."
+mkdir -p "$VERSIONS_DIR"
+
+# Extract to temp then move
 unzip -o -q "$TMP_ZIP" -d "$TMP_DIR/extracted" 2>/dev/null
 
-# The zip contains a subdirectory 'caldeira-sdk-linux/'
-EXTRACTED_DIR="$TMP_DIR/extracted"
-if [ -d "$EXTRACTED_DIR/caldeira-sdk-linux" ]; then
-    EXTRACTED_DIR="$EXTRACTED_DIR/caldeira-sdk-linux"
+EXTRACTED="$TMP_DIR/extracted"
+if [ -d "$EXTRACTED/caldeira-sdk-linux" ]; then
+    EXTRACTED="$EXTRACTED/caldeira-sdk-linux"
 fi
 
-# Copy contents to install dir
-cp -r "$EXTRACTED_DIR"/* "$INSTALL_DIR/" 2>/dev/null || cp -r "$EXTRACTED_DIR"/. "$INSTALL_DIR/" 2>/dev/null
+# Remove existing if any (broken partial install)
+rm -rf "$VERSIONS_DIR/$TAG"
+mv "$EXTRACTED" "$VERSIONS_DIR/$TAG"
 
-# Write version file
-echo "$TAG" > "$VERSION_FILE"
+# Make binaries executable
+chmod +x "$VERSIONS_DIR/$TAG/bin/"*
 
 # Cleanup
 rm -rf "$TMP_DIR"
 
-# Step 5: Verify
-CALDEIRA_BIN="$INSTALL_DIR/bin/caldeira"
-if [ -f "$CALDEIRA_BIN" ]; then
-    chmod +x "$CALDEIRA_BIN"
-    echo -e "  ${GREEN}*${NC} caldeira: $CALDEIRA_BIN"
-else
-    echo -e "${RED}Error: caldeira binary not found after extraction.${NC}"
-    exit 1
-fi
+# Activate
+ln -snf "versions/$TAG" "$CURRENT_LINK"
+echo "$TAG" > "$CALDEIRA_ROOT/VERSION"
 
+echo -e "  ${GREEN}*${NC} Installed: $VERSIONS_DIR/$TAG"
+echo -e "  ${GREEN}*${NC} Active:    $CURRENT_LINK -> $TAG"
 echo ""
 echo -e "${GREEN}== Caldeira VM SDK ${TAG} installed! ==${NC}"
 echo ""
-echo "SDK directory: $INSTALL_DIR"
-echo ""
 echo "Add to your shell profile (~/.bashrc, ~/.zshrc, etc.):"
 echo ""
-echo "  export CALDEIRA_SDK=\"$INSTALL_DIR\""
+echo "  export CALDEIRA_SDK=\"$CURRENT_LINK\""
 echo "  export PATH=\"\$CALDEIRA_SDK/bin:\$PATH\""
 echo ""
-echo "Then use:"
+echo "Commands:"
 echo "  caldeira new my-project"
 echo "  caldeira build"
 echo "  caldeira run"
-echo "  caldeira get-sdk    # update to latest version"
+echo ""
+echo "Manage versions:"
+echo "  bash caldeira-bootstrap.sh --list-versions"
+echo "  bash caldeira-bootstrap.sh --use <version>"
