@@ -78,6 +78,7 @@ cmd_list_versions() {
     echo ""
     echo "Switch version:"
     echo "  bash caldeira-bootstrap.sh --use <version>"
+    echo "  caldeira use <version>"
 }
 
 # ── Command: switch version ──
@@ -95,10 +96,94 @@ cmd_use_version() {
 
     ln -snf "versions/$version" "$CURRENT_LINK"
     echo "$version" > "$CALDEIRA_ROOT/VERSION"
+    # Aggiorna i symlink in ~/.local/bin
+    setup_local_bin_symlinks
     echo -e "${GREEN}Switched to ${version}${NC}"
     echo ""
     echo "  CALDEIRA_SDK=$CURRENT_LINK"
     echo "  PATH=\$CALDEIRA_SDK/bin:\$PATH"
+}
+
+# ── Symlink in ~/.local/bin (se presente nel PATH) ──
+setup_local_bin_symlinks() {
+    local local_bin="$HOME/.local/bin"
+    if [ ! -d "$local_bin" ]; then
+        return 1
+    fi
+    # Controlla se ~/.local/bin è nel PATH
+    if ! echo ":$PATH:" | grep -q ":$local_bin:" 2>/dev/null; then
+        return 1
+    fi
+    mkdir -p "$local_bin"
+    for tool in caldeira clasto lava magma_pack; do
+        local src="$CURRENT_LINK/bin/$tool"
+        if [ -f "$src" ]; then
+            ln -sf "$src" "$local_bin/$tool" 2>/dev/null || true
+        fi
+    done
+    return 0
+}
+
+# ── Configura profilo shell (fallback) ──
+setup_shell_profile() {
+    local rc_file=""
+    case "${SHELL:-}" in
+        *zsh*) rc_file="$HOME/.zshrc" ;;
+        *bash*) rc_file="$HOME/.bashrc" ;;
+        *) rc_file="$HOME/.profile" ;;
+    esac
+
+    # Fallback se il file non esiste
+    if [ ! -f "$rc_file" ]; then
+        [ -f "$HOME/.zprofile" ] && rc_file="$HOME/.zprofile"
+        [ -f "$HOME/.bash_profile" ] && rc_file="$HOME/.bash_profile"
+        [ -f "$HOME/.profile" ] && rc_file="$HOME/.profile"
+        [ ! -f "$rc_file" ] && rc_file="$HOME/.profile"
+    fi
+
+    local caldeira_export="export CALDEIRA_SDK=\"$CURRENT_LINK\""
+    local path_export="export PATH=\"\$CALDEIRA_SDK/bin:\$PATH\""
+
+    if grep -q "CALDEIRA_SDK" "$rc_file" 2>/dev/null; then
+        echo -e "  ${GREEN}*${NC} Shell profile already configured ($rc_file)"
+        return
+    fi
+
+    echo ""
+    echo "  Would you like to add Caldeira to your shell profile?"
+    echo "  File: $rc_file"
+    echo ""
+    echo "    $caldeira_export"
+    echo "    $path_export"
+    echo ""
+    read -p "  Add to profile? [Y/n] " -n 1 REPLY </dev/tty 2>/dev/null || REPLY="y"
+    echo ""
+
+    if [ -z "$REPLY" ] || [[ "$REPLY" =~ ^[Yy]$ ]]; then
+        echo "" >> "$rc_file"
+        echo "# Caldeira VM SDK" >> "$rc_file"
+        echo "$caldeira_export" >> "$rc_file"
+        echo "$path_export" >> "$rc_file"
+        echo -e "  ${GREEN}*${NC} Added to $rc_file"
+        echo ""
+        echo "  To apply now: source $rc_file"
+    else
+        echo -e "  ${YELLOW}*${NC} Skipped. To configure manually:"
+        echo ""
+        echo "    $caldeira_export"
+        echo "    $path_export"
+    fi
+}
+
+# ── Setup PATH: prova ~/.local/bin, poi profilo shell ──
+setup_path() {
+    echo -e "  ${CYAN}*${NC} Configuring PATH..."
+    if setup_local_bin_symlinks; then
+        echo -e "  ${GREEN}*${NC} Symlinks created in ~/.local/bin/"
+        echo "  (already in PATH - no shell profile changes needed)"
+    else
+        setup_shell_profile
+    fi
 }
 
 # ── Parse arguments ──
@@ -166,9 +251,8 @@ fi
 
 echo -e "  ${CYAN}*${NC} Latest:  ${TAG}"
 
-# Check if already installed
+# Check if already installed and up-to-date
 if [ -d "$VERSIONS_DIR/$TAG" ]; then
-    # Check if it's the active version
     local current=""
     if [ -L "$CURRENT_LINK" ]; then
         current=$(readlink "$CURRENT_LINK")
@@ -177,7 +261,6 @@ if [ -d "$VERSIONS_DIR/$TAG" ]; then
     if [ "$current" = "$TAG" ]; then
         echo -e "  ${GREEN}*${NC} Already up-to-date (${TAG}). Nothing to do."
         echo ""
-        echo "  Versions:"
         bash "$0" --list-versions
         exit 0
     fi
@@ -202,7 +285,6 @@ fi
 echo -e "  ${CYAN}*${NC} Installing version ${TAG}..."
 mkdir -p "$VERSIONS_DIR"
 
-# Extract to temp then move
 unzip -o -q "$TMP_ZIP" -d "$TMP_DIR/extracted" 2>/dev/null
 
 EXTRACTED="$TMP_DIR/extracted"
@@ -210,14 +292,11 @@ if [ -d "$EXTRACTED/caldeira-sdk-linux" ]; then
     EXTRACTED="$EXTRACTED/caldeira-sdk-linux"
 fi
 
-# Remove existing if any (broken partial install)
 rm -rf "$VERSIONS_DIR/$TAG"
 mv "$EXTRACTED" "$VERSIONS_DIR/$TAG"
 
-# Make binaries executable
 chmod +x "$VERSIONS_DIR/$TAG/bin/"*
 
-# Cleanup
 rm -rf "$TMP_DIR"
 
 # Activate
@@ -229,16 +308,19 @@ echo -e "  ${GREEN}*${NC} Active:    $CURRENT_LINK -> $TAG"
 echo ""
 echo -e "${GREEN}== Caldeira VM SDK ${TAG} installed! ==${NC}"
 echo ""
-echo "Add to your shell profile (~/.bashrc, ~/.zshrc, etc.):"
-echo ""
-echo "  export CALDEIRA_SDK=\"$CURRENT_LINK\""
-echo "  export PATH=\"\$CALDEIRA_SDK/bin:\$PATH\""
+
+# Configura PATH: ~/.local/bin > profilo shell
+setup_path
+
 echo ""
 echo "Commands:"
 echo "  caldeira new my-project"
 echo "  caldeira build"
 echo "  caldeira run"
+echo "  caldeira get-sdk"
 echo ""
 echo "Manage versions:"
-echo "  bash caldeira-bootstrap.sh --list-versions"
-echo "  bash caldeira-bootstrap.sh --use <version>"
+echo "  caldeira ls                     List installed versions"
+echo "  caldeira use <version>          Switch version"
+echo "  bash caldeira-bootstrap.sh --list-versions  Alternative via bootstrap"
+echo "  bash caldeira-bootstrap.sh --use <version>  Alternative via bootstrap"
