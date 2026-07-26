@@ -115,7 +115,7 @@ setup_local_bin_symlinks() {
         return 1
     fi
     mkdir -p "$local_bin"
-    for tool in caldeira clasto lava magma; do
+    for tool in caldeira clasto clasto-lsp lava magma; do
         local src="$CURRENT_LINK/bin/$tool"
         if [ -f "$src" ]; then
             ln -sf "$src" "$local_bin/$tool" 2>/dev/null || true
