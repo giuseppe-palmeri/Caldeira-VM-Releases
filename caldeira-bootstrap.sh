@@ -253,7 +253,7 @@ echo -e "  ${CYAN}*${NC} Latest:  ${TAG}"
 
 # Check if already installed and up-to-date
 if [ -d "$VERSIONS_DIR/$TAG" ]; then
-    local current=""
+    current=""
     if [ -L "$CURRENT_LINK" ]; then
         current=$(readlink "$CURRENT_LINK")
         current="${current#versions/}"
