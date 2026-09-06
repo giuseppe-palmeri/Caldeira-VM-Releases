@@ -15,7 +15,7 @@
 
 const { execFileSync } = require('child_process');
 
-const baseUrl = process.argv[2] || 'http://localhost:8099/index.html';
+const baseUrl = process.argv[2] || 'http://localhost:8099/docs/index.html';
 
 function run(cmd, args) {
     try {

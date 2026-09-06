@@ -1,8 +1,16 @@
 {
-  "generated_at": "2026-09-06T22:45:21.708060+00:00",
+  "generated_at": "2026-09-06T23:09:34.280450+00:00",
   "source": "https://api.github.com/repos/giuseppe-palmeri/Caldeira-VM-Releases/events",
   "unavailable": false,
   "events": [
+    {
+      "type": "PushEvent",
+      "created_at": "2026-09-06T22:59:27+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "refs/heads/main",
+      "ref_type": null,
+      "head": "ee5e06d1d46aac12d2c96d2fbee2c3a273188898"
+    },
     {
       "type": "DeleteEvent",
       "created_at": "2026-09-02T00:33:02+00:00",

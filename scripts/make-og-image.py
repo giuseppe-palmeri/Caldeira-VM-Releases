@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate images/og-image.png for the Caldeira VM website."""
+"""Generate docs/images/og-image.png for the Caldeira VM website."""
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1200, 630
@@ -43,5 +43,5 @@ d.text((100, 260), "Caldeira VM", font=title_font, fill=TEXT)
 d.text((100, 340), "A lightweight, deterministic virtual machine", font=sub_font, fill=MUTED)
 d.text((100, 390), "for microcontrollers.", font=sub_font, fill=MUTED)
 
-img.save("images/og-image.png", optimize=True)
-print("wrote images/og-image.png", img.size)
+img.save("docs/images/og-image.png", optimize=True)
+print("wrote docs/images/og-image.png", img.size)

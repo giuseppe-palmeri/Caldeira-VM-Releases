@@ -123,18 +123,23 @@ The Caldeira VM Core is distributed according to:
 The official public website is served from this repository on GitHub Pages
 (https://giuseppe-palmeri.github.io/Caldeira-VM-Releases/).
 
-It is a fully static site (no build step, no backend). Structure:
+**GitHub Pages configuration**: deploy from the **`main`** branch, folder **`/docs`**
+(Settings → Pages → Source → Deploy from a branch → `main` / `docs`).
+
+The site is fully static (no build step, no backend). Structure (inside `docs/`):
 
 ```
-index.html            single-page site (all sections)
-style.css             design system (dark/light themes, green accent, responsive)
-script.js             i18n, theme, copy button, GitHub data rendering, mobile menu
-locales/en.json       UI translations (English)
-locales/it.json       UI translations (Italian)
-data/*.json           GitHub-derived data (releases, issues, activity, repo)
-images/               favicon + OG image
-assets/               static assets as needed
-scripts/              data fetch + smoke test
+docs/
+├── index.html            single-page site (all sections)
+├── style.css             design system (dark/light themes, green accent, responsive)
+├── script.js             i18n, theme, copy button, GitHub data rendering, mobile menu
+├── locales/en.json       UI translations (English)
+├── locales/it.json       UI translations (Italian)
+├── data/*.json           GitHub-derived data (releases, issues, activity, repo)
+├── images/               favicon + OG image
+└── assets/               static assets as needed
+
+scripts/                  development tooling (not served): data fetch, smoke test
 ```
 
 Regenerate the GitHub-derived data (public API, no token required):
@@ -143,17 +148,17 @@ Regenerate the GitHub-derived data (public API, no token required):
 bash scripts/fetch-github-data.sh
 ```
 
-Local preview:
+Local preview (serve the repository root, then open `/docs/`):
 
 ```bash
-python3 -m http.server 8099 --directory .
-# open http://localhost:8099
+python3 -m http.server 8099
+# open http://localhost:8099/docs/
 ```
 
 Headless smoke test:
 
 ```bash
-node scripts/smoke-test.js http://localhost:8099/index.html
+node scripts/smoke-test.js http://localhost:8099/docs/index.html
 ```
 
 Content rules: GitHub is the source of truth (releases, issues, platform status,

@@ -2,21 +2,21 @@
 # fetch-github-data.sh
 # Regenerates the static GitHub-derived data for the Caldeira VM website.
 #
-# Publishes data/{releases,issues,activity,repo}.json from the PUBLIC GitHub API.
+# Publishes docs/data/{releases,issues,activity,repo}.json from the PUBLIC GitHub API.
 # No authentication required (public repo, unauthenticated rate limits apply).
 # Requires: curl, python3 (no jq dependency).
 #
 # Usage:
 #   bash scripts/fetch-github-data.sh [--output-dir DIR] [--events N]
 #
-#   --output-dir DIR  Write JSON files to DIR (default: data/)
+#   --output-dir DIR  Write JSON files to DIR (default: docs/data/)
 #   --events N        Number of recent events to fetch (default: 30)
 
 set -euo pipefail
 
 REPO="giuseppe-palmeri/Caldeira-VM-Releases"
 API="https://api.github.com/repos/$REPO"
-OUT_DIR="data"
+OUT_DIR="docs/data"
 EVENTS_N=30
 
 while [[ $# -gt 0 ]]; do
