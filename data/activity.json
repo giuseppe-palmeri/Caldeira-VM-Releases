@@ -1,0 +1,135 @@
+{
+  "generated_at": "2026-09-06T22:45:21.708060+00:00",
+  "source": "https://api.github.com/repos/giuseppe-palmeri/Caldeira-VM-Releases/events",
+  "unavailable": false,
+  "events": [
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:33:02+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc9",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:33:14+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc12",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:33:07+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc10",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "PushEvent",
+      "created_at": "2026-09-01T22:23:29+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "refs/heads/main",
+      "ref_type": null,
+      "head": "b211d94a6eb817b9adf1cf989fe00faf9a4efd2d"
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:32:19+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc4",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:33:10+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc11",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:33:18+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc13",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:32:04+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc7",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:32:50+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc1",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:32:57+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc8",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:32:43+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc2",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:32:14+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc5",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:32:08+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc6",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:33:23+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc14",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:33:28+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc20",
+      "ref_type": "tag",
+      "head": null
+    },
+    {
+      "type": "DeleteEvent",
+      "created_at": "2026-09-02T00:32:24+00:00",
+      "actor": "giuseppe-palmeri",
+      "ref": "v0.2.0-rc3",
+      "ref_type": "tag",
+      "head": null
+    }
+  ]
+}

@@ -1,0 +1,258 @@
+{
+  "meta": {
+    "title": "Caldeira VM — Una macchina virtuale leggera e deterministica per microcontrollori",
+    "description": "Caldeira VM è una macchina virtuale leggera e deterministica per microcontrollori. Bytecode portabile, un ecosistema di sviluppo aperto e un ambiente di esecuzione stabile per software embedded longevo.",
+    "ogTitle": "Caldeira VM",
+    "ogDescription": "Una macchina virtuale leggera e deterministica per microcontrollori."
+  },
+  "nav": {
+    "overview": "Panoramica",
+    "why": "Perché Caldeira VM",
+    "concepts": "Concetti chiave",
+    "architecture": "Architettura",
+    "ecosystem": "Ecosistema",
+    "howItWorks": "Come funziona",
+    "platforms": "Piattaforme",
+    "installation": "Installazione",
+    "activity": "Attività",
+    "releases": "Release",
+    "community": "Community",
+    "documentation": "Documentazione",
+    "github": "GitHub"
+  },
+  "hero": {
+    "title": "Una macchina virtuale leggera e deterministica per microcontrollori.",
+    "description": "Caldeira VM offre un ambiente di esecuzione stabile per applicazioni embedded: esecuzione deterministica, portabilità hardware e comportamento prevedibile — pensato per software embedded longevo, firmware manutenibile e un ecosistema di sviluppo aperto.",
+    "primaryCta": "Esplora l'ecosistema",
+    "secondaryCta": "Vedi su GitHub",
+    "badgeEmbedded": "Sistemi embedded",
+    "badgeDeterministic": "Calcolo deterministico",
+    "badgeTooling": "Strumenti per sviluppatori",
+    "badgeEcosystem": "Ecosistema aperto"
+  },
+  "installation": {
+    "title": "Installa Caldeira VM",
+    "description": "Installa l'ultimo ambiente di bootstrap pubblico con un solo comando.",
+    "command": "curl -fsSL https://raw.githubusercontent.com/giuseppe-palmeri/Caldeira-VM-Releases/main/caldeira-bootstrap.sh | bash",
+    "copy": "Copia",
+    "copied": "Copiato!",
+    "note": "Lo script di bootstrap scarica e gestisce le versioni dell'SDK Caldeira VM. Richiede curl, python3 e unzip."
+  },
+  "why": {
+    "title": "Perché Caldeira VM",
+    "description": "I sistemi embedded moderni richiedono spesso prodotti longevi, firmware manutenibile e comportamento prevedibile. Caldeira VM è progettata attorno a questi vincoli.",
+    "firmwareLongevity": "Longevità del firmware",
+    "firmwareLongevityDesc": "Separa la logica applicativa dall'implementazione del microcontrollore sottostante, così il firmware può sopravvivere a una singola generazione di hardware.",
+    "hardwareChanges": "Cambi di hardware",
+    "hardwareChangesDesc": "Sposta il software sui target hardware supportati senza riscrivere l'applicazione, riducendo il costo dell'evoluzione hardware.",
+    "portability": "Portabilità hardware",
+    "portabilityDesc": "Un ambiente di esecuzione stabile mantiene il comportamento coerente quando cambia la piattaforma di destinazione.",
+    "predictableExecution": "Esecuzione prevedibile",
+    "predictableExecutionDesc": "L'esecuzione deterministica rende il software embedded più facile da ragionare, testare e validare.",
+    "softwareEvolution": "Evoluzione software controllata",
+    "softwareEvolutionDesc": "Un'interfaccia bytecode stabile dà al firmware un percorso controllato per evolversi nel tempo.",
+    "embeddedConstraints": "Vincoli di deployment embedded",
+    "embeddedConstraintsDesc": "Progettata per sistemi basati su microcontrollori, dove contano risorse, affidabilità e manutenibilità."
+  },
+  "concepts": {
+    "title": "Concetti chiave",
+    "description": "Le idee tecniche alla base di Caldeira VM, presentate senza marketing.",
+    "deterministic": "Esecuzione deterministica",
+    "deterministicDesc": "La VM esegue i programmi in modo prevedibile e ripetibile — importante nei sistemi embedded dove il comportamento deve essere affidabile.",
+    "portability": "Portabilità hardware",
+    "portabilityDesc": "Le applicazioni si scrivono una volta e girano sui target supportati attraverso un ambiente di esecuzione stabile.",
+    "stableEnv": "Ambiente di esecuzione stabile",
+    "stableEnvDesc": "Un contratto runtime coerente tra applicazione e hardware, indipendente dalle specificità del target.",
+    "maintainability": "Manutenibilità del firmware",
+    "maintainabilityDesc": "La separazione delle responsabilità rende il firmware longevo più facile da mantenere e aggiornare sul campo.",
+    "evolution": "Evoluzione software prevedibile",
+    "evolutionDesc": "Evoluzione controllata della piattaforma e della toolchain, senza rompere le applicazioni che vi si affidano.",
+    "embedded": "Deployment embedded",
+    "embeddedDesc": "Costruita fin dall'inizio per microcontrollori e sistemi con risorse limitate."
+  },
+  "architecture": {
+    "title": "Architettura",
+    "description": "Caldeira VM è composta da due livelli: un ecosistema aperto pubblico e un core proprietario.",
+    "openTitle": "Ecosistema aperto",
+    "openItems": {
+      "spec": "Specifica del bytecode",
+      "assembler": "Assembler",
+      "sdk": "SDK",
+      "docs": "Documentazione",
+      "examples": "Esempi"
+    },
+    "proprietaryTitle": "Core proprietario",
+    "proprietaryItems": {
+      "runtime": "Runtime specifico per target",
+      "engine": "Motore di esecuzione ottimizzato",
+      "deployment": "Componente di deployment commerciale"
+    },
+    "proprietaryNote": "Il core proprietario è di proprietà di Sky Home Srl. I prodotti commerciali che lo integrano richiedono una licenza commerciale separata. Non è open source e non è scaricabile pubblicamente."
+  },
+  "ecosystem": {
+    "title": "Ecosistema aperto",
+    "description": "I componenti pubblici sono forniti per incoraggiare sperimentazione, apprendimento, sviluppo e crescita dell'ecosistema.",
+    "items": {
+      "spec": {
+        "name": "Specifica del bytecode",
+        "desc": "La definizione pubblica del formato bytecode della Caldeira VM."
+      },
+      "assembler": {
+        "name": "Assembler",
+        "desc": "La toolchain assembler per produrre il bytecode della Caldeira VM."
+      },
+      "sdk": {
+        "name": "SDK",
+        "desc": "L'SDK Caldeira VM, installabile tramite lo script di bootstrap pubblico."
+      },
+      "docs": {
+        "name": "Documentazione",
+        "desc": "Documentazione pubblica per la piattaforma e i suoi strumenti."
+      },
+      "examples": {
+        "name": "Esempi",
+        "desc": "Programmi di esempio e pattern per iniziare."
+      },
+      "tools": {
+        "name": "Strumenti di sviluppo",
+        "desc": "Strumenti che supportano il flusso di lavoro di sviluppo."
+      },
+      "apis": {
+        "name": "API pubbliche",
+        "desc": "Interfacce pubbliche per integrare l'ecosistema."
+      }
+    },
+    "incoming": "Pubblicati come parte dell'ecosistema aperto. Controlla GitHub per la disponibilità attuale.",
+    "browseRepo": "Sfoglia il repository"
+  },
+  "howItWorks": {
+    "title": "Come funziona",
+    "description": "Una vista concettuale del flusso dall'applicazione all'hardware di destinazione.",
+    "steps": {
+      "application": "Applicazione",
+      "toolchain": "Toolchain Caldeira VM",
+      "bytecode": "Bytecode",
+      "runtime": "Runtime",
+      "target": "Hardware di destinazione"
+    },
+    "openLabel": "Tooling pubblico",
+    "proprietaryLabel": "Runtime proprietario"
+  },
+  "platforms": {
+    "title": "Piattaforme supportate",
+    "description": "Stato pubblico attualmente documentato. Target aggiuntivi possono essere supportati tramite accordi commerciali.",
+    "available": "Disponibile",
+    "incoming": "In arrivo",
+    "linux": "Linux PC",
+    "linuxDesc": "Supporto di sviluppo e runtime per sistemi desktop Linux.",
+    "esp32": "ESP32",
+    "esp32Desc": "Target microcontrollore attualmente in corso.",
+    "note": "Lo stato delle piattaforme riflette il repository pubblico. Non dare per scontate piattaforme aggiuntive."
+  },
+  "github": {
+    "title": "Attività su GitHub",
+    "description": "Estratti selezionati dal repository GitHub pubblico. GitHub è la fonte di verità.",
+    "repoStatus": "Stato del repository",
+    "lastPush": "Ultimo push",
+    "openIssues": "Issue aperte",
+    "latestRelease": "Ultima release",
+    "none": "Nessuna",
+    "viewRepository": "Vedi il repository",
+    "unavailable": "Dati GitHub temporaneamente non disponibili. Vedi le informazioni più recenti su GitHub.",
+    "lastUpdated": "Dati aggiornati",
+    "recentEvents": "Eventi pubblici recenti",
+    "eventPush": "Push su {ref}",
+    "eventDeleteTag": "Rimosso il tag {ref}",
+    "eventCreateTag": "Creato il tag {ref}",
+    "eventUnknown": "Attività sul repository",
+    "by": "di {actor}"
+  },
+  "releases": {
+    "title": "Release",
+    "description": "Le informazioni sulle release provengono direttamente dal repository GitHub pubblico.",
+    "latestStable": "Ultima release stabile",
+    "prerelease": "Pre-release",
+    "published": "Pubblicata",
+    "assets": "Asset",
+    "emptyTitle": "Nessuna release pubblica",
+    "emptyDesc": "Al momento non ci sono release pubblicate nel repository pubblico. L'attività di sviluppo avviene su GitHub.",
+    "viewAll": "Vedi tutte le release su GitHub",
+    "viewOnGithub": "Vedi su GitHub"
+  },
+  "issues": {
+    "title": "Community e issue",
+    "description": "Attività pubblica di issue e discussioni da GitHub.",
+    "emptyTitle": "Nessuna issue pubblica",
+    "emptyDesc": "Il tracker delle issue è vuoto al momento. Domande, bug e richieste di funzionalità sono gestiti su GitHub.",
+    "exploreAll": "Esplora tutte le issue su GitHub",
+    "open": "Aperta",
+    "closed": "Chiusa",
+    "created": "Creata",
+    "updated": "Aggiornata",
+    "goToIssues": "Apri il tracker delle issue"
+  },
+  "community": {
+    "title": "Community",
+    "description": "GitHub è l'hub della community per Caldeira VM.",
+    "questions": "Domande",
+    "bugs": "Bug",
+    "features": "Richieste di funzionalità",
+    "docs": "Miglioramenti alla documentazione",
+    "roadmap": "Feedback sulla roadmap",
+    "cta": "Partecipa alla discussione su GitHub",
+    "issues": "Issue",
+    "projects": "Projects"
+  },
+  "roadmap": {
+    "title": "Roadmap",
+    "description": "La roadmap pubblica è tracciata con GitHub Projects.",
+    "unavailable": "I dati della roadmap non sono disponibili come dati strutturati su questo sito statico. Vedi lo stato corrente direttamente su GitHub.",
+    "cta": "Vedi GitHub Projects"
+  },
+  "documentation": {
+    "title": "Documentazione",
+    "description": "La documentazione è pubblicata come parte dell'ecosistema aperto.",
+    "incoming": "La documentazione pubblica è ancora in preparazione. Il repository è la fonte attuale delle informazioni sul progetto.",
+    "cta": "Esplora la documentazione",
+    "browse": "Sfoglia il repository",
+    "readme": "Leggi il README"
+  },
+  "commercial": {
+    "title": "Integrazione commerciale",
+    "description": "L'ecosistema pubblico è aperto; il core proprietario è concesso con licenza commerciale.",
+    "owner": "Il core proprietario è di proprietà di Sky Home Srl.",
+    "license": "I prodotti commerciali che integrano il core proprietario richiedono un accordo di licenza commerciale separato.",
+    "contactTitle": "Contatti",
+    "contactDesc": "Le aziende interessate a integrare Caldeira VM in prodotti commerciali possono contattare Sky Home Srl.",
+    "emailLabel": "Email",
+    "websiteLabel": "Sito web"
+  },
+  "footer": {
+    "tagline": "Una macchina virtuale leggera e deterministica per microcontrollori.",
+    "description": "Un ecosistema di sviluppo aperto attorno a un core runtime proprietario, costruito per software embedded longevo.",
+    "github": "GitHub",
+    "releases": "Release",
+    "issues": "Issue",
+    "projects": "Projects",
+    "documentation": "Documentazione",
+    "commercial": "Integrazione commerciale",
+    "copyright": "Copyright © 2026 Sky Home Srl, Tutti i diritti riservati.",
+    "language": "Lingua",
+    "theme": "Tema",
+    "backToTop": "Torna in cima"
+  },
+  "misc": {
+    "skipToContent": "Salta al contenuto",
+    "openMenu": "Apri il menu di navigazione",
+    "closeMenu": "Chiudi il menu di navigazione",
+    "themeToggle": "Cambia tema",
+    "themeDark": "Tema scuro",
+    "themeLight": "Tema chiaro",
+    "languageSelector": "Lingua",
+    "english": "English",
+    "italian": "Italiano",
+    "openInNewTab": "Si apre in una nuova scheda",
+    "loading": "Caricamento…",
+    "viewOnGithub": "Vedi su GitHub"
+  }
+}

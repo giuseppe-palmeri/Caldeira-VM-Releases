@@ -118,4 +118,49 @@ The Caldeira VM Core is distributed according to:
 
 ---
 
+## Official Website
+
+The official public website is served from this repository on GitHub Pages
+(https://giuseppe-palmeri.github.io/Caldeira-VM-Releases/).
+
+It is a fully static site (no build step, no backend). Structure:
+
+```
+index.html            single-page site (all sections)
+style.css             design system (dark/light themes, green accent, responsive)
+script.js             i18n, theme, copy button, GitHub data rendering, mobile menu
+locales/en.json       UI translations (English)
+locales/it.json       UI translations (Italian)
+data/*.json           GitHub-derived data (releases, issues, activity, repo)
+images/               favicon + OG image
+assets/               static assets as needed
+scripts/              data fetch + smoke test
+```
+
+Regenerate the GitHub-derived data (public API, no token required):
+
+```bash
+bash scripts/fetch-github-data.sh
+```
+
+Local preview:
+
+```bash
+python3 -m http.server 8099 --directory .
+# open http://localhost:8099
+```
+
+Headless smoke test:
+
+```bash
+node scripts/smoke-test.js http://localhost:8099/index.html
+```
+
+Content rules: GitHub is the source of truth (releases, issues, platform status,
+roadmap must reflect the actual repository — never invent facts, versions, contacts,
+or licenses). GitHub-derived content is never machine-translated. The proprietary
+core belongs to Sky Home Srl and is not open source.
+
+---
+
 Copyright © 2026 Sky Home Srl, All rights reserved.
