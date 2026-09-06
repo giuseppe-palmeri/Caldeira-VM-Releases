@@ -18,7 +18,8 @@
     "releases": "Releases",
     "community": "Community",
     "documentation": "Documentation",
-    "github": "GitHub"
+    "github": "GitHub",
+    "pricing": "Pricing"
   },
   "hero": {
     "title": "A lightweight, deterministic virtual machine for microcontrollers.",
@@ -289,5 +290,20 @@
     "openInNewTab": "Opens in a new tab",
     "loading": "Loading…",
     "viewOnGithub": "View on GitHub"
+  },
+  "pricing": {
+    "title": "Pricing",
+    "description": "The open ecosystem is publicly available; the proprietary core is commercially licensed.",
+    "open": {
+      "title": "Open ecosystem",
+      "desc": "Public tools, documentation, the assembler, the SDK, and examples are available through the open ecosystem. No commercial agreement is required to use the public tools.",
+      "cta": "Browse the repository"
+    },
+    "core": {
+      "title": "Proprietary core",
+      "desc": "The runtime core is proprietary software owned by Sky Home Srl. Integrating it into a commercial product requires a separate commercial license.",
+      "cta": "Request pricing"
+    },
+    "note": "Pricing and licensing terms for the proprietary core are not published publicly at this time. Contact Sky Home Srl for details."
   }
 }

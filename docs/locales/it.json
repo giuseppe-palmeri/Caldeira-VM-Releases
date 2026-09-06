@@ -18,7 +18,8 @@
     "releases": "Release",
     "community": "Community",
     "documentation": "Documentazione",
-    "github": "GitHub"
+    "github": "GitHub",
+    "pricing": "Prezzi"
   },
   "hero": {
     "title": "Una macchina virtuale leggera e deterministica per microcontrollori.",
@@ -289,5 +290,20 @@
     "openInNewTab": "Si apre in una nuova scheda",
     "loading": "Caricamento…",
     "viewOnGithub": "Vedi su GitHub"
+  },
+  "pricing": {
+    "title": "Prezzi",
+    "description": "L'ecosistema aperto è pubblicamente disponibile; il core proprietario è concesso con licenza commerciale.",
+    "open": {
+      "title": "Ecosistema aperto",
+      "desc": "Strumenti pubblici, documentazione, assembler, SDK ed esempi sono disponibili tramite l'ecosistema aperto. Nessun accordo commerciale è richiesto per usare gli strumenti pubblici.",
+      "cta": "Sfoglia il repository"
+    },
+    "core": {
+      "title": "Core proprietario",
+      "desc": "Il core runtime è software proprietario di Sky Home Srl. Integrarlo in un prodotto commerciale richiede una licenza commerciale separata.",
+      "cta": "Richiedi un preventivo"
+    },
+    "note": "Prezzi e condizioni di licenza del core proprietario non sono pubblicati al momento. Contatta Sky Home Srl per i dettagli."
   }
 }

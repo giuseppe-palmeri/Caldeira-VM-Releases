@@ -53,6 +53,7 @@ const checks = [
     ['arch items present', /data-arch-item="spec"/.test(dom) && /data-arch-item="runtime"/.test(dom)],
     ['platforms: Linux Available + ESP32 Incoming', /data-i18n="platforms\.available">Available|data-i18n="platforms\.available">Disponibile/.test(dom) && /data-i18n="platforms\.incoming">Incoming|data-i18n="platforms\.incoming">In arrivo/.test(dom)],
     ['commercial contact present', /info@skyhome\.it/.test(dom) && /informatica\.skyhome\.it/.test(dom)],
+    ['pricing section present', /id="pricing"/.test(dom) && /data-i18n="pricing\.core\.cta"/.test(dom)],
     ['footer rendered', /site-footer/.test(dom)],
     ['no JS errors', !hasJSErrors],
 ];
