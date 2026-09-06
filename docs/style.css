@@ -1158,6 +1158,11 @@ code {
     padding: var(--space-6);
 }
 
+/* Space between the two pricing panels and the callout below them */
+.commercial-layout + .panel-callout {
+    margin-top: var(--space-5);
+}
+
 .panel-callout p {
     font-size: 1.02rem;
     color: var(--text-secondary);
