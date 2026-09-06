@@ -528,7 +528,7 @@ code {
     align-items: center;
     text-align: left;
     max-width: 64rem;
-    margin: 0 auto var(--space-7);
+    margin: 0 auto var(--space-6);
 }
 
 .hero-copy {
@@ -570,11 +570,11 @@ code {
 .hero-badges {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: var(--space-2);
     list-style: none;
     margin: 0;
     padding: 0;
-    justify-content: flex-start;
 }
 
 .hero-badges li {
@@ -703,8 +703,9 @@ code {
 
 /* ── Installation widget ───────────────────────────────────────────────── */
 .install-widget {
-    max-width: 46rem;
-    margin: 0 auto;
+    width: 100%;
+    max-width: 62rem;
+    margin: 0 auto var(--space-6);
     text-align: left;
     background: var(--bg-elevated);
     border: 1px solid var(--border);
