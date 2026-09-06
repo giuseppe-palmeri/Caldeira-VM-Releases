@@ -565,11 +565,29 @@ function initReveal() {
     els.forEach((el) => io.observe(el));
 }
 
+/* ── Fluid navigation (prevents header overlap) ────────────────────────── */
+function initFluidNav() {
+    const nav = document.querySelector('.main-nav');
+    if (!nav) return;
+    const update = () => {
+        // If the inline nav needs more room than it has, switch to hamburger.
+        // Measured with real rendered fonts/language/zoom, so it never overlaps.
+        const crowded = nav.scrollWidth > nav.clientWidth + 8;
+        document.body.classList.toggle('nav-crowded', crowded);
+    };
+    update();
+    window.addEventListener('resize', update);
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(update).catch(() => {});
+    }
+}
+
 /* ── Init ──────────────────────────────────────────────────────────────── */
 async function init() {
     initTheme();
     initMobileMenu();
     initCopyButton();
+    initFluidNav();
     await setLanguage(detectBrowserLanguage(), { persist: true });
 
     // Pending: language from localStorage if present (setLanguage handles save).

@@ -15,7 +15,7 @@
 <div id="out"></div>
 <script>
 const out = document.getElementById('out');
-const widths = [1920, 1440, 1366, 1280, 1240, 1180, 1140, 1120, 1100, 1080, 1024, 900, 800, 700, 560, 400];
+const widths = [1920, 1600, 1440, 1366, 1280, 1240, 1180, 1140, 1120, 1100, 1080, 1024, 960, 900, 800, 700, 560, 400];
 
 function measure(w) {
   return new Promise((resolve) => {
@@ -24,40 +24,57 @@ function measure(w) {
     iframe.style.height = '600px';
     iframe.style.border = '1px solid #ccc';
     document.body.appendChild(iframe);
-    iframe.onload = () => {
+    iframe.onload = async () => {
       try {
         const doc = iframe.contentDocument;
+        // Wait for real webfonts — otherwise metrics use fallback fonts.
+        if (doc.fonts && doc.fonts.ready) await doc.fonts.ready;
+        await new Promise((r) => setTimeout(r, 100));
+
         const brand = doc.querySelector('.brand');
-        const firstNav = doc.querySelector('.nav-list a, .menu-toggle');
         const headerTools = doc.querySelector('.header-tools');
-        let overlap = null;
-        if (brand && firstNav && headerTools) {
-          const br = brand.getBoundingClientRect();
-          // In IT, first visible nav element might be hidden; use menu toggle when nav hidden
-          const navVisible = doc.querySelector('.main-nav') && getComputedStyle(doc.querySelector('.main-nav')).display !== 'none';
-          const target = navVisible ? doc.querySelector('.nav-list a') : doc.querySelector('.menu-toggle');
-          const tr = target.getBoundingClientRect();
-          const tools = headerTools.getBoundingClientRect();
+        const nav = doc.querySelector('.main-nav');
+        const navList = doc.querySelector('.nav-list');
+        const toolsFirst = doc.querySelector('.header-tools > :first-child');
+        const isCrowded = doc.body.classList.contains('nav-crowded');
+        const navVisible = nav && getComputedStyle(nav).display !== 'none';
+
+        const fontsLoaded = !doc.fonts || !doc.fonts.check || doc.fonts.check('16px Inter') || doc.fonts.check('16px JetBrains Mono');
+
+        let info = { fontsLoaded };
+        let overlapBrand = null;
+        let overlapTools = null;
+
+        if (navVisible && brand && headerTools && navList) {
+          const navRect = navList.getBoundingClientRect();
+          const brandRect = brand.getBoundingClientRect();
+          const toolsRect = headerTools.getBoundingClientRect();
+          const firstItemRect = navList.querySelector('a').getBoundingClientRect();
+          const lastItemRect = navList.querySelector('a:last-child').getBoundingClientRect();
+          // Nav items must not collide with the brand (left) or the tools (right).
+          overlapBrand = lastItemRect.left < brandRect.right - 4 || firstItemRect.left < brandRect.right;
+          overlapTools = lastItemRect.right > toolsRect.left + 4;
           const pageOverflow = doc.documentElement.scrollWidth > doc.documentElement.clientWidth + 1;
-          const brandRight = br.right;
-          const navLeft = tr.left;
-          const toolsLeft = tools.left;
-          overlap = tr.left < br.right;
-          const info = {
-            w, navVisible,
-            brandRight: Math.round(brandRight), navLeft: Math.round(navLeft),
-            margin: Math.round(navLeft - brandRight),
-            toolsLeft: Math.round(toolsLeft),
+          info = {
+            fontsLoaded,
+            navLeft: Math.round(firstItemRect.left),
+            navRight: Math.round(lastItemRect.right),
+            brandRight: Math.round(brandRect.right),
+            toolsLeft: Math.round(toolsRect.left),
+            navFit: nav.scrollWidth <= nav.clientWidth + 8,
             pageOverflow,
+            overlapBrand,
+            overlapTools,
           };
-          resolve({ w, info, overlap: navVisible ? overlap : null });
         } else {
-          resolve({ w, info: null, overlap: null });
+          info = { fontsLoaded, hamburger: isCrowded || !navVisible };
         }
+        resolve({ w, info });
       } catch (e) {
-        resolve({ w, info: { error: e.message }, overlap: null });
+        resolve({ w, info: { error: e.message } });
+      } finally {
+        iframe.remove();
       }
-      iframe.remove();
     };
     iframe.src = '/docs/index.html';
   });
@@ -67,16 +84,19 @@ function measure(w) {
   for (const w of widths) {
     const r = await measure(w);
     let line = `w=${r.w}px `;
-    if (r.info) {
-      if (r.info.error) { line += r.info.error; }
-      else if (!r.info.navVisible) {
-        line += `<span class="ok">hamburger attivo — ok</span>`;
-      } else {
-        line += `brand>right=${r.info.brandRight} nav>left=${r.info.navLeft} margine=${r.info.margin} tools>left=${r.info.toolsLeft}`;
-        if (r.info.pageOverflow) line += ` <span class="bad">overflow pagina!</span>`;
-        if (r.overlap) line += ` <span class="bad">SOVRAPPOSIZIONE!</span>`;
-        else line += ` <span class="ok">ok</span>`;
-      }
+    const i = r.info;
+    if (!i || i.error) {
+      line += i && i.error ? `<span class="bad">ERRORE: ${i.error}</span>` : '?';
+    } else if (i.hamburger) {
+      line += `<span class="ok">hamburger (nav-crowded) — ok</span>`;
+    } else {
+      line += `fonts=${i.fontsLoaded ? 'ok' : 'NO'} nav[${i.navLeft}..${i.navRight}]`;
+      line += ` brand>r=${i.brandRight} tools>l=${i.toolsLeft}`;
+      if (i.pageOverflow) line += ` <span class="bad">overflow pagina!</span>`;
+      if (i.overlapBrand) line += ` <span class="bad">SOVRAPPOSIZIONE brand!</span>`;
+      if (i.overlapTools) line += ` <span class="bad">SOVRAPPOSIZIONE tools!</span>`;
+      if (!i.navFit) line += ` <span class="bad">nav non entra!</span>`;
+      if (!i.overlapBrand && !i.overlapTools && i.navFit && !i.pageOverflow) line += ` <span class="ok">ok</span>`;
     }
     const div = document.createElement('div');
     div.className = 'row';

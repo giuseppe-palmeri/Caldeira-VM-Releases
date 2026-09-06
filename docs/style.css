@@ -31,6 +31,7 @@
     --transition-med: 240ms ease;
 
     --header-height: 3.5rem;
+    --header-max: 80rem;
     --content-max: 72rem;
     --content-narrow: 56rem;
 }
@@ -309,7 +310,7 @@ code {
 }
 
 .header-inner {
-    max-width: var(--content-max);
+    max-width: var(--header-max);
     margin: 0 auto;
     padding: 0 var(--space-5);
     height: var(--header-height);
@@ -449,6 +450,20 @@ code {
 /* Mobile menu */
 .menu-toggle {
     display: none;
+}
+
+/* JS-driven fluid nav: when the inline nav cannot fit its available space
+   (any language / font / zoom), fall back to the hamburger menu. */
+.nav-crowded .main-nav {
+    display: none;
+}
+
+.nav-crowded .menu-toggle {
+    display: inline-flex;
+}
+
+.nav-crowded .mobile-menu.open {
+    display: block;
 }
 
 .mobile-menu {
