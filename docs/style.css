@@ -360,6 +360,7 @@ code {
     font-size: 0.9rem;
     color: var(--text-secondary);
     border-radius: var(--radius-sm);
+    white-space: nowrap;
 }
 
 .nav-list a:hover {
@@ -1453,18 +1454,19 @@ code {
 }
 
 /* ── Responsive ────────────────────────────────────────────────────────── */
-@media (max-width: 1024px) {
+@media (max-width: 1320px) {
     .nav-list {
         gap: 0;
     }
 
     .nav-list a {
-        padding: 0.4rem 0.4rem;
-        font-size: 0.85rem;
+        padding: 0.4rem 0.3rem;
+        font-size: 0.78rem;
+        white-space: nowrap;
     }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1120px) {
     .main-nav {
         display: none;
     }
@@ -1476,7 +1478,9 @@ code {
     .mobile-menu.open {
         display: block;
     }
+}
 
+@media (max-width: 860px) {
     .hero-grid {
         grid-template-columns: 1fr;
         gap: var(--space-6);

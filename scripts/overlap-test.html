@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Header overlap test</title>
+<style>
+  body { font-family: monospace; margin: 1rem; }
+  .row { margin-bottom: 0.4rem; }
+  .ok { color: #1a7f37; }
+  .bad { color: #cf222e; font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>Header overlap test</h1>
+<div id="out"></div>
+<script>
+const out = document.getElementById('out');
+const widths = [1920, 1440, 1366, 1280, 1240, 1180, 1140, 1120, 1100, 1080, 1024, 900, 800, 700, 560, 400];
+
+function measure(w) {
+  return new Promise((resolve) => {
+    const iframe = document.createElement('iframe');
+    iframe.style.width = w + 'px';
+    iframe.style.height = '600px';
+    iframe.style.border = '1px solid #ccc';
+    document.body.appendChild(iframe);
+    iframe.onload = () => {
+      try {
+        const doc = iframe.contentDocument;
+        const brand = doc.querySelector('.brand');
+        const firstNav = doc.querySelector('.nav-list a, .menu-toggle');
+        const headerTools = doc.querySelector('.header-tools');
+        let overlap = null;
+        if (brand && firstNav && headerTools) {
+          const br = brand.getBoundingClientRect();
+          // In IT, first visible nav element might be hidden; use menu toggle when nav hidden
+          const navVisible = doc.querySelector('.main-nav') && getComputedStyle(doc.querySelector('.main-nav')).display !== 'none';
+          const target = navVisible ? doc.querySelector('.nav-list a') : doc.querySelector('.menu-toggle');
+          const tr = target.getBoundingClientRect();
+          const tools = headerTools.getBoundingClientRect();
+          const pageOverflow = doc.documentElement.scrollWidth > doc.documentElement.clientWidth + 1;
+          const brandRight = br.right;
+          const navLeft = tr.left;
+          const toolsLeft = tools.left;
+          overlap = tr.left < br.right;
+          const info = {
+            w, navVisible,
+            brandRight: Math.round(brandRight), navLeft: Math.round(navLeft),
+            margin: Math.round(navLeft - brandRight),
+            toolsLeft: Math.round(toolsLeft),
+            pageOverflow,
+          };
+          resolve({ w, info, overlap: navVisible ? overlap : null });
+        } else {
+          resolve({ w, info: null, overlap: null });
+        }
+      } catch (e) {
+        resolve({ w, info: { error: e.message }, overlap: null });
+      }
+      iframe.remove();
+    };
+    iframe.src = '/docs/index.html';
+  });
+}
+
+(async () => {
+  for (const w of widths) {
+    const r = await measure(w);
+    let line = `w=${r.w}px `;
+    if (r.info) {
+      if (r.info.error) { line += r.info.error; }
+      else if (!r.info.navVisible) {
+        line += `<span class="ok">hamburger attivo — ok</span>`;
+      } else {
+        line += `brand>right=${r.info.brandRight} nav>left=${r.info.navLeft} margine=${r.info.margin} tools>left=${r.info.toolsLeft}`;
+        if (r.info.pageOverflow) line += ` <span class="bad">overflow pagina!</span>`;
+        if (r.overlap) line += ` <span class="bad">SOVRAPPOSIZIONE!</span>`;
+        else line += ` <span class="ok">ok</span>`;
+      }
+    }
+    const div = document.createElement('div');
+    div.className = 'row';
+    div.innerHTML = line;
+    out.appendChild(div);
+  }
+})();
+</script>
+</body>
+</html>
