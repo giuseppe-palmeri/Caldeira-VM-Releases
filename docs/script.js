@@ -146,6 +146,11 @@ function initLanguage() {
 }
 
 /* ── Theme ─────────────────────────────────────────────────────────────── */
+function updateThemeColor(theme) {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'light' ? '#f7f8fa' : '#0d1117');
+}
+
 function updateThemeLabel(toggle, theme) {
     const key = theme === 'dark' ? 'misc.themeDark' : 'misc.themeLight';
     const label = t(key);
@@ -174,6 +179,7 @@ function initTheme() {
     } else {
         root.dataset.theme = 'light';
     }
+    updateThemeColor(root.dataset.theme);
 
     const toggle = document.querySelector('[data-theme-toggle]');
     if (toggle) {
@@ -183,6 +189,7 @@ function initTheme() {
             try {
                 localStorage.setItem(STORAGE.theme, next);
             } catch (_) { /* ignore */ }
+            updateThemeColor(next);
             updateThemeLabel(toggle, next);
         });
     }

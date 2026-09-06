@@ -20,6 +20,7 @@
     <meta name="theme-color" content="#0d1117">
 
     <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+    <link rel="stylesheet" href="assets/fonts/fonts.css">
     <link rel="stylesheet" href="style.css">
     <script type="module" src="script.js" defer></script>
 </head>
@@ -102,19 +103,47 @@
         <section class="hero section" id="top">
             <div class="hero-bg" aria-hidden="true"></div>
             <div class="container hero-inner">
-                <p class="eyebrow" data-i18n="misc.viewOnGithub">View on GitHub</p>
-                <h1 class="hero-title" data-i18n="hero.title">A lightweight, deterministic virtual machine for microcontrollers.</h1>
-                <p class="hero-description" data-i18n="hero.description">Caldeira VM provides a stable execution environment for embedded applications: deterministic execution, hardware portability, and predictable behavior — built for long-lived embedded software, maintainable firmware, and an open developer ecosystem.</p>
-                <div class="hero-actions">
-                    <a class="btn btn-primary" href="#ecosystem" data-i18n="hero.primaryCta">Explore the ecosystem</a>
-                    <a class="btn btn-secondary" href="https://github.com/giuseppe-palmeri/Caldeira-VM-Releases" target="_blank" rel="noopener noreferrer" data-i18n="hero.secondaryCta">View on GitHub</a>
+                <div class="hero-grid">
+                    <div class="hero-copy">
+                        <p class="eyebrow" data-i18n="misc.viewOnGithub">View on GitHub</p>
+                        <h1 class="hero-title" data-i18n="hero.title">A lightweight, deterministic virtual machine for microcontrollers.</h1>
+                        <p class="hero-description" data-i18n="hero.description">Caldeira VM provides a stable execution environment for embedded applications: deterministic execution, hardware portability, and predictable behavior — built for long-lived embedded software, maintainable firmware, and an open developer ecosystem.</p>
+                        <div class="hero-actions">
+                            <a class="btn btn-primary" href="#ecosystem" data-i18n="hero.primaryCta">Explore the ecosystem</a>
+                            <a class="btn btn-secondary" href="https://github.com/giuseppe-palmeri/Caldeira-VM-Releases" target="_blank" rel="noopener noreferrer" data-i18n="hero.secondaryCta">View on GitHub</a>
+                        </div>
+                        <ul class="hero-badges" aria-label="Project areas">
+                            <li data-i18n="hero.badgeEmbedded">Embedded systems</li>
+                            <li data-i18n="hero.badgeDeterministic">Deterministic computing</li>
+                            <li data-i18n="hero.badgeTooling">Developer tools</li>
+                            <li data-i18n="hero.badgeEcosystem">Open ecosystem</li>
+                        </ul>
+                    </div>
+
+                    <div class="hero-visual" aria-hidden="true">
+                        <div class="code-window">
+                            <div class="code-window-bar">
+                                <span class="code-dot code-dot-r" aria-hidden="true"></span>
+                                <span class="code-dot code-dot-y" aria-hidden="true"></span>
+                                <span class="code-dot code-dot-g" aria-hidden="true"></span>
+                                <span class="code-window-title">main.clasto</span>
+                            </div>
+                            <pre class="code-window-body"><code><span class="tok-c">; Hello World — Clasto assembly</span>
+<span class="tok-k">.CONST</span> <span class="tok-n">S_PRINT</span> <span class="tok-v">0x10</span>
+<span class="tok-k">.VECTOR</span> <span class="tok-t">EVT_RESET</span><span class="tok-o">(</span><span class="tok-t">flags:FLG</span><span class="tok-o">),</span> <span class="tok-f">main</span>
+
+<span class="tok-k">.STATIC</span>
+<span class="tok-f">msg:</span> <span class="tok-k">.TEXT</span> <span class="tok-s">"Hello World!\n"</span>
+<span class="tok-k">.END_STATIC</span>
+
+<span class="tok-f">main:</span>
+    <span class="tok-k">LDA</span> <span class="tok-r">R1</span><span class="tok-o">,</span> <span class="tok-f">msg</span>
+    <span class="tok-k">MOV.S</span> <span class="tok-r">R2</span><span class="tok-o">,</span> <span class="tok-v">0</span>
+    <span class="tok-k">SYSCALL</span> <span class="tok-n">S_PRINT</span>
+    <span class="tok-k">EXIT</span> <span class="tok-v">0</span><span class="tok-cursor"></span></code></pre>
+                        </div>
+                    </div>
                 </div>
-                <ul class="hero-badges" aria-label="Project areas">
-                    <li data-i18n="hero.badgeEmbedded">Embedded systems</li>
-                    <li data-i18n="hero.badgeDeterministic">Deterministic computing</li>
-                    <li data-i18n="hero.badgeTooling">Developer tools</li>
-                    <li data-i18n="hero.badgeEcosystem">Open ecosystem</li>
-                </ul>
 
                 <!-- INSTALLATION WIDGET -->
                 <div class="install-widget" id="installation">
@@ -161,7 +190,9 @@
 
                 <div class="arch-diagram" role="img" aria-label="Caldeira VM architecture: open ecosystem on top, proprietary core below">
                     <div class="arch-block arch-open">
-                        <div class="arch-block-title" data-i18n="architecture.openTitle">Open ecosystem</div>
+                        <div class="arch-block-head">
+                            <span class="arch-chip arch-chip-public" data-i18n="architecture.openTitle">Open ecosystem</span>
+                        </div>
                         <ul class="arch-block-items">
                             <li><span class="arch-node" aria-hidden="true"></span><span data-arch-item="spec">Bytecode specification</span></li>
                             <li><span class="arch-node" aria-hidden="true"></span><span data-arch-item="assembler">Assembler</span></li>
@@ -171,10 +202,14 @@
                         </ul>
                     </div>
                     <div class="arch-divider" aria-hidden="true">
-                        <span></span>
+                        <span class="arch-divider-line"></span>
+                        <span class="arch-divider-arrow">↓</span>
+                        <span class="arch-divider-line"></span>
                     </div>
                     <div class="arch-block arch-proprietary">
-                        <div class="arch-block-title" data-i18n="architecture.proprietaryTitle">Proprietary core</div>
+                        <div class="arch-block-head">
+                            <span class="arch-chip arch-chip-proprietary" data-i18n="architecture.proprietaryTitle">Proprietary core</span>
+                        </div>
                         <ul class="arch-block-items">
                             <li><span class="arch-node" aria-hidden="true"></span><span data-arch-item="runtime">Target-specific runtime</span></li>
                             <li><span class="arch-node" aria-hidden="true"></span><span data-arch-item="engine">Optimized execution engine</span></li>
@@ -230,7 +265,6 @@
                     <li class="pipeline-step">
                         <span class="pipeline-index" aria-hidden="true">5</span>
                         <span class="pipeline-label" data-i18n="howItWorks.steps.target">Target hardware</span>
-                        <span class="pipeline-tag tag-neutral" data-i18n="platforms.note">Platform status reflects the public repository. Do not assume additional platforms are supported.</span>
                     </li>
                 </ol>
             </div>

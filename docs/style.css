@@ -7,8 +7,8 @@
 
 /* ── Design tokens ─────────────────────────────────────────────────────── */
 :root {
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
     --space-1: 0.25rem;
     --space-2: 0.5rem;
@@ -505,6 +505,20 @@ code {
     z-index: 1;
 }
 
+.hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: var(--space-7);
+    align-items: center;
+    text-align: left;
+    max-width: 64rem;
+    margin: 0 auto var(--space-7);
+}
+
+.hero-copy {
+    min-width: 0;
+}
+
 .eyebrow {
     display: inline-block;
     font-size: 0.85rem;
@@ -516,35 +530,35 @@ code {
 }
 
 .hero-title {
-    font-size: clamp(2rem, 5vw, 3.4rem);
+    font-size: clamp(1.8rem, 3.6vw, 2.9rem);
     letter-spacing: -0.03em;
-    max-width: 40rem;
-    margin: 0 auto var(--space-5);
+    max-width: 30rem;
+    margin: 0 0 var(--space-5);
 }
 
 .hero-description {
-    max-width: 42rem;
-    margin: 0 auto var(--space-6);
-    font-size: 1.1rem;
+    max-width: 34rem;
+    margin: 0 0 var(--space-6);
+    font-size: 1.05rem;
     color: var(--text-secondary);
 }
 
 .hero-actions {
     display: flex;
     gap: var(--space-3);
-    justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: var(--space-7);
+    margin-bottom: var(--space-6);
+    justify-content: flex-start;
 }
 
 .hero-badges {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: var(--space-2);
     list-style: none;
-    margin: 0 0 var(--space-8);
+    margin: 0;
     padding: 0;
+    justify-content: flex-start;
 }
 
 .hero-badges li {
@@ -555,6 +569,86 @@ code {
     border-radius: 999px;
     padding: 0.3rem 0.9rem;
     background: var(--bg-elevated);
+}
+
+/* Hero visual: code window */
+.hero-visual {
+    min-width: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.code-window {
+    width: 100%;
+    max-width: 26rem;
+    background: #0d1117;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+    text-align: left;
+}
+
+.code-window-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    background: #161b22;
+    border-bottom: 1px solid var(--border);
+}
+
+.code-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.code-dot-r { background: #ff5f56; }
+.code-dot-y { background: #ffbd2e; }
+.code-dot-g { background: #27c93f; }
+
+.code-window-title {
+    margin-left: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+}
+
+.code-window-body {
+    margin: 0;
+    padding: var(--space-4);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: #c9d1d9;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+/* Clasto syntax colors (dark terminal, both themes) */
+.tok-c { color: #8b949e; font-style: italic; }        /* comment */
+.tok-k { color: #79c0ff; }                             /* keyword / directive */
+.tok-n { color: #ffa657; }                             /* constant name */
+.tok-v { color: #d2a8ff; }                             /* value */
+.tok-t { color: #ff7b72; }                             /* type */
+.tok-f { color: #7ee787; }                             /* label / function */
+.tok-r { color: #ffa657; }                             /* register */
+.tok-s { color: #a5d6ff; }                             /* string */
+.tok-o { color: #8b949e; }                             /* punctuation */
+
+.tok-cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    background: var(--accent);
+    animation: cursor-blink 1.1s steps(2, start) infinite;
+}
+
+@keyframes cursor-blink {
+    to { visibility: hidden; }
 }
 
 /* ── Installation widget ───────────────────────────────────────────────── */
@@ -682,6 +776,8 @@ code {
 .arch-diagram {
     max-width: 44rem;
     margin: 0 auto var(--space-6);
+    display: flex;
+    flex-direction: column;
 }
 
 .arch-block {
@@ -689,30 +785,59 @@ code {
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
     padding: var(--space-5);
+    position: relative;
 }
 
 .arch-open {
-    border-color: var(--accent);
-    box-shadow: inset 0 0 0 1px var(--accent-soft);
+    border-color: var(--border-strong);
+    box-shadow: inset 0 2px 0 0 var(--accent);
 }
 
 .arch-proprietary {
     border-color: var(--border-strong);
-    opacity: 0.92;
+    opacity: 0.95;
 }
 
-.arch-block-title {
-    font-weight: 600;
-    font-size: 1.05rem;
+.arch-block-head {
     margin-bottom: var(--space-3);
 }
 
-.arch-open .arch-block-title {
-    color: var(--accent-text);
+.arch-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.28rem 0.8rem;
+    border-radius: 999px;
 }
 
-.arch-proprietary .arch-block-title {
+.arch-chip::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
+.arch-chip-public {
+    color: var(--accent-text);
+    background: var(--accent-soft);
+}
+
+.arch-chip-public::before {
+    background: var(--accent);
+}
+
+.arch-chip-proprietary {
     color: var(--text-secondary);
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+}
+
+.arch-chip-proprietary::before {
+    background: var(--text-tertiary);
 }
 
 .arch-block-items {
@@ -729,10 +854,26 @@ code {
     border-left: 2px solid var(--border);
     margin: 0 0 var(--space-1) var(--space-2);
     font-size: 0.95rem;
+    position: relative;
+}
+
+.arch-block-items li::before {
+    content: "";
+    position: absolute;
+    left: -2px;
+    top: 50%;
+    width: var(--space-2);
+    height: 2px;
+    background: var(--border);
+    transform: translateY(-50%);
 }
 
 .arch-open .arch-block-items li {
     border-left-color: var(--accent);
+}
+
+.arch-open .arch-block-items li::before {
+    background: var(--accent);
 }
 
 .arch-node {
@@ -741,6 +882,7 @@ code {
     border-radius: 50%;
     background: var(--border-strong);
     flex-shrink: 0;
+    z-index: 1;
 }
 
 .arch-open .arch-node {
@@ -748,17 +890,25 @@ code {
 }
 
 .arch-divider {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
     padding: var(--space-1) 0;
     color: var(--text-tertiary);
+    margin: 0 auto;
+    width: 60%;
 }
 
-.arch-divider span {
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--text-tertiary);
+.arch-divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border-strong);
+}
+
+.arch-divider-arrow {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--accent-text);
 }
 
 .arch-note {
@@ -830,10 +980,6 @@ code {
     color: var(--text-tertiary);
     background: var(--bg-hover);
     border: 1px solid var(--border);
-}
-
-.tag-neutral {
-    display: none;
 }
 
 .pipeline-arrow {
@@ -1282,6 +1428,24 @@ code {
 
     .mobile-menu.open {
         display: block;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+        text-align: center;
+        margin-bottom: var(--space-6);
+    }
+
+    .hero-actions,
+    .hero-badges {
+        justify-content: center;
+    }
+
+    .hero-title,
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .github-layout,
