@@ -215,7 +215,42 @@
     "incoming": "Public documentation is still being prepared. The repository is the current source for project information.",
     "cta": "Explore documentation",
     "browse": "Browse the repository",
-    "readme": "Read the README"
+    "readme": "Read the README",
+    "tocTitle": "Reference documentation",
+    "chapters": {
+      "quickstart": {
+        "name": "First program",
+        "desc": "Write, assemble, and run your first program."
+      },
+      "registers": {
+        "name": "Register architecture",
+        "desc": "Registers, PSR flags, and ABI conventions."
+      },
+      "isa": {
+        "name": "Instruction set (ISA)",
+        "desc": "Complete reference of the instruction set."
+      },
+      "faults": {
+        "name": "Fault codes",
+        "desc": "Recoverable software errors."
+      },
+      "events": {
+        "name": "Events",
+        "desc": "Event notification and handling."
+      },
+      "syscalls": {
+        "name": "Syscalls",
+        "desc": "System call interface."
+      },
+      "assembler": {
+        "name": "Assembler directives",
+        "desc": "Directives and pseudo-instructions."
+      },
+      "book": {
+        "name": "Beyond the Bit",
+        "desc": "Deterministic VMs, regional memory, DSLs, future."
+      }
+    }
   },
   "commercial": {
     "title": "Commercial integration",

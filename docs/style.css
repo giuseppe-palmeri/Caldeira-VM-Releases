@@ -581,12 +581,13 @@ code {
 .code-window {
     width: 100%;
     max-width: 26rem;
-    background: #0d1117;
+    background: var(--tok-bg);
     border: 1px solid var(--border-strong);
     border-radius: var(--radius-lg);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    box-shadow: var(--panel-shadow);
     overflow: hidden;
     text-align: left;
+    transition: background-color var(--transition-med);
 }
 
 .code-window-bar {
@@ -594,8 +595,9 @@ code {
     align-items: center;
     gap: var(--space-2);
     padding: var(--space-2) var(--space-4);
-    background: #161b22;
+    background: var(--tok-bar);
     border-bottom: 1px solid var(--border);
+    transition: background-color var(--transition-med);
 }
 
 .code-dot {
@@ -621,21 +623,53 @@ code {
     font-family: var(--font-mono);
     font-size: 0.82rem;
     line-height: 1.55;
-    color: #c9d1d9;
+    color: var(--tok-fg);
     overflow-x: auto;
     white-space: pre;
+    transition: color var(--transition-med);
 }
 
-/* Clasto syntax colors (dark terminal, both themes) */
-.tok-c { color: #8b949e; font-style: italic; }        /* comment */
-.tok-k { color: #79c0ff; }                             /* keyword / directive */
-.tok-n { color: #ffa657; }                             /* constant name */
-.tok-v { color: #d2a8ff; }                             /* value */
-.tok-t { color: #ff7b72; }                             /* type */
-.tok-f { color: #7ee787; }                             /* label / function */
-.tok-r { color: #ffa657; }                             /* register */
-.tok-s { color: #a5d6ff; }                             /* string */
-.tok-o { color: #8b949e; }                             /* punctuation */
+/* Clasto syntax colors — token semantici allineati alla documentazione
+   (stesse semantiche .hl-* della doc: cmt/dir/pseudo/lbl/op/reg/num/str),
+   adattati alla palette del sito (verde). Come nella doc, il blocco di
+   codice segue il TEMA: sfondo e colori cambiano con dark/light. */
+:root, :root[data-theme="dark"] {
+    --tok-bg: #0d1117;
+    --tok-fg: #c9d1d9;
+    --tok-bar: #161b22;
+    --tok-cmt: #8b949e;
+    --tok-dir: #79c0ff;
+    --tok-pseudo: #ffa657;
+    --tok-lbl: #7ee787;
+    --tok-op: #ff7b72;
+    --tok-reg: #79c0ff;
+    --tok-num: #d2a8ff;
+    --tok-str: #a5d6ff;
+}
+
+:root[data-theme="light"] {
+    --tok-bg: #f6f8fa;
+    --tok-fg: #24292e;
+    --tok-bar: #eef0f3;
+    --tok-cmt: #6a737d;
+    --tok-dir: #0550ae;
+    --tok-pseudo: #bc4c00;
+    --tok-lbl: #116329;
+    --tok-op: #cf222e;
+    --tok-reg: #0550ae;
+    --tok-num: #8250df;
+    --tok-str: #0a3069;
+}
+
+.tok-c { color: var(--tok-cmt); font-style: italic; }        /* comment */
+.tok-k { color: var(--tok-dir); font-weight: 600; }          /* keyword / directive */
+.tok-n { color: var(--tok-pseudo); }                         /* constant name */
+.tok-v { color: var(--tok-num); }                            /* value */
+.tok-t { color: var(--tok-op); }                             /* type */
+.tok-f { color: var(--tok-lbl); }                            /* label / function */
+.tok-r { color: var(--tok-reg); }                            /* register */
+.tok-s { color: var(--tok-str); }                            /* string */
+.tok-o { color: var(--tok-cmt); }                            /* punctuation */
 
 .tok-cursor {
     display: inline-block;
@@ -770,6 +804,19 @@ code {
     gap: var(--space-1);
     margin-top: var(--space-3);
     font-size: 0.88rem;
+}
+
+/* Documentation teaser (chapters from the reference book) */
+.docs-toc {
+    max-width: var(--content-narrow);
+    margin: var(--space-7) auto 0;
+}
+
+.docs-toc-title {
+    font-size: 1.05rem;
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-4);
 }
 
 /* ── Architecture diagram ──────────────────────────────────────────────── */

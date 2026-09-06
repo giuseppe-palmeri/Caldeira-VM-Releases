@@ -348,6 +348,18 @@ function renderDynamicCards() {
         const value = v && !v.includes(`openItems.${k}`) ? v : (v2 && !v2.includes(`proprietaryItems.${k}`) ? v2 : null);
         if (value) el.textContent = value;
     });
+
+    // Documentation chapters teaser (contents from the real reference book)
+    const docsKeys = ['quickstart', 'registers', 'isa', 'faults', 'events', 'syscalls', 'assembler', 'book'];
+    const docsGrid = document.querySelector('[data-docs-grid]');
+    if (docsGrid) {
+        docsGrid.innerHTML = docsKeys.map((k) => `
+            <article class="card">
+                <h3>${escapeHtml(t(`documentation.chapters.${k}.name`))}</h3>
+                <p>${escapeHtml(t(`documentation.chapters.${k}.desc`))}</p>
+            </article>
+        `).join('');
+    }
 }
 
 /* ── GitHub data ───────────────────────────────────────────────────────── */
@@ -575,7 +587,7 @@ async function init() {
     }
 
     // Observe card grids so injected cards get the reveal class post-render
-    const grids = ['[data-why-cards]', '[data-concepts-cards]', '[data-ecosystem-cards]'];
+    const grids = ['[data-why-cards]', '[data-concepts-cards]', '[data-ecosystem-cards]', '[data-docs-grid]'];
     const observer = new MutationObserver(() => initReveal());
     grids.forEach((sel) => {
         const el = document.querySelector(sel);

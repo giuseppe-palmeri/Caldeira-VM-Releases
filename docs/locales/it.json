@@ -215,7 +215,42 @@
     "incoming": "La documentazione pubblica è ancora in preparazione. Il repository è la fonte attuale delle informazioni sul progetto.",
     "cta": "Esplora la documentazione",
     "browse": "Sfoglia il repository",
-    "readme": "Leggi il README"
+    "readme": "Leggi il README",
+    "tocTitle": "Documentazione di riferimento",
+    "chapters": {
+      "quickstart": {
+        "name": "Primo programma",
+        "desc": "Scrivi, compila ed esegui il primo programma."
+      },
+      "registers": {
+        "name": "Architettura registri",
+        "desc": "Registri, flag PSR e convenzioni ABI."
+      },
+      "isa": {
+        "name": "Set di istruzioni (ISA)",
+        "desc": "Reference completo delle istruzioni."
+      },
+      "faults": {
+        "name": "Codici di fault",
+        "desc": "Errori software recuperabili."
+      },
+      "events": {
+        "name": "Eventi",
+        "desc": "Notifica e gestione eventi."
+      },
+      "syscalls": {
+        "name": "Syscall",
+        "desc": "Chiamate di sistema."
+      },
+      "assembler": {
+        "name": "Direttive assembler",
+        "desc": "Direttive e pseudo-istruzioni."
+      },
+      "book": {
+        "name": "Oltre il Bit",
+        "desc": "VM deterministiche, memoria regionale, DSL, futuro."
+      }
+    }
   },
   "commercial": {
     "title": "Integrazione commerciale",
