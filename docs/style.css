@@ -587,6 +587,14 @@ code {
     background: var(--bg-elevated);
 }
 
+/* Append the hashtag marker so the chips read as real hashtags */
+.hero-badges li::before {
+    content: "#";
+    font-weight: 600;
+    color: var(--accent-text);
+    margin-right: 0.15rem;
+}
+
 /* Hero visual: code window */
 .hero-visual {
     min-width: 0;
