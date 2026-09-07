@@ -305,11 +305,18 @@ pre.code-block {
 pre.code-block:not(.code-frame pre) { background:var(--tok-bg); }
 .code-wrap { position:relative; }
 .code-wrap .code-frame { margin:5px; }
-.code-wrap .copy-btn, .code-wrap .theme-toggle { position:absolute; z-index:2; border-radius:4px; font-size:.9rem; padding:.15rem .4rem; cursor:pointer; line-height:1; opacity:.6; transition:all .15s; }
-.code-wrap .copy-btn { top:.4rem; right:.4rem; }
-.code-wrap .theme-toggle { top:.4rem; right:2.6rem; }
+.code-wrap .copy-btn, .code-wrap .theme-toggle {
+  position:absolute; z-index:2; top:8px;
+  width:28px; height:28px;
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:0; border-radius:6px; cursor:pointer; line-height:1;
+  background:rgba(127,127,127,.15); border:1px solid rgba(127,127,127,.25);
+  color:var(--text-2); opacity:.6; transition:all .15s;
+}
+.code-wrap .copy-btn { right:8px; }
+.code-wrap .theme-toggle { right:44px; }
+.code-wrap .copy-btn .material-icons { font-size:.95rem; line-height:1; }
 .code-wrap:hover .copy-btn, .code-wrap:hover .theme-toggle { opacity:1; }
-.code-wrap .copy-btn, .code-wrap .theme-toggle { background:rgba(127,127,127,.15); border:1px solid rgba(127,127,127,.25); color:var(--text-2); }
 .code-wrap .copy-btn:hover, .code-wrap .theme-toggle:hover { background:rgba(127,127,127,.25); color:var(--text); }
 pre.code-block code { font-family:inherit; background:none; padding:0; color:inherit; }
 
@@ -360,6 +367,9 @@ code {
 </style>
 </head>
 <body>
+<script>/* bootstrap theme */
+(function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+
 <script>/* bootstrap theme */
 (function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
 
@@ -840,8 +850,8 @@ lava primo.lava</code></pre>
   <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/DEMO.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Comprehensive demo program</span>
 <span class="hl-cmt">; Demonstrates classes, methods, stack usage, fault handling and the special</span>
 <span class="hl-cmt">; registers R13 (this), R14 (fault code) and R15 (stack pointer).</span>
@@ -998,8 +1008,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ADD.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Arithmetic examples</span>
 <span class="hl-cmt">; Demonstrates ADD, SUB, MUL, DIV, MOD (register operands)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;add.clasto&quot;</span>
@@ -1047,8 +1057,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ADD.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Arithmetic examples</span>
 <span class="hl-cmt">; Demonstrates ADD, SUB, MUL, DIV, MOD (register operands)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;add.clasto&quot;</span>
@@ -1096,8 +1106,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BITWISE.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Bitwise operation examples</span>
 <span class="hl-cmt">; Demonstrates AND, OR, XOR, SHL, SHR, ASR, NOT</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;bitwise.clasto&quot;</span>
@@ -1157,8 +1167,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BITWISE.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Bitwise operation examples</span>
 <span class="hl-cmt">; Demonstrates AND, OR, XOR, SHL, SHR, ASR, NOT</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;bitwise.clasto&quot;</span>
@@ -1218,8 +1228,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BITWISE.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Bitwise operation examples</span>
 <span class="hl-cmt">; Demonstrates AND, OR, XOR, SHL, SHR, ASR, NOT</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;bitwise.clasto&quot;</span>
@@ -1279,8 +1289,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BITWISE.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Bitwise operation examples</span>
 <span class="hl-cmt">; Demonstrates AND, OR, XOR, SHL, SHR, ASR, NOT</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;bitwise.clasto&quot;</span>
@@ -1340,8 +1350,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BITWISE.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Bitwise operation examples</span>
 <span class="hl-cmt">; Demonstrates AND, OR, XOR, SHL, SHR, ASR, NOT</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;bitwise.clasto&quot;</span>
@@ -1401,8 +1411,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BITWISE.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Bitwise operation examples</span>
 <span class="hl-cmt">; Demonstrates AND, OR, XOR, SHL, SHR, ASR, NOT</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;bitwise.clasto&quot;</span>
@@ -1462,8 +1472,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ADD.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Arithmetic examples</span>
 <span class="hl-cmt">; Demonstrates ADD, SUB, MUL, DIV, MOD (register operands)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;add.clasto&quot;</span>
@@ -1511,8 +1521,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ADD.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Arithmetic examples</span>
 <span class="hl-cmt">; Demonstrates ADD, SUB, MUL, DIV, MOD (register operands)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;add.clasto&quot;</span>
@@ -1560,8 +1570,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ADD.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Arithmetic examples</span>
 <span class="hl-cmt">; Demonstrates ADD, SUB, MUL, DIV, MOD (register operands)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;add.clasto&quot;</span>
@@ -1609,8 +1619,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BITWISE.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Bitwise operation examples</span>
 <span class="hl-cmt">; Demonstrates AND, OR, XOR, SHL, SHR, ASR, NOT</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;bitwise.clasto&quot;</span>
@@ -1687,8 +1697,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ACCUMULATOR.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Accumulator examples</span>
 <span class="hl-cmt">; Demonstrates MAC, SETACC, GETACC, CLRACC (64-bit multiply-accumulate)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;accumulator.clasto&quot;</span>
@@ -1739,8 +1749,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ACCUMULATOR.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Accumulator examples</span>
 <span class="hl-cmt">; Demonstrates MAC, SETACC, GETACC, CLRACC (64-bit multiply-accumulate)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;accumulator.clasto&quot;</span>
@@ -1791,8 +1801,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ACCUMULATOR.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Accumulator examples</span>
 <span class="hl-cmt">; Demonstrates MAC, SETACC, GETACC, CLRACC (64-bit multiply-accumulate)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;accumulator.clasto&quot;</span>
@@ -1843,8 +1853,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ACCUMULATOR.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Accumulator examples</span>
 <span class="hl-cmt">; Demonstrates MAC, SETACC, GETACC, CLRACC (64-bit multiply-accumulate)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;accumulator.clasto&quot;</span>
@@ -1912,8 +1922,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BRANCHES.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Branch examples</span>
 <span class="hl-cmt">; Demonstrates CMP, CMP.S and the signed/unsigned branch family</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;branches.clasto&quot;</span>
@@ -1998,8 +2008,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BRANCHES.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Branch examples</span>
 <span class="hl-cmt">; Demonstrates CMP, CMP.S and the signed/unsigned branch family</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;branches.clasto&quot;</span>
@@ -2084,8 +2094,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BRANCHES.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Branch examples</span>
 <span class="hl-cmt">; Demonstrates CMP, CMP.S and the signed/unsigned branch family</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;branches.clasto&quot;</span>
@@ -2170,8 +2180,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BRANCHES.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Branch examples</span>
 <span class="hl-cmt">; Demonstrates CMP, CMP.S and the signed/unsigned branch family</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;branches.clasto&quot;</span>
@@ -2256,8 +2266,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BRANCHES.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Branch examples</span>
 <span class="hl-cmt">; Demonstrates CMP, CMP.S and the signed/unsigned branch family</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;branches.clasto&quot;</span>
@@ -2342,8 +2352,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BRANCHES.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Branch examples</span>
 <span class="hl-cmt">; Demonstrates CMP, CMP.S and the signed/unsigned branch family</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;branches.clasto&quot;</span>
@@ -2428,8 +2438,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BRANCHES.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Branch examples</span>
 <span class="hl-cmt">; Demonstrates CMP, CMP.S and the signed/unsigned branch family</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;branches.clasto&quot;</span>
@@ -2531,8 +2541,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/CONST.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Constant loading examples</span>
 <span class="hl-cmt">; Demonstrates MOV.S (sign-extended), MOV.U (unsigned), MOV.H (high half), !LI</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;const.clasto&quot;</span>
@@ -2590,8 +2600,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/MEMORY.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Memory access examples</span>
 <span class="hl-cmt">; Demonstrates LD8/LD16/LD32 and ST8/ST16/ST32 with 16-bit signed offsets</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;memory.clasto&quot;</span>
@@ -2640,8 +2650,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/MEMORY.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Memory access examples</span>
 <span class="hl-cmt">; Demonstrates LD8/LD16/LD32 and ST8/ST16/ST32 with 16-bit signed offsets</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;memory.clasto&quot;</span>
@@ -2690,8 +2700,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/MEMORY.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Memory access examples</span>
 <span class="hl-cmt">; Demonstrates LD8/LD16/LD32 and ST8/ST16/ST32 with 16-bit signed offsets</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;memory.clasto&quot;</span>
@@ -2740,8 +2750,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/MEMORY.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Memory access examples</span>
 <span class="hl-cmt">; Demonstrates LD8/LD16/LD32 and ST8/ST16/ST32 with 16-bit signed offsets</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;memory.clasto&quot;</span>
@@ -2790,8 +2800,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/MEMORY.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Memory access examples</span>
 <span class="hl-cmt">; Demonstrates LD8/LD16/LD32 and ST8/ST16/ST32 with 16-bit signed offsets</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;memory.clasto&quot;</span>
@@ -2840,8 +2850,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/MEMORY.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Memory access examples</span>
 <span class="hl-cmt">; Demonstrates LD8/LD16/LD32 and ST8/ST16/ST32 with 16-bit signed offsets</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;memory.clasto&quot;</span>
@@ -2907,8 +2917,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALLOC.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Allocation arena examples</span>
 <span class="hl-cmt">; Demonstrates ALLOC, ALLOC.U, ALLOC.FR, ALLOC.FR.U, MARK, FREE, MARK.FR, FREE.FR</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alloc.clasto&quot;</span>
@@ -2972,8 +2982,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALLOC.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Allocation arena examples</span>
 <span class="hl-cmt">; Demonstrates ALLOC, ALLOC.U, ALLOC.FR, ALLOC.FR.U, MARK, FREE, MARK.FR, FREE.FR</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alloc.clasto&quot;</span>
@@ -3037,8 +3047,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALLOC.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Allocation arena examples</span>
 <span class="hl-cmt">; Demonstrates ALLOC, ALLOC.U, ALLOC.FR, ALLOC.FR.U, MARK, FREE, MARK.FR, FREE.FR</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alloc.clasto&quot;</span>
@@ -3102,8 +3112,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALLOC.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Allocation arena examples</span>
 <span class="hl-cmt">; Demonstrates ALLOC, ALLOC.U, ALLOC.FR, ALLOC.FR.U, MARK, FREE, MARK.FR, FREE.FR</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alloc.clasto&quot;</span>
@@ -3167,8 +3177,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALLOC.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Allocation arena examples</span>
 <span class="hl-cmt">; Demonstrates ALLOC, ALLOC.U, ALLOC.FR, ALLOC.FR.U, MARK, FREE, MARK.FR, FREE.FR</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alloc.clasto&quot;</span>
@@ -3232,8 +3242,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALLOC.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Allocation arena examples</span>
 <span class="hl-cmt">; Demonstrates ALLOC, ALLOC.U, ALLOC.FR, ALLOC.FR.U, MARK, FREE, MARK.FR, FREE.FR</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alloc.clasto&quot;</span>
@@ -3297,8 +3307,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALLOC.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Allocation arena examples</span>
 <span class="hl-cmt">; Demonstrates ALLOC, ALLOC.U, ALLOC.FR, ALLOC.FR.U, MARK, FREE, MARK.FR, FREE.FR</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alloc.clasto&quot;</span>
@@ -3379,8 +3389,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/OOP.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Object-oriented examples</span>
 <span class="hl-cmt">; Demonstrates NEW, NEW.FR, CALLM</span>
 <span class="hl-cmt">; Note: methods clobber R1 (return value) and R2, so object pointers</span>
@@ -3442,8 +3452,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/OOP.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Object-oriented examples</span>
 <span class="hl-cmt">; Demonstrates NEW, NEW.FR, CALLM</span>
 <span class="hl-cmt">; Note: methods clobber R1 (return value) and R2, so object pointers</span>
@@ -3505,8 +3515,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/OOP.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Object-oriented examples</span>
 <span class="hl-cmt">; Demonstrates NEW, NEW.FR, CALLM</span>
 <span class="hl-cmt">; Note: methods clobber R1 (return value) and R2, so object pointers</span>
@@ -3585,8 +3595,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/CONTROL.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Control flow examples</span>
 <span class="hl-cmt">; Demonstrates JMP (unconditional jump), CALL / RET (subroutine)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;control.clasto&quot;</span>
@@ -3625,8 +3635,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/CONTROL.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Control flow examples</span>
 <span class="hl-cmt">; Demonstrates JMP (unconditional jump), CALL / RET (subroutine)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;control.clasto&quot;</span>
@@ -3665,8 +3675,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/INDIRECT.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Indirect jump / call examples</span>
 <span class="hl-cmt">; Demonstrates JMP.R and CALL.R (PC = Rs + Offset, 16-bit signed offset)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;indirect.clasto&quot;</span>
@@ -3704,8 +3714,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/INDIRECT.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Indirect jump / call examples</span>
 <span class="hl-cmt">; Demonstrates JMP.R and CALL.R (PC = Rs + Offset, 16-bit signed offset)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;indirect.clasto&quot;</span>
@@ -3743,8 +3753,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/CONTROL.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Control flow examples</span>
 <span class="hl-cmt">; Demonstrates JMP (unconditional jump), CALL / RET (subroutine)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;control.clasto&quot;</span>
@@ -3800,8 +3810,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/STACK.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Stack examples</span>
 <span class="hl-cmt">; Demonstrates PUSH/POP and the .KEEP directive (per-call protection)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;stack.clasto&quot;</span>
@@ -3848,8 +3858,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/STACK.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Stack examples</span>
 <span class="hl-cmt">; Demonstrates PUSH/POP and the .KEEP directive (per-call protection)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;stack.clasto&quot;</span>
@@ -3913,8 +3923,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/GUARD.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Fault protection examples</span>
 <span class="hl-cmt">; Demonstrates GUARD (checkpoint), FAULT (raise), UNGUARD (close block)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;guard.clasto&quot;</span>
@@ -3954,8 +3964,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/GUARD.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Fault protection examples</span>
 <span class="hl-cmt">; Demonstrates GUARD (checkpoint), FAULT (raise), UNGUARD (close block)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;guard.clasto&quot;</span>
@@ -3995,8 +4005,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/GUARD.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Fault protection examples</span>
 <span class="hl-cmt">; Demonstrates GUARD (checkpoint), FAULT (raise), UNGUARD (close block)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;guard.clasto&quot;</span>
@@ -4053,8 +4063,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/IO.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; I/O examples</span>
 <span class="hl-cmt">; Demonstrates GETC (read codepoint), PUTC (write codepoint), SYSCALL</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;io.clasto&quot;</span>
@@ -4107,8 +4117,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/IO.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; I/O examples</span>
 <span class="hl-cmt">; Demonstrates GETC (read codepoint), PUTC (write codepoint), SYSCALL</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;io.clasto&quot;</span>
@@ -4161,8 +4171,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/IO.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; I/O examples</span>
 <span class="hl-cmt">; Demonstrates GETC (read codepoint), PUTC (write codepoint), SYSCALL</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;io.clasto&quot;</span>
@@ -4232,8 +4242,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/EVENTS.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Event posting examples</span>
 <span class="hl-cmt">; Demonstrates FIRE.U (immediate ID) and FIRE (register ID)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;events.clasto&quot;</span>
@@ -4292,8 +4302,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/VMCTRL.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; VM control examples</span>
 <span class="hl-cmt">; Demonstrates SLICE, YIELD, HALT, EXIT</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;vmctrl.clasto&quot;</span>
@@ -4344,8 +4354,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/VMCTRL.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; VM control examples</span>
 <span class="hl-cmt">; Demonstrates SLICE, YIELD, HALT, EXIT</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;vmctrl.clasto&quot;</span>
@@ -4396,8 +4406,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/VMCTRL.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; VM control examples</span>
 <span class="hl-cmt">; Demonstrates SLICE, YIELD, HALT, EXIT</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;vmctrl.clasto&quot;</span>
@@ -4448,8 +4458,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/VMCTRL.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; VM control examples</span>
 <span class="hl-cmt">; Demonstrates SLICE, YIELD, HALT, EXIT</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;vmctrl.clasto&quot;</span>
@@ -4516,8 +4526,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/NOP.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; NOP example</span>
 <span class="hl-cmt">; Demonstrates the explicit no-operation instruction (opcode 0, word 0x00000000)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;nop.clasto&quot;</span>
@@ -4547,8 +4557,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BRANCHES.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Branch examples</span>
 <span class="hl-cmt">; Demonstrates CMP, CMP.S and the signed/unsigned branch family</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;branches.clasto&quot;</span>
@@ -4633,8 +4643,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALU_IMM.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; ALU with immediate examples</span>
 <span class="hl-cmt">; Demonstrates ADD.S, AND.U, OR.U</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alu_imm.clasto&quot;</span>
@@ -4681,8 +4691,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALU_IMM.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; ALU with immediate examples</span>
 <span class="hl-cmt">; Demonstrates ADD.S, AND.U, OR.U</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alu_imm.clasto&quot;</span>
@@ -4729,8 +4739,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALU_IMM.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; ALU with immediate examples</span>
 <span class="hl-cmt">; Demonstrates ADD.S, AND.U, OR.U</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alu_imm.clasto&quot;</span>
@@ -4777,8 +4787,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALU_IMM.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; ALU with immediate examples</span>
 <span class="hl-cmt">; Demonstrates ADD.S, AND.U, OR.U</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alu_imm.clasto&quot;</span>
@@ -4825,8 +4835,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALU_IMM.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; ALU with immediate examples</span>
 <span class="hl-cmt">; Demonstrates ADD.S, AND.U, OR.U</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alu_imm.clasto&quot;</span>
@@ -4873,8 +4883,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALU_IMM.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; ALU with immediate examples</span>
 <span class="hl-cmt">; Demonstrates ADD.S, AND.U, OR.U</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alu_imm.clasto&quot;</span>
@@ -4921,8 +4931,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALU_IMM.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; ALU with immediate examples</span>
 <span class="hl-cmt">; Demonstrates ADD.S, AND.U, OR.U</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alu_imm.clasto&quot;</span>
@@ -4969,8 +4979,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALU_IMM.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; ALU with immediate examples</span>
 <span class="hl-cmt">; Demonstrates ADD.S, AND.U, OR.U</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alu_imm.clasto&quot;</span>
@@ -5017,8 +5027,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALU_IMM.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; ALU with immediate examples</span>
 <span class="hl-cmt">; Demonstrates ADD.S, AND.U, OR.U</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alu_imm.clasto&quot;</span>
@@ -5065,8 +5075,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALU_IMM.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; ALU with immediate examples</span>
 <span class="hl-cmt">; Demonstrates ADD.S, AND.U, OR.U</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alu_imm.clasto&quot;</span>
@@ -5113,8 +5123,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALU_IMM.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; ALU with immediate examples</span>
 <span class="hl-cmt">; Demonstrates ADD.S, AND.U, OR.U</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alu_imm.clasto&quot;</span>
@@ -5161,8 +5171,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/CONST.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Constant loading examples</span>
 <span class="hl-cmt">; Demonstrates MOV.S (sign-extended), MOV.U (unsigned), MOV.H (high half), !LI</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;const.clasto&quot;</span>
@@ -5203,8 +5213,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/CONST.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Constant loading examples</span>
 <span class="hl-cmt">; Demonstrates MOV.S (sign-extended), MOV.U (unsigned), MOV.H (high half), !LI</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;const.clasto&quot;</span>
@@ -5245,8 +5255,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/LDA.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Static data address examples</span>
 <span class="hl-cmt">; Demonstrates LDA (load the writable address of a .STATIC label)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;lda.clasto&quot;</span>
@@ -5287,8 +5297,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/ALLOC.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Allocation arena examples</span>
 <span class="hl-cmt">; Demonstrates ALLOC, ALLOC.U, ALLOC.FR, ALLOC.FR.U, MARK, FREE, MARK.FR, FREE.FR</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alloc.clasto&quot;</span>
@@ -5352,8 +5362,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BRANCHES.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Branch examples</span>
 <span class="hl-cmt">; Demonstrates CMP, CMP.S and the signed/unsigned branch family</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;branches.clasto&quot;</span>
@@ -5438,8 +5448,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BRANCHES.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Branch examples</span>
 <span class="hl-cmt">; Demonstrates CMP, CMP.S and the signed/unsigned branch family</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;branches.clasto&quot;</span>
@@ -5524,8 +5534,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BRANCHES.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Branch examples</span>
 <span class="hl-cmt">; Demonstrates CMP, CMP.S and the signed/unsigned branch family</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;branches.clasto&quot;</span>
@@ -5610,8 +5620,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/BRANCHES.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Branch examples</span>
 <span class="hl-cmt">; Demonstrates CMP, CMP.S and the signed/unsigned branch family</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;branches.clasto&quot;</span>
@@ -5696,8 +5706,8 @@ lava primo.lava</code></pre>
 <details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/EVENTS.clasto</code></summary>
   <div class="code-wrap">
-    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
-    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><svg class="icon-sun" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark"><svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg><svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
     <pre class="code-block asm"><code><span class="hl-cmt">; Event posting examples</span>
 <span class="hl-cmt">; Demonstrates FIRE.U (immediate ID) and FIRE (register ID)</span>
 <span class="hl-dir">.FILE</span> <span class="hl-str">&quot;events.clasto&quot;</span>
