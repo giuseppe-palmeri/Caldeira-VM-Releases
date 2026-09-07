@@ -46,9 +46,17 @@ body {
   color: var(--text);
   background: var(--bg);
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
   line-height: 1.7;
   transition: background-color .2s, color .2s;
+}
+
+/* ── DOCS BODY WRAPPER (sidebar + main under the header) ── */
+.docs-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
 }
 
 /* ── SITE HEADER — identical to the website header ── */
@@ -119,12 +127,16 @@ body {
 
 /* ── SIDEBAR ── */
 .sidebar {
-  position: fixed; top:3rem; left:0; width:300px; height:calc(100vh - 3rem);
+  position: sticky;
+  top: 0;
+  width: 300px;
+  height: calc(100vh - 3.5rem);
   background: var(--sidebar-bg);
   color: var(--text-2);
-  overflow-y:auto; overflow-x:hidden; z-index:100;
+  overflow-x:hidden; z-index:100;
   display:flex; flex-direction:column;
   border-right:1px solid var(--border);
+  flex-shrink: 0;
 }
 .sidebar-header { padding:1.25rem 1rem; display:flex; flex-direction:column; align-items:center; gap:.5rem; border-bottom:1px solid var(--border); background:rgba(0,0,0,.15); }
 .logo-link { flex-shrink:0; display:flex; }
@@ -160,7 +172,7 @@ body {
 .nav-tree > li.expanded > a.nav-chapter::after { transform:rotate(180deg); }
 
 /* ── MAIN CONTENT ── */
-.main-content { margin-left:300px; flex:1; padding:4.5rem 3rem 4rem; max-width:1000px; }
+.main-content { margin-left:0; flex:1; padding:4.5rem 3rem 4rem; max-width:1000px; min-width:0; }
 
 /* ── PAGE NAV ── */
 .top-nav-wrap, .bot-nav-wrap { margin:0 0 1rem 0; }
