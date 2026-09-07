@@ -102,14 +102,11 @@ body {
   border-right:1px solid var(--border);
   flex-shrink: 0;
 }
-.sidebar-header { padding:1.25rem 1rem; display:flex; flex-direction:column; align-items:center; gap:.5rem; border-bottom:1px solid var(--border); background:var(--bg-elev); flex-shrink:0; }
+.sidebar-header { padding:1rem; display:flex; justify-content:center; border-bottom:1px solid var(--border); background:var(--bg-elev); flex-shrink:0; }
 .logo-link { flex-shrink:0; display:flex; }
 .sidebar-logo { width:100%; max-width:220px; height:auto; border-radius:8px; object-fit:contain; }
 .sidebar .sidebar-logo { content: url("../caldeira.png"); }
 :root[data-theme="dark"] .sidebar .sidebar-logo { content: url("../caldeira-white.png"); }
-.sidebar-title { display:flex; flex-direction:column; align-items:center; text-align:center; }
-.sidebar-brand { font-weight:800; font-size:1.05rem; color: var(--accent-text); }
-.sidebar-sub { font-size:.75rem; color: var(--text-3); margin-top:-2px; }
 .sidebar-search { padding:.75rem 1rem; border-bottom:1px solid var(--border); background:var(--bg-inset); flex-shrink:0; }
 .sidebar-search input {
   width:100%; padding:.5rem .75rem; border:1px solid var(--border-strong); border-radius:6px;
@@ -135,8 +132,8 @@ body {
 .nav-cat > a { font-weight:600; font-size:.82rem; color:var(--text-2); }
 .nav-tree .nav-subs a { font-size:.8rem; padding:.2rem .75rem; color:var(--text-3); }
 .nav-tree > li.expanded > .nav-subs { display:block; }
-.nav-tree > li > a.nav-chapter.has-subs::after { content:"▾"; float:right; font-size:.65rem; color:var(--text-3); transition:transform .2s; }
-.nav-tree > li.expanded > a.nav-chapter.has-subs::after { transform:rotate(180deg); }
+.nav-tree > li > a.nav-chapter.has-subs::after { content:"›"; float:right; font-size:.9rem; line-height:1; color:var(--text-3); transition:transform .2s; }
+.nav-tree > li.expanded > a.nav-chapter.has-subs::after { transform:rotate(90deg); }
 
 /* ── MAIN CONTENT ── */
 .main-content { margin-left:0; flex:1; padding:4.5rem 3rem 4rem; max-width:1000px; min-width:0; }
@@ -299,10 +296,6 @@ code {
     <a href="index.html" class="logo-link">
       <img src="../caldeira.png" alt="Caldeira VM" class="sidebar-logo" />
     </a>
-    <div class="sidebar-title">
-      <span class="sidebar-brand">Caldeira VM</span>
-      <span class="sidebar-sub">Documentation</span>
-    </div>
   </div>
   <div class="sidebar-search">
     <input type="text" id="nav-search" placeholder="Search instructions..." oninput="filterNav(this.value)" />
@@ -9810,26 +9803,33 @@ RULE temperature &gt; 85:
 </div>
 
 <script>
-// ── Sidebar: expand chapter on click (no page reload) ──
+// ── Sidebar: chapters with a submenu expand/collapse on click (no nav) ──
 document.querySelectorAll('.nav-chapter').forEach(function(link) {
   link.addEventListener('click', function(e) {
-    var hasSubs = this.classList.contains('has-subs');
-    if (hasSubs) {
-      // Chapters with a submenu: clicking only expands/collapses.
+    if (this.classList.contains('has-subs')) {
       e.preventDefault();
       var li = this.closest('li');
       if (li) li.classList.toggle('expanded');
     }
-    // Chapters without a submenu navigate normally (no toggle, no reload of layout).
+    // Chapters without a submenu navigate normally.
   });
 });
 
-// ── Sidebar: expand/collapse ISA categories (e.g. 'Aritmetica e logica') ──
+// ── Sidebar: expand/collapse ISA categories (accordion: one open at a time) ──
 document.querySelectorAll('.nav-cat > a').forEach(function(link) {
   link.addEventListener('click', function(e) {
     e.preventDefault();
     var li = this.closest('li');
-    if (li) li.classList.toggle('expanded');
+    if (!li) return;
+    var wasOpen = li.classList.contains('expanded');
+    // close the other open categories in this chapter
+    var chapter = li.closest('.nav-tree > li');
+    if (chapter) {
+      chapter.querySelectorAll(':scope > .nav-subs > li.nav-cat.expanded').forEach(function(other) {
+        if (other !== li) other.classList.remove('expanded');
+      });
+    }
+    li.classList.toggle('expanded', !wasOpen);
   });
 });
 

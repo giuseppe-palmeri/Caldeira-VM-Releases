@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chapter expand + jump test</title>
+<style>body{font-family:monospace;margin:1rem}</style>
+</head>
+<body>
+<div id="out">…</div>
+<script>
+const out = document.getElementById('out');
+const iframe = document.createElement('iframe');
+iframe.style.width = '1440px';
+iframe.style.height = '1400px';
+document.body.appendChild(iframe);
+iframe.onload = async () => {
+  try {
+    await new Promise((r) => setTimeout(r, 900));
+    const doc = iframe.contentDocument;
+    const res = {};
+    const ch2 = doc.querySelector('.nav-chapter.has-subs');
+    const li = ch2 ? ch2.closest('li') : null;
+    res.href = ch2 ? ch2.getAttribute('href') : null;
+    res.expandedBefore = li ? li.classList.contains('expanded') : null;
+    const url0 = iframe.contentWindow.location.hash;
+    if (ch2) ch2.click();
+    await new Promise((r) => setTimeout(r, 50));
+    res.expandedAfter = li ? li.classList.contains('expanded') : null;
+    res.hashAfter = iframe.contentWindow.location.hash;
+    // target section top should be near viewport top (below the sticky bar)
+    const sec = doc.getElementById((ch2.getAttribute('href') || '').slice(1));
+    if (sec) {
+      const r = sec.getBoundingClientRect();
+      res.sectionTop = Math.round(r.top);
+    }
+    out.textContent = JSON.stringify(res, null, 2);
+    const ok = res.expandedAfter && res.hashAfter && res.hashAfter !== url0;
+    document.title = ok ? 'ALL OK' : 'FAIL';
+  } catch (e) { out.textContent = 'ERRORE: ' + e.message; document.title = 'FAIL'; }
+};
+iframe.src = '/docs/reference/it/index.html';
+</script>
+</body>
+</html>
