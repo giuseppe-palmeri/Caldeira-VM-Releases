@@ -20,6 +20,7 @@ html { scroll-behavior: smooth; font-size: 16px; }
   --accent: #3fb950; --accent-strong: #2ea043; --accent-soft: rgba(63,185,80,.14); --accent-text: #56d364;
   --sidebar-bg: linear-gradient(180deg, #161b22 0%, #10151c 100%);
   --code-bg: #10151c; --code-fg: #c9d1d9; --code-border: #262d38;
+  --tok-bg: #0d1117; --tok-fg: #c9d1d9; --tok-bar: #161b22;
   --header-height: 3.5rem; --header-max: 80rem;
   --space-1:.25rem; --space-2:.5rem; --space-3:.75rem; --space-4:1rem;
   --space-5:1.5rem; --space-6:2rem;
@@ -37,6 +38,7 @@ html { scroll-behavior: smooth; font-size: 16px; }
   --accent: #1a7f37; --accent-strong: #116329; --accent-soft: rgba(26,127,55,.1); --accent-text: #1a7f37;
   --sidebar-bg: linear-gradient(180deg, #ffffff 0%, #f0f1f4 100%);
   --code-bg: #f6f8fa; --code-fg: #24292e; --code-border: #d1d5da;
+  --tok-bg: #f6f8fa; --tok-fg: #24292e; --tok-bar: #eef0f3;
   --accent-contrast: #ffffff;
   --hl-cmt:#6a737d; --hl-dir:#0550ae; --hl-pseudo:#bc4c00; --hl-lbl:#116329;
   --hl-op:#cf222e; --hl-reg:#0550ae; --hl-num:#8250df; --hl-str:#0a3069;
@@ -266,12 +268,43 @@ a.instr-link { color:var(--text); text-decoration:none; font-weight:600; font-fa
 a.instr-link:hover { color:var(--accent-text); }
 
 /* ── CODE BLOCKS — palettes from the site ── */
-pre.code-block {
-  background:var(--code-bg); color:var(--code-fg); padding:.75rem 1rem; border-radius:8px;
-  overflow-x:auto; font-family:'JetBrains Mono',monospace; font-size:.8rem; line-height:1.55;
-  margin:.5rem 0; border:1px solid var(--code-border);
+/* Terminal frame: same look as the website code windows (top bar with
+   three dots on --tok-bar, code on --tok-bg/--tok-fg, border-strong). */
+.code-frame {
+  border:1px solid var(--border-strong);
+  border-radius:var(--radius-md);
+  overflow:hidden;
+  background:var(--tok-bg);
+  color:var(--tok-fg);
+  margin:.5rem 0;
 }
+.code-frame-bar {
+  display:flex; align-items:center; gap:var(--space-2);
+  padding:.45rem var(--space-4);
+  background:var(--tok-bar);
+  border-bottom:1px solid var(--border-strong);
+}
+.code-frame .cf-dot { width:10px; height:10px; border-radius:50%; }
+.code-frame .cf-dot-r { background:#ff5f56; }
+.code-frame .cf-dot-y { background:#ffbd2e; }
+.code-frame .cf-dot-g { background:#27c93f; }
+.code-frame-title {
+  margin-left:var(--space-2);
+  font-family:'JetBrains Mono',monospace;
+  font-size:.72rem;
+  letter-spacing:.02em;
+  color:var(--text-3);
+}
+pre.code-block {
+  background:transparent; color:var(--tok-fg); padding:.75rem 1rem;
+  overflow-x:auto; font-family:'JetBrains Mono',monospace; font-size:.8rem; line-height:1.55;
+  margin:0; border:none; border-radius:0;
+}
+/* Standalone code blocks (not wrapped in .code-frame) keep the same
+   palette but rely on the frame or keep a simple border. */
+pre.code-block:not(.code-frame pre) { background:var(--tok-bg); }
 .code-wrap { position:relative; }
+.code-wrap .code-frame { margin:0; }
 .code-wrap .copy-btn, .code-wrap .theme-toggle { position:absolute; z-index:2; border-radius:4px; font-size:.9rem; padding:.15rem .4rem; cursor:pointer; line-height:1; opacity:.6; transition:all .15s; }
 .code-wrap .copy-btn { top:.4rem; right:.4rem; }
 .code-wrap .theme-toggle { top:.4rem; right:2.6rem; }
@@ -327,6 +360,9 @@ code {
 </style>
 </head>
 <body>
+<script>/* bootstrap theme */
+(function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+
 <script>/* bootstrap theme */
 (function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
 
@@ -10056,6 +10092,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 });
+
+// ── Code blocks: wrap in a terminal frame like the website ──
+// Every pre.code-block gets a .code-frame with a top bar (three dots +
+// optional title) so clasto and bash blocks match the site's look.
+(function() {
+  document.querySelectorAll('pre.code-block').forEach(function(pre) {
+    if (pre.closest('.code-frame')) return;
+    var frame = document.createElement('div');
+    frame.className = 'code-frame';
+    var bar = document.createElement('div');
+    bar.className = 'code-frame-bar';
+    bar.innerHTML = '<span class="cf-dot cf-dot-r"></span><span class="cf-dot cf-dot-y"></span><span class="cf-dot cf-dot-g"></span>';
+    var title = pre.getAttribute('data-title');
+    if (title) {
+      var t = document.createElement('span');
+      t.className = 'code-frame-title';
+      t.textContent = title;
+      bar.appendChild(t);
+    }
+    frame.appendChild(bar);
+    pre.parentNode.insertBefore(frame, pre);
+    frame.appendChild(pre);
+  });
+})();
 
 
 // ── Hash-based carousel navigation ──
