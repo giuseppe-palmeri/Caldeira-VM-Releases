@@ -424,6 +424,8 @@ function renderDynamicCards() {
     // Update the CTA too
     const cta = document.querySelector('[data-docs-cta]');
     if (cta) cta.setAttribute('href', `reference/${currentLang}/`);
+    const docsHeader = document.querySelector('[data-docs-header]');
+    if (docsHeader) docsHeader.setAttribute('href', `reference/${currentLang}/`);
     const docsGrid = document.querySelector('[data-docs-grid]');
     if (docsGrid) {
         docsGrid.innerHTML = docsKeys.map(({ key, anchor }) => `

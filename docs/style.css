@@ -279,6 +279,19 @@ code {
     flex-wrap: wrap;
 }
 
+.btn-docs {
+    padding: 0.45rem 0.8rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+}
+
+.btn-docs:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background-color: transparent;
+}
+
 .btn-github {
     gap: var(--space-2);
     padding: 0.45rem 0.8rem;
