@@ -146,8 +146,17 @@
                         <p class="install-description" data-i18n="installation.description">Install the latest public bootstrap environment with one command.</p>
                     </div>
                     <div class="install-terminal" role="group" aria-label="Installation command">
-                        <code class="install-command" id="install-command">curl -fsSL https://raw.githubusercontent.com/giuseppe-palmeri/Caldeira-VM-Releases/main/caldeira-bootstrap.sh | bash</code>
-                        <button class="btn btn-copy" type="button" data-copy-button data-copy-target="install-command" data-i18n="installation.copy">Copy</button>
+                        <div class="install-terminal-bar">
+                            <span class="code-dot code-dot-r" aria-hidden="true"></span>
+                            <span class="code-dot code-dot-y" aria-hidden="true"></span>
+                            <span class="code-dot code-dot-g" aria-hidden="true"></span>
+                            <span class="install-terminal-title" data-i18n="installation.terminal">Terminal</span>
+                        </div>
+                        <div class="install-terminal-body">
+                            <span class="install-prompt" aria-hidden="true">$</span>
+                            <code class="install-command" id="install-command">curl -fsSL https://raw.githubusercontent.com/giuseppe-palmeri/Caldeira-VM-Releases/main/caldeira-bootstrap.sh | bash</code>
+                            <button class="btn btn-copy" type="button" data-copy-button data-copy-target="install-command" data-i18n="installation.copy">Copy</button>
+                        </div>
                     </div>
                     <p class="install-note" data-i18n="installation.note">The bootstrap script downloads and manages Caldeira VM SDK versions. It requires curl, python3 and unzip.</p>
                 </div>

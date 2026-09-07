@@ -37,7 +37,8 @@
     "command": "curl -fsSL https://raw.githubusercontent.com/giuseppe-palmeri/Caldeira-VM-Releases/main/caldeira-bootstrap.sh | bash",
     "copy": "Copia",
     "copied": "Copiato!",
-    "note": "Lo script di bootstrap scarica e gestisce le versioni dell'SDK Caldeira VM. Richiede curl, python3 e unzip."
+    "note": "Lo script di bootstrap scarica e gestisce le versioni dell'SDK Caldeira VM. Richiede curl, python3 e unzip.",
+    "terminal": "Terminale"
   },
   "why": {
     "title": "Perché Caldeira VM",
