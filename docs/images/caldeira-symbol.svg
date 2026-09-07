@@ -14,14 +14,14 @@
     <rect x="70" y="70" width="116" height="116" rx="14" stroke-width="12"/>
     <!-- inner die detail -->
     <rect x="104" y="104" width="48" height="48" rx="8" stroke-width="8"/>
-    <!-- junction dots on the lateral traces -->
+    <!-- junction dots at the outer ends of the lateral traces -->
     <g fill="#2ea043">
-        <circle cx="70" cy="100" r="8"/>
-        <circle cx="70" cy="128" r="8"/>
-        <circle cx="70" cy="156" r="8"/>
-        <circle cx="186" cy="100" r="8"/>
-        <circle cx="186" cy="128" r="8"/>
-        <circle cx="186" cy="156" r="8"/>
+        <circle cx="38" cy="100" r="8"/>
+        <circle cx="38" cy="128" r="8"/>
+        <circle cx="38" cy="156" r="8"/>
+        <circle cx="218" cy="100" r="8"/>
+        <circle cx="218" cy="128" r="8"/>
+        <circle cx="218" cy="156" r="8"/>
     </g>
   </g>
 </svg>
