@@ -166,6 +166,13 @@ code {
     border-bottom: 1px solid var(--border);
 }
 
+.section-title .section-icon {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-right: var(--space-2);
+    color: var(--accent-text);
+}
+
 .section-title {
     font-size: clamp(1.6rem, 3vw, 2.1rem);
     letter-spacing: -0.02em;
