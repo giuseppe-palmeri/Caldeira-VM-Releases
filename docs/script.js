@@ -170,6 +170,13 @@ function initLanguage() {
 }
 
 /* ── Theme ─────────────────────────────────────────────────────────────── */
+function updateThemeLogo() {
+    const dark = (document.documentElement.dataset.theme || 'dark') === 'dark';
+    document.querySelectorAll('[data-theme-logo]').forEach((img) => {
+        img.src = dark ? 'images/caldeira-white.png' : 'images/caldeira.png';
+    });
+}
+
 function updateThemeColor(theme) {
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute('content', theme === 'light' ? '#f7f8fa' : '#0d1117');
@@ -204,6 +211,7 @@ function initTheme() {
         root.dataset.theme = 'light';
     }
     updateThemeColor(root.dataset.theme);
+    updateThemeLogo();
 
     const toggle = document.querySelector('[data-theme-toggle]');
     if (toggle) {
@@ -214,6 +222,7 @@ function initTheme() {
                 localStorage.setItem(STORAGE.theme, next);
             } catch (_) { /* ignore */ }
             updateThemeColor(next);
+            updateThemeLogo();
             updateThemeLabel(toggle, next);
         });
     }
