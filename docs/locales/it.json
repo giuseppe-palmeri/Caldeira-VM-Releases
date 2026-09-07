@@ -19,7 +19,8 @@
     "community": "Community",
     "documentation": "Documentazione",
     "github": "GitHub",
-    "pricing": "Prezzi"
+    "pricing": "Prezzi",
+    "vscode": "VS Code"
   },
   "hero": {
     "title": "Una macchina virtuale leggera e deterministica per microcontrollori.",
@@ -306,5 +307,23 @@
       "cta": "Richiedi un preventivo"
     },
     "note": "Prezzi e condizioni di licenza del core proprietario non sono pubblicati al momento. Contatta Sky Home Srl per i dettagli."
+  },
+  "vscode": {
+    "title": "Sviluppa in VS Code",
+    "description": "Un'estensione completa porta lo sviluppo Caldeira VM in Visual Studio Code: supporto del linguaggio, debug e comandi di progetto.",
+    "features": {
+      "language": {
+        "title": "Supporto del linguaggio",
+        "desc": "Sintassi colorata per il linguaggio assembly Clasto, più un server LSP con diagnostica in tempo reale, completamento, documentazione al passaggio del mouse, vai-a-definizione, rinomina e formattazione."
+      },
+      "debug": {
+        "title": "Debug integrato",
+        "desc": "Un debug adapter integrato esegue il debug con breakpoint (anche condizionali e con hit count), registri VM e variabili locali, rilevamento di fault e panic, e una vista di disassemblaggio del bytecode."
+      },
+      "commands": {
+        "title": "Comandi di progetto",
+        "desc": "Build, run, debug, scaffold di nuovi progetti, installazione della VM, flash e diagnosi dei fault — tutto dalla palette comandi o dal menu contestuale dell'editor."
+      }
+    }
   }
 }

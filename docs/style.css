@@ -878,7 +878,7 @@ code {
     font-size: 0.88rem;
 }
 
-/* Documentation teaser (chapters from the reference book) */
+/* Documentazione teaser (chapters from the reference book) */
 .docs-toc {
     max-width: var(--content-narrow);
     margin: var(--space-7) auto 0;
@@ -889,6 +889,54 @@ code {
     text-align: center;
     color: var(--text-secondary);
     margin-bottom: var(--space-4);
+}
+
+/* ── VS Code extension section ─────────────────────────────────────────── */
+.vscode-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: var(--space-6);
+    align-items: center;
+    max-width: var(--content-max);
+    margin: 0 auto;
+}
+
+.vscode-image-wrap {
+    min-width: 0;
+}
+
+.vscode-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    box-shadow: var(--panel-shadow);
+}
+
+.vscode-features {
+    min-width: 0;
+}
+
+.vscode-feature {
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.vscode-feature:last-child {
+    border-bottom: none;
+}
+
+.vscode-feature h3 {
+    font-size: 1.02rem;
+    color: var(--accent-text);
+    margin-bottom: var(--space-2);
+}
+
+.vscode-feature p {
+    margin: 0;
+    font-size: 0.93rem;
+    color: var(--text-secondary);
 }
 
 /* ── Architecture diagram ──────────────────────────────────────────────── */
@@ -1577,6 +1625,10 @@ code {
 
     .github-layout,
     .community-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .vscode-layout {
         grid-template-columns: 1fr;
     }
 

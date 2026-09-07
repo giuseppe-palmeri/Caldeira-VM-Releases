@@ -56,6 +56,7 @@ const checks = [
     ['platforms: Linux Available + ESP32 Incoming', /data-i18n="platforms\.available">Available|data-i18n="platforms\.available">Disponibile/.test(dom) && /data-i18n="platforms\.incoming">Incoming|data-i18n="platforms\.incoming">In arrivo/.test(dom)],
     ['commercial contact present', /info@skyhome\.it/.test(dom) && /informatica\.skyhome\.it/.test(dom)],
     ['pricing section present', /id="pricing"/.test(dom) && /data-i18n="pricing\.core\.cta"/.test(dom)],
+    ['vscode section present', /id="vscode"/.test(dom) && /vscode-extension\.png/.test(dom) && (dom.match(/vscode-feature/g) || []).length >= 3],
     ['footer rendered', /site-footer/.test(dom)],
     ['no JS errors', !hasJSErrors],
 ];

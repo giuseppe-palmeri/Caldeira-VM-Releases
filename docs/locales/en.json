@@ -19,7 +19,8 @@
     "community": "Community",
     "documentation": "Documentation",
     "github": "GitHub",
-    "pricing": "Pricing"
+    "pricing": "Pricing",
+    "vscode": "VS Code"
   },
   "hero": {
     "title": "A lightweight, deterministic virtual machine for microcontrollers.",
@@ -306,5 +307,23 @@
       "cta": "Request pricing"
     },
     "note": "Pricing and licensing terms for the proprietary core are not published publicly at this time. Contact Sky Home Srl for details."
+  },
+  "vscode": {
+    "title": "Develop in VS Code",
+    "description": "A full-featured extension brings Caldeira VM development into Visual Studio Code: language support, debugging, and project commands.",
+    "features": {
+      "language": {
+        "title": "Language support",
+        "desc": "Syntax highlighting for the Clasto assembly language, plus an LSP server providing real-time diagnostics, completions, hover documentation, go-to-definition, rename, and formatting."
+      },
+      "debug": {
+        "title": "Integrated debugging",
+        "desc": "A built-in debug adapter debugs your program with breakpoints (including conditional and hit-count), VM registers and local variables, fault and panic detection, and a bytecode disassembly view."
+      },
+      "commands": {
+        "title": "Project commands",
+        "desc": "Build, run, debug, scaffold new projects, install the VM, flash, and diagnose faults — all from the command palette or the editor context menu."
+      }
+    }
   }
 }

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  /* VS Code-like mockup for the Caldeira VM website */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #1e1e1e;
+    --bar: #323233;
+    --sidebar: #252526;
+    --activity: #333333;
+    --text: #cccccc;
+    --muted: #858585;
+    --blue: #007acc;
+    --green: #7ee787;
+    --dir: #79c0ff;
+    --reg: #ffa657;
+    --num: #d2a8ff;
+    --str: #a5d6ff;
+    --cmt: #6a737d;
+    --edit: #1e1e1e;
+  }
+  html, body { width: 1280px; height: 800px; background: var(--bg); font-family: -apple-system, "Segoe UI", sans-serif; overflow: hidden; }
+  .window { display: flex; flex-direction: column; height: 100%; width: 100%; }
+  /* Title bar */
+  .titlebar { display: flex; align-items: center; gap: 10px; padding: 8px 14px; background: var(--bar); color: #ddd; font-size: 13px; border-bottom: 1px solid #1a1a1a; }
+  .titlebar .dots { display: flex; gap: 6px; margin-right: 6px; }
+  .titlebar .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot-r { background: #ff5f56; } .dot-y { background: #ffbd2e; } .dot-g { background: #27c93f; }
+  .titlebar .t { flex: 1; text-align: center; color: #bbb; font-size: 12px; }
+  .titlebar .right { display: flex; gap: 14px; color: #999; font-size: 12px; }
+  /* Main */
+  .main { display: flex; flex: 1; min-height: 0; }
+  /* Activity bar */
+  .activity { width: 48px; background: var(--activity); display: flex; flex-direction: column; align-items: center; padding-top: 8px; gap: 6px; border-right: 1px solid #1a1a1a; }
+  .act-icon { width: 30px; height: 30px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #858585; }
+  .act-icon.active { color: #fff; background: var(--blue); }
+  /* Sidebar */
+  .sidebar { width: 220px; background: var(--sidebar); color: var(--text); font-size: 12px; border-right: 1px solid #1a1a1a; display: flex; flex-direction: column; }
+  .sb-title { padding: 10px 14px 6px; color: #bbb; font-size: 11px; letter-spacing: 0.06em; }
+  .sb-search { margin: 0 10px 8px; padding: 4px 8px; background: #3c3c3c; border-radius: 4px; color: #888; font-size: 11px; }
+  .tree { padding: 0 4px; font-family: "JetBrains Mono", Consolas, monospace; font-size: 12px; line-height: 1.75; }
+  .tree .folder { color: #ddd; }
+  .tree .folder::before { content: "▾ "; color: #858585; }
+  .tree .file { padding-left: 16px; color: #bbb; }
+  .tree .file.active { color: #fff; background: #37373d; }
+  .tree .node::after { content: "  "; }
+  .pad1 { padding-left: 16px; } .pad2 { padding-left: 32px; }
+  /* Editor */
+  .editor { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--edit); }
+  .tabs { display: flex; background: #252526; border-bottom: 1px solid #1a1a1a; }
+  .tab { padding: 7px 14px; font-size: 12px; color: #969696; border-right: 1px solid #1a1a1a; }
+  .tab.active { background: var(--edit); color: #fff; border-top: 1px solid var(--blue); }
+  .code-area { flex: 1; display: flex; overflow: hidden; }
+  .gutter { width: 46px; background: var(--edit); color: #5c5c5c; text-align: right; padding: 14px 8px 0 0; font-family: "JetBrains Mono", Consolas, monospace; font-size: 13px; line-height: 1.7; user-select: none; }
+  .gutter .ln { display: block; position: relative; height: 22px; }
+  .gutter .bp { color: #e51400; font-weight: 700; }
+  .code { flex: 1; padding: 14px 16px 0 10px; font-family: "JetBrains Mono", Consolas, monospace; font-size: 13px; line-height: 1.7; color: #d4d4d4; white-space: pre; }
+  .code .ln-cur { background: #2d2d2d; }
+  .c-cmt { color: var(--cmt); font-style: italic; }
+  .c-dir { color: var(--dir); font-weight: 600; }
+  .c-reg { color: var(--reg); }
+  .c-num { color: var(--num); }
+  .c-str { color: var(--str); }
+  .c-lbl { color: var(--green); }
+  .c-grade { color: #56d364; }
+  /* Explainer overlay */
+  .explain { position: absolute; left: 380px; top: 120px; background: #252526; border: 1px solid #454545; border-left: 3px solid var(--blue); border-radius: 6px; padding: 10px 14px; color: #ddd; font-size: 12px; max-width: 300px; box-shadow: 0 8px 24px rgba(0,0,0,0.45); font-family: -apple-system, "Segoe UI", sans-serif; z-index: 5; }
+  .explain b { color: #fff; }
+  .explain code { color: var(--str); font-family: "JetBrains Mono", monospace; }
+  /* Debug panel bottom */
+  .debugpanel { height: 46px; background: #252526; border-top: 1px solid #1a1a1a; display: flex; align-items: center; gap: 16px; padding: 0 16px; font-family: "JetBrains Mono", Consolas, monospace; font-size: 12px; color: #bbb; }
+  .debugpanel .ok { color: #56d364; }
+  .debugpanel .b { color: var(--dir); }
+  /* Status bar */
+  .statusbar { display: flex; align-items: center; justify-content: space-between; padding: 4px 14px; background: var(--blue); color: #fff; font-size: 12px; }
+  .statusbar .grp { display: flex; gap: 14px; }
+  .statusbar b { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="window">
+  <!-- Title bar -->
+  <div class="titlebar">
+    <div class="dots"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span></div>
+    <span>Caldeira VM</span>
+    <div class="t">main.clasto — Caldeira VM — Visual Studio Code</div>
+    <div class="right">☰  ⌘  ⇄  ◎  □</div>
+  </div>
+  <div class="main">
+    <!-- Activity bar -->
+    <div class="activity">
+      <div class="act-icon active">☰</div>
+      <div class="act-icon">🔍</div>
+      <div class="act-icon">⑂</div>
+      <div class="act-icon">▶</div>
+      <div class="act-icon">◇</div>
+    </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sb-title">ESPLORATORE</div>
+      <div class="sb-search">🔍 Cerca...</div>
+      <div class="tree">
+        <div class="folder">caldeira-project</div>
+        <div class="file pad1">caldeira.toml</div>
+        <div class="file pad1">src</div>
+        <div class="file pad2 active">main.clasto</div>
+        <div class="file pad2">lib.clasto</div>
+        <div class="file pad1">build/Debug</div>
+        <div class="file pad2">firmware.lava</div>
+        <div class="file pad2">firmware.lava.elf</div>
+      </div>
+    </div>
+    <!-- Editor -->
+    <div class="editor">
+      <div class="tabs">
+        <div class="tab active">main.clasto</div>
+        <div class="tab">lib.clasto</div>
+      </div>
+      <div class="code-area">
+        <div class="gutter">
+          <span class="ln">1</span><span class="ln">2</span><span class="ln">3</span><span class="ln">4</span><span class="ln">5</span><span class="ln">6</span><span class="ln">7</span><span class="ln">8</span><span class="ln">9</span><span class="ln">10</span><span class="ln bp">●</span><span class="ln">11</span><span class="ln">12</span>
+        </div>
+        <div class="code"><span class="c-cmt">; Hello World — Clasto assembly</span>
+<span class="c-dir">.CONST</span> <span class="c-dir">S_PRINT</span> <span class="c-num">0x10</span>
+<span class="c-dir">.VECTOR</span> <span class="c-dir">EVT_RESET</span><span class="c-grade">(</span><span class="c-grade">flags:FLG</span><span class="c-grade">)</span><span class="c-grade">,</span> <span class="c-lbl">main</span>
+
+<span class="c-dir">.STATIC</span>
+<span class="c-lbl">msg:</span> <span class="c-dir">.TEXT</span> <span class="c-str">"Hello World!\n"</span>
+<span class="c-dir">.END_STATIC</span>
+
+<span class="c-lbl">main:</span>
+    <span class="c-dir">LDA</span> <span class="c-reg">R1</span><span class="c-grade">,</span> <span class="c-lbl">msg</span>
+    <span class="c-dir">MOV.S</span> <span class="c-reg">R2</span><span class="c-grade">,</span> <span class="c-num">0</span>
+    <span class="c-dir">SYSCALL</span> <span class="c-dir">S_PRINT</span>
+    <span class="c-dir">EXIT</span> <span class="c-num">0</span><span class="c-cursor" style="display:inline-block;width:8px;height:14px;background:#56d364;vertical-align:text-bottom"></span></div>
+      </div>
+      <!-- Debug explainer -->
+      <div class="explain">
+        <div><b>Breakpoint</b> su <code>SYSCALL S_PRINT</code> — la VM si ferma qui.</div>
+        <div style="margin-top:6px;color:#999">Pannello <b>Registri</b>: <code>R1 (fmt:PTR) = 0x00101B0</code></div>
+      </div>
+    </div>
+    <!-- Bottom debug panel -->
+    <div style="position:relative">
+    </div>
+  </div>
+  <!-- Debug bar -->
+  <div class="debugpanel">
+    <span class="ok">●</span>
+    <span>Variabili</span><span>Riga</span><span>Terminale</span><span>Problemi</span>
+    <span style="flex:1"></span>
+    <span><span class="b">gdb-multiarch</span> · localhost:1234</span>
+    <span class="ok">GDB stub attivo (Debug)</span>
+  </div>
+  <!-- Status bar -->
+  <div class="statusbar">
+    <div class="grp"><span>◉ main*</span><span>☁ main</span></div>
+    <div class="grp"><span>Ln 10, Col 5</span><span>Spazi: 4</span><span>UTF-8</span><span>Plancia</span><b>Caldeira: Clasto (Dark) ✓</b></div>
+  </div>
+</div>
+</body>
+</html>
