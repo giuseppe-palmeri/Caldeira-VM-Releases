@@ -1326,6 +1326,10 @@ code {
     margin-top: var(--space-5);
 }
 
+.panel-callout .btn-row {
+    justify-content: center;
+}
+
 .panel-callout p {
     font-size: 1.02rem;
     color: var(--text-secondary);
