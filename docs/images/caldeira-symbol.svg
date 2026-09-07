@@ -2,24 +2,24 @@
   <!-- Caldeira chip symbol — stylized from the mark inside the logo
        triangle: a square with pins/traces on all sides. -->
   <g fill="none" stroke="#2ea043" stroke-linecap="round" stroke-linejoin="round">
-    <!-- pins: top (moved slightly higher) -->
-    <path stroke-width="14" d="M92 70 V32 M128 70 V32 M164 70 V32"/>
-    <!-- pins: bottom (center shorter, no dot; moved slightly lower) -->
-    <path stroke-width="14" d="M92 186 V224 M128 186 V212 M164 186 V224"/>
-    <!-- pins: left (center trace shorter, no dot) -->
-    <path stroke-width="12" d="M64 100 H38 M64 128 H52 M64 156 H38"/>
-    <!-- pins: right (center trace shorter, no dot) -->
-    <path stroke-width="12" d="M192 100 H218 M192 128 H204 M192 156 H218"/>
+    <!-- pins: top (gap from body) -->
+    <path stroke-width="14" d="M92 82 V34 M128 82 V34 M164 82 V34"/>
+    <!-- pins: bottom (center shorter, no dot; gap from body) -->
+    <path stroke-width="14" d="M92 174 V224 M128 174 V210 M164 174 V224"/>
+    <!-- pins: left (center trace shorter, no dot; gap from body) -->
+    <path stroke-width="12" d="M58 100 H36 M58 128 H48 M58 156 H36"/>
+    <!-- pins: right (center trace shorter, no dot; gap from body) -->
+    <path stroke-width="12" d="M198 100 H220 M198 128 H208 M198 156 H220"/>
     <!-- body -->
     <rect x="70" y="70" width="116" height="116" rx="14" stroke-width="12"/>
     <!-- inner die detail -->
     <rect x="104" y="104" width="48" height="48" rx="8" stroke-width="8"/>
     <!-- junction dots at the outer ends of the outer lateral traces only -->
     <g fill="#2ea043">
-        <circle cx="38" cy="100" r="8"/>
-        <circle cx="38" cy="156" r="8"/>
-        <circle cx="218" cy="100" r="8"/>
-        <circle cx="218" cy="156" r="8"/>
+        <circle cx="36" cy="100" r="8"/>
+        <circle cx="36" cy="156" r="8"/>
+        <circle cx="220" cy="100" r="8"/>
+        <circle cx="220" cy="156" r="8"/>
         <!-- bottom: dots on the outer vertical pins -->
         <circle cx="92" cy="224" r="9"/>
         <circle cx="164" cy="224" r="9"/>
