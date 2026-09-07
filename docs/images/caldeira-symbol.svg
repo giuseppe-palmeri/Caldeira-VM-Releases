@@ -6,21 +6,19 @@
     <path stroke-width="14" d="M92 70 V38 M128 70 V38 M164 70 V38"/>
     <!-- pins: bottom -->
     <path stroke-width="14" d="M92 186 V218 M128 186 V218 M164 186 V218"/>
-    <!-- pins: left -->
-    <path stroke-width="12" d="M64 100 H38 M64 128 H38 M64 156 H38"/>
-    <!-- pins: right -->
-    <path stroke-width="12" d="M192 100 H218 M192 128 H218 M192 156 H218"/>
+    <!-- pins: left (center trace shorter, no dot) -->
+    <path stroke-width="12" d="M64 100 H38 M64 128 H52 M64 156 H38"/>
+    <!-- pins: right (center trace shorter, no dot) -->
+    <path stroke-width="12" d="M192 100 H218 M192 128 H204 M192 156 H218"/>
     <!-- body -->
     <rect x="70" y="70" width="116" height="116" rx="14" stroke-width="12"/>
     <!-- inner die detail -->
     <rect x="104" y="104" width="48" height="48" rx="8" stroke-width="8"/>
-    <!-- junction dots at the outer ends of the lateral traces -->
+    <!-- junction dots at the outer ends of the outer lateral traces only -->
     <g fill="#2ea043">
         <circle cx="38" cy="100" r="8"/>
-        <circle cx="38" cy="128" r="8"/>
         <circle cx="38" cy="156" r="8"/>
         <circle cx="218" cy="100" r="8"/>
-        <circle cx="218" cy="128" r="8"/>
         <circle cx="218" cy="156" r="8"/>
     </g>
   </g>
