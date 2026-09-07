@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Caldeira chip symbol — stylized from the mark inside the logo
+       triangle: a square with pins/traces on all sides. -->
+  <g fill="none" stroke="#2ea043" stroke-linecap="round" stroke-linejoin="round">
+    <!-- pins: top -->
+    <path stroke-width="14" d="M92 70 V38 M128 70 V38 M164 70 V38"/>
+    <!-- pins: bottom -->
+    <path stroke-width="14" d="M92 186 V218 M128 186 V218 M164 186 V218"/>
+    <!-- pins: left -->
+    <path stroke-width="12" d="M64 100 H38 M64 128 H38 M64 156 H38"/>
+    <!-- pins: right -->
+    <path stroke-width="12" d="M192 100 H218 M192 128 H218 M192 156 H218"/>
+    <!-- body -->
+    <rect x="70" y="70" width="116" height="116" rx="14" stroke-width="12"/>
+    <!-- inner die detail -->
+    <rect x="104" y="104" width="48" height="48" rx="8" stroke-width="8"/>
+  </g>
+</svg>

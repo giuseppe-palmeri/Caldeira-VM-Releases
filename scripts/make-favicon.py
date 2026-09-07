@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
-"""Generate docs/images/favicon-32.png and favicon-16.png from caldeira.png."""
+"""Generate docs/images/favicon-32.png and favicon-16.png from the
+caldeira chip symbol (caldeira-symbol.png, green on transparent)."""
 from PIL import Image
 
-src = Image.open("docs/images/caldeira.png").convert("RGB")
+src = Image.open("docs/images/caldeira-symbol.png").convert("RGBA")
 w, h = src.size
-# content bounding box (centered artwork area)
-box = (308, 150, 1252, 850)
-content = src.crop(box)
-cw, ch = content.size
-side = max(cw, ch)
+side = max(w, h)
+bg = (255, 255, 255, 255)
 for size in (32, 16):
-    canvas = Image.new("RGB", (size, size), (255, 255, 255))
+    canvas = Image.new("RGBA", (size, size), bg)
     scale = size / side
-    thumb = content.resize((max(1, int(cw * scale)), max(1, int(ch * scale))), Image.LANCZOS)
-    canvas.paste(thumb, ((size - thumb.width) // 2, (size - thumb.height) // 2))
+    thumb = src.resize((max(1, int(w * scale)), max(1, int(h * scale))), Image.LANCZOS)
+    canvas.paste(thumb, ((size - thumb.width) // 2, (size - thumb.height) // 2), thumb)
     out = f"docs/images/favicon-{size}.png"
-    canvas.save(out)
+    canvas.convert("RGB").save(out, optimize=True)
     print("wrote", out, canvas.size)
