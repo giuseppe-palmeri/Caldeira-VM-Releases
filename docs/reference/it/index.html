@@ -134,9 +134,9 @@ body {
 /* ── SIDEBAR ── */
 .sidebar {
   position: sticky;
-  top: 0;
+  top: var(--header-height);
   width: 300px;
-  height: calc(100vh - 3.5rem);
+  height: calc(100vh - var(--header-height));
   background: var(--sidebar-bg);
   color: var(--text-2);
   overflow-x:hidden; z-index:100;
@@ -327,6 +327,9 @@ code {
 </style>
 </head>
 <body>
+<script>/* bootstrap theme */
+(function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+
 <script>/* bootstrap theme */
 (function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
 
