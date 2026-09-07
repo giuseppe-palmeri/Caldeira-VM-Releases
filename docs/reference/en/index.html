@@ -93,7 +93,7 @@ body {
   background:transparent; color:var(--text-2); cursor:pointer;
   transition: all var(--transition-fast);
 }
-.icon-btn:hover { color:var(--text); border-color:var(--accent); }
+.icon-btn:hover { color:var(--text); border-color:var(--accent); background-color:var(--bg-hover); }
 .theme-toggle .icon-moon { display:none; }
 :root[data-theme="dark"] .theme-toggle .icon-sun { display:none; }
 :root[data-theme="dark"] .theme-toggle .icon-moon { display:block; }
@@ -130,82 +130,6 @@ body {
 .btn-github { gap:.5rem; padding:.45rem .8rem; border:1px solid var(--border-strong); border-radius:var(--radius-md); font-size:.9rem; }
 .btn-github:hover { border-color:var(--accent); color:var(--accent); background:transparent; }
 .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0; }
-
-/* ── PRIMARY NAV — identical to the website header ── */
-.main-nav {
-  flex: 1;
-  min-width: 0;
-}
-.nav-list {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: var(--space-1);
-  justify-content: center;
-  flex-wrap: nowrap;
-}
-.nav-list a {
-  display: block;
-  padding: 0.4rem 0.6rem;
-  font-size: 0.9rem;
-  color: var(--text-2);
-  border-radius: var(--radius-sm);
-  white-space: nowrap;
-  text-decoration: none;
-}
-.nav-list a:hover {
-  color: var(--text);
-  background-color: var(--bg-hover);
-  text-decoration: none;
-}
-
-/* ── MOBILE MENU TOGGLE + PANEL — identical to the website header ── */
-.menu-toggle {
-  display: none;
-}
-.mobile-menu {
-  display: none;
-  position: absolute;
-  top: var(--header-height);
-  left: 0;
-  right: 0;
-  background: var(--bg-elev);
-  border-bottom: 1px solid var(--border);
-  padding: var(--space-3) 0 var(--space-5);
-}
-.mobile-menu ul {
-  list-style: none;
-  margin: 0;
-  padding: 0 var(--space-5);
-}
-.mobile-menu a {
-  display: block;
-  padding: var(--space-3) var(--space-2);
-  border-bottom: 1px solid var(--border);
-  color: var(--text);
-  font-weight: 500;
-  text-decoration: none;
-}
-.mobile-menu a:hover {
-  color: var(--accent);
-  text-decoration: none;
-}
-body.menu-open {
-  overflow: hidden;
-}
-
-/* JS-driven fluid nav: when the inline nav cannot fit its available space
-   (any language / font / zoom), fall back to the hamburger menu. */
-.nav-crowded .main-nav {
-  display: none;
-}
-.nav-crowded .menu-toggle {
-  display: inline-flex;
-}
-.nav-crowded .mobile-menu.open {
-  display: block;
-}
 
 /* ── SIDEBAR ── */
 .sidebar {
@@ -347,12 +271,12 @@ pre.code-block {
   margin:.5rem 0; border:1px solid var(--code-border);
 }
 .code-wrap { position:relative; }
-.copy-btn, .theme-toggle { position:absolute; z-index:2; border-radius:4px; font-size:.9rem; padding:.15rem .4rem; cursor:pointer; line-height:1; opacity:.6; transition:all .15s; }
-.copy-btn { top:.4rem; right:.4rem; }
-.theme-toggle { top:.4rem; right:2.6rem; }
+.code-wrap .copy-btn, .code-wrap .theme-toggle { position:absolute; z-index:2; border-radius:4px; font-size:.9rem; padding:.15rem .4rem; cursor:pointer; line-height:1; opacity:.6; transition:all .15s; }
+.code-wrap .copy-btn { top:.4rem; right:.4rem; }
+.code-wrap .theme-toggle { top:.4rem; right:2.6rem; }
 .code-wrap:hover .copy-btn, .code-wrap:hover .theme-toggle { opacity:1; }
-.copy-btn, .theme-toggle { background:rgba(127,127,127,.15); border:1px solid rgba(127,127,127,.25); color:var(--text-2); }
-.copy-btn:hover, .theme-toggle:hover { background:rgba(127,127,127,.25); color:var(--text); }
+.code-wrap .copy-btn, .code-wrap .theme-toggle { background:rgba(127,127,127,.15); border:1px solid rgba(127,127,127,.25); color:var(--text-2); }
+.code-wrap .copy-btn:hover, .code-wrap .theme-toggle:hover { background:rgba(127,127,127,.25); color:var(--text); }
 pre.code-block code { font-family:inherit; background:none; padding:0; color:inherit; }
 
 /* ── SYNTAX HIGHLIGHTING (tokens from the site) ── */
@@ -393,15 +317,6 @@ code {
 .sidebar::-webkit-scrollbar-thumb { background:var(--border-strong); border-radius:3px; }
 
 /* ── RESPONSIVE ── */
-@media (max-width:1320px) {
-  .nav-list { gap: 0; }
-  .nav-list a { padding: 0.4rem 0.3rem; font-size: 0.78rem; white-space: nowrap; }
-}
-@media (max-width:1120px) {
-  .main-nav { display: none; }
-  .menu-toggle { display: inline-flex; }
-  .mobile-menu.open { display: block; }
-}
 @media (max-width:900px) { .sidebar { width:240px; } .main-content { margin-left:240px; padding:4.5rem 1.5rem; } }
 @media (max-width:700px) {
   body { flex-direction:column; }
@@ -422,6 +337,9 @@ code {
 
 <script>/* bootstrap theme */
 (function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+
+<script>/* bootstrap theme */
+(function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
 <header class="site-header" id="site-header">
   <div class="header-inner">
     <a class="brand" href="index.html" aria-label="Caldeira VM">
@@ -430,21 +348,8 @@ code {
       </span>
       <span class="brand-name">Caldeira&nbsp;VM</span>
     </a>
-    <nav class="main-nav" aria-label="Primary">
-      <ul class="nav-list">
-<li><a href="../../index.html#overview">Overview</a></li>
-<li><a href="../../index.html#architecture">Architecture</a></li>
-<li><a href="../../index.html#ecosystem">Ecosystem</a></li>
-<li><a href="../../index.html#installation">Installation</a></li>
-<li><a href="../../index.html#community">Community</a></li>
-<li><a href="../../index.html#pricing">Pricing</a></li>
-      </ul>
-    </nav>
     <div class="header-tools">
-      <a class="btn btn-ghost btn-docs" href="index.html" data-docs-header>
-        <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        <span>Documentation</span>
-      </a>
+      <a class="btn btn-ghost btn-docs" href="../index.html" data-docs-header>Documentation</a>
       <a class="btn btn-ghost btn-github" href="https://github.com/giuseppe-palmeri/Caldeira-VM-Releases" target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
         <span>GitHub</span>
@@ -460,32 +365,7 @@ code {
           <option value="it">Italiano</option>
         </select>
       </div>
-      <button class="icon-btn menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      </button>
     </div>
-  </div>
-
-  <div class="mobile-menu" id="mobile-menu" hidden>
-    <nav aria-label="Mobile">
-      <ul>
-<li><a href="../../index.html#overview">Overview</a></li>
-<li><a href="../../index.html#why">Why Caldeira VM</a></li>
-<li><a href="../../index.html#concepts">Core Concepts</a></li>
-<li><a href="../../index.html#architecture">Architecture</a></li>
-<li><a href="../../index.html#ecosystem">Ecosystem</a></li>
-<li><a href="../../index.html#how-it-works">How It Works</a></li>
-<li><a href="../../index.html#platforms">Platforms</a></li>
-<li><a href="../../index.html#installation">Installation</a></li>
-<li><a href="../../index.html#vscode">VS Code</a></li>
-<li><a href="../../index.html#activity">Activity</a></li>
-<li><a href="../../index.html#releases">Releases</a></li>
-<li><a href="../../index.html#community">Community</a></li>
-<li><a href="../../index.html#documentation">Documentation</a></li>
-<li><a href="../../index.html#commercial">Commercial integration</a></li>
-<li><a href="../../index.html#pricing">Pricing</a></li>
-      </ul>
-    </nav>
   </div>
 </header>
 
@@ -10262,58 +10142,6 @@ window.addEventListener('click', function(e) {
   bindToggles();
 
   window.toggleTheme = function() { apply(root.dataset.theme === 'light' ? 'dark' : 'light'); };
-})();
-
-// ── Fluid navigation — same behaviour as the website header ──
-(function() {
-  var nav = document.querySelector('.main-nav');
-  if (!nav) return;
-  function update() {
-    // If the inline nav needs more room than it has, switch to the hamburger.
-    var crowded = nav.scrollWidth > nav.clientWidth + 8;
-    document.body.classList.toggle('nav-crowded', crowded);
-  }
-  update();
-  window.addEventListener('resize', update);
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(update).catch(function() {});
-  }
-})();
-
-// ── Mobile menu toggle — same behaviour as the website header ──
-(function() {
-  var toggle = document.querySelector('[data-menu-toggle]');
-  var menu = document.getElementById('mobile-menu');
-  if (!toggle || !menu) return;
-  var openLabel = 'Open navigation menu';
-  var closeLabel = 'Close navigation menu';
-  toggle.addEventListener('click', function() {
-    var open = menu.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    toggle.setAttribute('aria-label', open ? closeLabel : openLabel);
-    document.body.classList.toggle('menu-open', open);
-    if (open) {
-      var first = menu.querySelector('a, button');
-      if (first) first.focus();
-    }
-  });
-  menu.querySelectorAll('a').forEach(function(link) {
-    link.addEventListener('click', function() {
-      menu.classList.remove('open');
-      document.body.classList.remove('menu-open');
-      toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', openLabel);
-    });
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && menu.classList.contains('open')) {
-      menu.classList.remove('open');
-      document.body.classList.remove('menu-open');
-      toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', openLabel);
-      toggle.focus();
-    }
-  });
 })();
 </script>
 </body>
