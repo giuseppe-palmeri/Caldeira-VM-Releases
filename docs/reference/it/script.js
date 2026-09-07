@@ -1,15 +1,16 @@
-// ── Sidebar: expand chapter on click ──
+// ── Sidebar: expand chapter on click (no page reload) ──
 document.querySelectorAll('.nav-chapter').forEach(function(link) {
   link.addEventListener('click', function(e) {
-    var li = this.closest('li');
-    if (li) {
-      li.classList.toggle('expanded');
-    }
-    // If this is the current chapter, don't navigate — just toggle
-    if (this.classList.contains('current')) {
+    var hasSubs = this.classList.contains('has-subs');
+    if (hasSubs) {
+      // Chapters with a submenu: clicking only expands/collapses.
       e.preventDefault();
+      var li = this.closest('li');
+      if (li) li.classList.toggle('expanded');
     }
+    // Chapters without a submenu navigate normally (no toggle, no reload of layout).
   });
+});
 });
 
 // ── Search / filter navigation ──
@@ -207,7 +208,7 @@ window.addEventListener('click', function(e) {
   updateIcons();
 
   window.toggleTheme = function() {
-    root.classList.toggle('light');
+    root.classList.toggle('light');document.documentElement.dataset.theme=root.classList.contains('light')?'light':'dark';
     localStorage.setItem('caldeira-theme', root.classList.contains('light') ? 'light' : 'dark');
     updateIcons();
   };

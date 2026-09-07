@@ -11,6 +11,10 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<script>/* bootstrap theme */
+(function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+<div class="docs-sitebar"><span class="sb-icon">◉</span><span class="sb-title">Caldeira VM</span><span class="sb-sub">· Documentation</span><a class="sb-back" href="../index.html">← Back to the website</a></div>
+
 
 <nav id="sidebar" class="sidebar" role="navigation" aria-label="Navigazione documentazione">
   <div class="sidebar-header">
@@ -28,13 +32,13 @@
   <ul class="nav-tree">
     <li><a href="ch1-quickstart.html" class="nav-chapter"><span class="material-icons nav-icon">rocket_launch</span> Primo programma</a>
     </li>
-    <li><a href="ch2-registers.html" class="nav-chapter"><span class="material-icons nav-icon">developer_board</span> Architettura registri</a>
+    <li><a href="ch2-registers.html" class="nav-chapter has-subs"><span class="material-icons nav-icon">developer_board</span> Architettura registri</a>
       <ul class="nav-subs">
         <li><a href="ch2-registers.html#reg-table">Registri R0–R15</a></li>
         <li><a href="ch2-registers.html#flags-psr">Flags PSR</a></li>
       </ul>
     </li>
-    <li><a href="ch3-isa.html" class="nav-chapter"><span class="material-icons nav-icon">code</span> Set di istruzioni (ISA)</a>
+    <li><a href="ch3-isa.html" class="nav-chapter has-subs"><span class="material-icons nav-icon">code</span> Set di istruzioni (ISA)</a>
       <ul class="nav-subs">
         <li class="nav-cat"><a href="ch3-isa.html#aritmetica-e-logica">Aritmetica e logica</a>
           <ul class="nav-subs">
@@ -174,7 +178,7 @@
         </li>
       </ul>
     </li>
-    <li><a href="ch4-faults.html" class="nav-chapter"><span class="material-icons nav-icon">warning</span> Codici di fault</a>
+    <li><a href="ch4-faults.html" class="nav-chapter has-subs"><span class="material-icons nav-icon">warning</span> Codici di fault</a>
       <ul class="nav-subs">
         <li><a href="ch4-faults.html#fault-user-generic">USER_GENERIC</a></li>
         <li><a href="ch4-faults.html#fault-null-pointer">NULL_POINTER</a></li>
@@ -204,7 +208,7 @@
         <li><a href="ch4-faults.html#fault-dead">DEAD</a></li>
       </ul>
     </li>
-    <li><a href="ch5-events.html" class="nav-chapter"><span class="material-icons nav-icon">rss_feed</span> Eventi</a>
+    <li><a href="ch5-events.html" class="nav-chapter has-subs"><span class="material-icons nav-icon">rss_feed</span> Eventi</a>
       <ul class="nav-subs">
         <li class="nav-cat"><a href="ch5-events.html#evt-0x00">0x00 — SISTEMA (Core)</a>
           <ul class="nav-subs">
@@ -293,7 +297,7 @@
         </li>
       </ul>
     </li>
-    <li><a href="ch6-syscalls.html" class="nav-chapter"><span class="material-icons nav-icon">api</span> Syscall</a>
+    <li><a href="ch6-syscalls.html" class="nav-chapter has-subs"><span class="material-icons nav-icon">api</span> Syscall</a>
       <ul class="nav-subs">
         <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x00">0x00 — SISTEMA</a>
           <ul class="nav-subs">
@@ -346,7 +350,7 @@
         </li>
       </ul>
     </li>
-    <li><a href="ch7-assembler.html" class="nav-chapter"><span class="material-icons nav-icon">article</span> Direttive assembler</a>
+    <li><a href="ch7-assembler.html" class="nav-chapter has-subs"><span class="material-icons nav-icon">article</span> Direttive assembler</a>
       <ul class="nav-subs">
         <li><a href="ch7-assembler.html#ch6-intro">Struttura file e utilità</a></li>
         <li><a href="ch7-assembler.html#ch6-data">Dati e costanti</a></li>
@@ -357,7 +361,7 @@
         <li><a href="ch7-assembler.html#ch6-advanced">Avanzate</a></li>
       </ul>
     </li>
-    <li class="expanded"><a href="ch8-book.html" class="nav-chapter current"><span class="material-icons nav-icon">menu_book</span> Oltre il Bit — Il libro</a>
+    <li class="expanded"><a href="ch8-book.html" class="nav-chapter current has-subs"><span class="material-icons nav-icon">menu_book</span> Oltre il Bit — Il libro</a>
       <ul class="nav-subs">
         <li><a href="#ch1-castello">1. Il firmware è un castello di sabbia</a></li>
         <li><a href="#ch2-vm">2. Macchine virtuali su MCU</a></li>
