@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Direttive assembler — Caldeira VM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav id="sidebar" class="sidebar" role="navigation" aria-label="Navigazione documentazione">
+  <div class="sidebar-header">
+    <a href="index.html" class="logo-link">
+      <img src="caldeira.png" alt="Caldeira VM" class="sidebar-logo" />
+    </a>
+    <div class="sidebar-title">
+      <span class="sidebar-brand">Caldeira VM</span>
+      <span class="sidebar-sub">Documentazione</span>
+    </div>
+  </div>
+  <div class="sidebar-search">
+    <input type="text" id="nav-search" placeholder="Cerca istruzioni..." oninput="filterNav(this.value)" />
+  </div>
+  <ul class="nav-tree">
+    <li><a href="ch1-quickstart.html" class="nav-chapter"><span class="material-icons nav-icon">rocket_launch</span> Primo programma</a>
+    </li>
+    <li><a href="ch2-registers.html" class="nav-chapter"><span class="material-icons nav-icon">developer_board</span> Architettura registri</a>
+      <ul class="nav-subs">
+        <li><a href="ch2-registers.html#reg-table">Registri R0–R15</a></li>
+        <li><a href="ch2-registers.html#flags-psr">Flags PSR</a></li>
+      </ul>
+    </li>
+    <li><a href="ch3-isa.html" class="nav-chapter"><span class="material-icons nav-icon">code</span> Set di istruzioni (ISA)</a>
+      <ul class="nav-subs">
+        <li class="nav-cat"><a href="ch3-isa.html#aritmetica-e-logica">Aritmetica e logica</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-add">ADD</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-sub">SUB</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-and">AND</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-or">OR</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-xor">XOR</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-shl">SHL</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-shr">SHR</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-asr">ASR</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-mul">MUL</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-div">DIV</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-mod">MOD</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-not">NOT</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#aritmetica-64-bit">Aritmetica 64-bit</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#aritmetica-64-bit" data-instr="instr-mac">MAC</a></li>
+            <li><a href="ch3-isa.html#aritmetica-64-bit" data-instr="instr-clracc">CLRACC</a></li>
+            <li><a href="ch3-isa.html#aritmetica-64-bit" data-instr="instr-getacc">GETACC</a></li>
+            <li><a href="ch3-isa.html#aritmetica-64-bit" data-instr="instr-setacc">SETACC</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#confronto-e-salti-condizionali">Confronto e salti condizionali</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-cmp">CMP</a></li>
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-beq">BEQ</a></li>
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-bne">BNE</a></li>
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-blt">BLT</a></li>
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-bgt">BGT</a></li>
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-ble">BLE</a></li>
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-bge">BGE</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#caricamento-costanti">Caricamento costanti</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#caricamento-costanti" data-instr="instr-mov-h">MOV.H</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#memoria">Memoria</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#memoria" data-instr="instr-ld8">LD8</a></li>
+            <li><a href="ch3-isa.html#memoria" data-instr="instr-ld16">LD16</a></li>
+            <li><a href="ch3-isa.html#memoria" data-instr="instr-ld32">LD32</a></li>
+            <li><a href="ch3-isa.html#memoria" data-instr="instr-st8">ST8</a></li>
+            <li><a href="ch3-isa.html#memoria" data-instr="instr-st16">ST16</a></li>
+            <li><a href="ch3-isa.html#memoria" data-instr="instr-st32">ST32</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#allocazione">Allocazione</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-alloc">ALLOC</a></li>
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-alloc-fr">ALLOC.FR</a></li>
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-alloc-u">ALLOC.U</a></li>
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-mark">MARK</a></li>
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-free">FREE</a></li>
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-mark-fr">MARK.FR</a></li>
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-free-fr">FREE.FR</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#oggetti-e-metodi-virtuali">Oggetti e metodi virtuali</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#oggetti-e-metodi-virtuali" data-instr="instr-new">NEW</a></li>
+            <li><a href="ch3-isa.html#oggetti-e-metodi-virtuali" data-instr="instr-new-fr">NEW.FR</a></li>
+            <li><a href="ch3-isa.html#oggetti-e-metodi-virtuali" data-instr="instr-callm">CALLM</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#controllo-di-flusso">Controllo di flusso</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#controllo-di-flusso" data-instr="instr-jmp">JMP</a></li>
+            <li><a href="ch3-isa.html#controllo-di-flusso" data-instr="instr-call">CALL</a></li>
+            <li><a href="ch3-isa.html#controllo-di-flusso" data-instr="instr-jmp-r">JMP.R</a></li>
+            <li><a href="ch3-isa.html#controllo-di-flusso" data-instr="instr-call-r">CALL.R</a></li>
+            <li><a href="ch3-isa.html#controllo-di-flusso" data-instr="instr-ret">RET</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#stack">Stack</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#stack" data-instr="instr-push">PUSH</a></li>
+            <li><a href="ch3-isa.html#stack" data-instr="instr-pop">POP</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#protezione-fault-handling">Protezione (fault handling)</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#protezione-fault-handling" data-instr="instr-guard">GUARD</a></li>
+            <li><a href="ch3-isa.html#protezione-fault-handling" data-instr="instr-fault">FAULT</a></li>
+            <li><a href="ch3-isa.html#protezione-fault-handling" data-instr="instr-unguard">UNGUARD</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#i-o-e-system-call">I/O e System Call</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#i-o-e-system-call" data-instr="instr-getc">GETC</a></li>
+            <li><a href="ch3-isa.html#i-o-e-system-call" data-instr="instr-putc">PUTC</a></li>
+            <li><a href="ch3-isa.html#i-o-e-system-call" data-instr="instr-syscall">SYSCALL</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#eventi">Eventi</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#eventi" data-instr="instr-fire">FIRE</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#gestione-vm">Gestione VM</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#gestione-vm" data-instr="instr-slice">SLICE</a></li>
+            <li><a href="ch3-isa.html#gestione-vm" data-instr="instr-exit">EXIT</a></li>
+            <li><a href="ch3-isa.html#gestione-vm" data-instr="instr-halt">HALT</a></li>
+            <li><a href="ch3-isa.html#gestione-vm" data-instr="instr-yield">YIELD</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#altro">Altro</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#altro" data-instr="instr-nop">NOP</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-cmp-s">CMP.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-add-s">ADD.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-and-u">AND.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-or-u">OR.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-sub-s">SUB.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-mul-s">MUL.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-div-s">DIV.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-mod-s">MOD.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-xor-u">XOR.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-shl-u">SHL.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-shr-u">SHR.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-asr-u">ASR.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-mov-s">MOV.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-mov-u">MOV.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-lda">LDA</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-alloc-fr-u">ALLOC.FR.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-blo">BLO</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-bhs">BHS</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-bhi">BHI</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-bls">BLS</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-fire-u">FIRE.U</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="ch4-faults.html" class="nav-chapter"><span class="material-icons nav-icon">warning</span> Codici di fault</a>
+      <ul class="nav-subs">
+        <li><a href="ch4-faults.html#fault-user-generic">USER_GENERIC</a></li>
+        <li><a href="ch4-faults.html#fault-null-pointer">NULL_POINTER</a></li>
+        <li><a href="ch4-faults.html#fault-invalid-obj">INVALID_OBJ</a></li>
+        <li><a href="ch4-faults.html#fault-oom-scratch">OOM_SCRATCH</a></li>
+        <li><a href="ch4-faults.html#fault-oom-frame">OOM_FRAME</a></li>
+        <li><a href="ch4-faults.html#fault-stack-overflow">STACK_OVERFLOW</a></li>
+        <li><a href="ch4-faults.html#fault-stack-underflow">STACK_UNDERFLOW</a></li>
+        <li><a href="ch4-faults.html#fault-mark-overflow">MARK_OVERFLOW</a></li>
+        <li><a href="ch4-faults.html#fault-div-zero">DIV_ZERO</a></li>
+        <li><a href="ch4-faults.html#fault-invalid-opcode">INVALID_OPCODE</a></li>
+        <li><a href="ch4-faults.html#fault-invalid-pc">INVALID_PC</a></li>
+        <li><a href="ch4-faults.html#fault-event-overflow">EVENT_OVERFLOW</a></li>
+        <li><a href="ch4-faults.html#fault-bad-class-id">BAD_CLASS_ID</a></li>
+        <li><a href="ch4-faults.html#fault-no-method">NO_METHOD</a></li>
+        <li><a href="ch4-faults.html#fault-field-bounds">FIELD_BOUNDS</a></li>
+        <li><a href="ch4-faults.html#fault-illegal-yield">ILLEGAL_YIELD</a></li>
+        <li><a href="ch4-faults.html#fault-invalid-char">INVALID_CHAR</a></li>
+        <li><a href="ch4-faults.html#fault-mark-underflow">MARK_UNDERFLOW</a></li>
+        <li><a href="ch4-faults.html#fault-unguard-without-guard">UNGUARD_WITHOUT_GUARD</a></li>
+        <li><a href="ch4-faults.html#fault-method-bounds">METHOD_BOUNDS</a></li>
+        <li><a href="ch4-faults.html#fault-invalid-event">INVALID_EVENT</a></li>
+        <li><a href="ch4-faults.html#fault-invalid-syscall">INVALID_SYSCALL</a></li>
+        <li><a href="ch4-faults.html#fault-invalid-read">INVALID_READ</a></li>
+        <li><a href="ch4-faults.html#fault-invalid-write">INVALID_WRITE</a></li>
+        <li><a href="ch4-faults.html#fault-static-not-loaded">STATIC_NOT_LOADED</a></li>
+        <li><a href="ch4-faults.html#fault-dead">DEAD</a></li>
+      </ul>
+    </li>
+    <li><a href="ch5-events.html" class="nav-chapter"><span class="material-icons nav-icon">rss_feed</span> Eventi</a>
+      <ul class="nav-subs">
+        <li class="nav-cat"><a href="ch5-events.html#evt-0x00">0x00 — SISTEMA (Core)</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-reset-flags-flg">EVT_RESET(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-tick-1ms-tick-flg">EVT_TICK_1MS(tick:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0x04">0x04 — DEEP SLEEP (soppiantano i WAKE_DEEP core, ora qui)</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-wake-deep-timer-flags-flg">EVT_WAKE_DEEP_TIMER(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-wake-deep-gpio-flags-flg">EVT_WAKE_DEEP_GPIO(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-wake-deep-touch-flags-flg">EVT_WAKE_DEEP_TOUCH(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0x20">0x20 — TIMER HARDWARE</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-timer0-exp-flags-flg">EVT_TIMER0_EXP(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-timer1-exp-flags-flg">EVT_TIMER1_EXP(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-timer2-exp-flags-flg">EVT_TIMER2_EXP(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-timer3-exp-flags-flg">EVT_TIMER3_EXP(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-watchdog-flags-flg">EVT_WATCHDOG(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0x40">0x40 — I/O DIGITALE &amp; ANALOGICO</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-gpio-bank0-flags-flg">EVT_GPIO_BANK0(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-gpio-bank1-flags-flg">EVT_GPIO_BANK1(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-adc-ready-buf-ptr-len-u16">EVT_ADC_READY(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-adc-thr-cross-flags-flg">EVT_ADC_THR_CROSS(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-dac-empty">EVT_DAC_EMPTY</a></li>
+            <li><a href="ch5-events.html#evt-evt-pwm-fault-flags-flg">EVT_PWM_FAULT(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0x80">0x80 — COMUNICAZIONE SERIALE</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-uart0-rx-buf-ptr-len-u16">EVT_UART0_RX(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-uart0-tx-empty">EVT_UART0_TX_EMPTY</a></li>
+            <li><a href="ch5-events.html#evt-evt-uart0-err-flags-flg">EVT_UART0_ERR(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-uart1-rx-buf-ptr-len-u16">EVT_UART1_RX(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-uart1-tx-empty">EVT_UART1_TX_EMPTY</a></li>
+            <li><a href="ch5-events.html#evt-evt-spi0-trans-buf-ptr-len-u16">EVT_SPI0_TRANS(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-spi0-tx-empty">EVT_SPI0_TX_EMPTY</a></li>
+            <li><a href="ch5-events.html#evt-evt-i2c0-slave-rx-buf-ptr-len-u16">EVT_I2C0_SLAVE_RX(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-i2c0-slave-tx">EVT_I2C0_SLAVE_TX</a></li>
+            <li><a href="ch5-events.html#evt-evt-i2c0-master-done-flags-flg">EVT_I2C0_MASTER_DONE(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0xc0">0xC0 — NETWORK &amp; PROTOCOLLI</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-net-link-flags-flg">EVT_NET_LINK(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-net-pkt-rx-buf-ptr-len-u16">EVT_NET_PKT_RX(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-net-pkt-tx-done">EVT_NET_PKT_TX_DONE</a></li>
+            <li><a href="ch5-events.html#evt-evt-bt-stack-flags-flg">EVT_BT_STACK(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0xe0-0xf8">0xE0-0xF8 — SPAZIO UTENTE (portabile, Role = U)</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-user-custom-0">EVT_USER_CUSTOM_0</a></li>
+            <li><a href="ch5-events.html#evt-evt-user-custom-1-flags-flg">EVT_USER_CUSTOM_1(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-user-custom-2-value-u32">EVT_USER_CUSTOM_2(value:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-user-custom-3-buf-ptr-len-u16">EVT_USER_CUSTOM_3(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-user-custom-4-cmd-u32-ptr-ptr">EVT_USER_CUSTOM_4(cmd:U32,ptr:PTR)</a></li>
+            <li><a href="ch5-events.html#evt-evt-user-custom-5-dst-ptr-src-ptr-size-u32">EVT_USER_CUSTOM_5(dst:PTR,src:PTR,size:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-user-custom-6-flags-flg-buf-ptr-len-u16">EVT_USER_CUSTOM_6(flags:FLG,buf:PTR,len:U16)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-uncategorized">Uncategorized</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-sdl-keydown-scancode-u32">EVT_SDL_KEYDOWN(scancode:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-keyup-scancode-u32">EVT_SDL_KEYUP(scancode:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-quit">EVT_SDL_QUIT</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-close">EVT_SDL_CLOSE</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-mousemotion-x-u32-y-u32">EVT_SDL_MOUSEMOTION(x:U32,y:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-mousebuttondown-btn-u32-x-u32-y-u32">EVT_SDL_MOUSEBUTTONDOWN(btn:U32,x:U32,y:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-mousebuttonup-btn-u32-x-u32-y-u32">EVT_SDL_MOUSEBUTTONUP(btn:U32,x:U32,y:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-mousewheel-sx-s32-sy-s32">EVT_SDL_MOUSEWHEEL(sx:S32,sy:S32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-window-resized-width-u32-height-u32">EVT_SDL_WINDOW_RESIZED(width:U32,height:U32)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="ch6-syscalls.html" class="nav-chapter"><span class="material-icons nav-icon">api</span> Syscall</a>
+      <ul class="nav-subs">
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x00">0x00 — SISTEMA</a>
+          <ul class="nav-subs">
+            <li><a href="ch6-syscalls.html#sys-sys-reset">sys_reset</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-version">sys_version</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-features">sys_features</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-millis">sys_millis</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-static-ptr">sys_static_ptr</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-event-id">sys_event_id</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x10">0x10 — HAL</a>
+          <ul class="nav-subs">
+            <li><a href="ch6-syscalls.html#sys-sys-print">sys_print</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-print-status">sys_print_status</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x20">0x20 — GPIO</a>
+          <ul class="nav-subs">
+            <li><a href="ch6-syscalls.html#sys-sys-gpio-set-dir">sys_gpio_set_dir</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gpio-write">sys_gpio_write</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gpio-read">sys_gpio_read</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x30">0x30 — UART</a>
+          <ul class="nav-subs">
+            <li><a href="ch6-syscalls.html#sys-sys-uart-send">sys_uart_send</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-uart-read">sys_uart_read</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x40">0x40 — Timer</a>
+          <ul class="nav-subs">
+            <li><a href="ch6-syscalls.html#sys-sys-delay">sys_delay</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0xd0">0xD0 — SDL2 GRAPHICS</a>
+          <ul class="nav-subs">
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-open">sys_gfx_open</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-flush">sys_gfx_flush</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-poll">sys_gfx_poll</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-close">sys_gfx_close</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-info">sys_gfx_info</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-get-input-addr">sys_gfx_get_input_addr</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-read-input">sys_gfx_read_input</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-get-mouse">sys_gfx_get_mouse</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-get-winsize">sys_gfx_get_winsize</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-text-print">sys_text_print</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-ttf-render">sys_ttf_render</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="expanded"><a href="ch7-assembler.html" class="nav-chapter current"><span class="material-icons nav-icon">article</span> Direttive assembler</a>
+      <ul class="nav-subs">
+        <li><a href="#ch6-intro">Struttura file e utilità</a></li>
+        <li><a href="#ch6-data">Dati e costanti</a></li>
+        <li><a href="#ch6-if">Condizionali e ripetizioni</a></li>
+        <li><a href="#ch6-modular">Modularizzazione (.INCLUDE)</a></li>
+        <li><a href="#ch6-pseudo">Pseudo-istruzioni e macro</a></li>
+        <li><a href="#ch6-classes">Classi, eventi e ABI</a></li>
+        <li><a href="#ch6-advanced">Avanzate</a></li>
+      </ul>
+    </li>
+    <li><a href="ch8-book.html" class="nav-chapter"><span class="material-icons nav-icon">menu_book</span> Oltre il Bit — Il libro</a>
+      <ul class="nav-subs">
+        <li><a href="ch8-book.html#ch1-castello">1. Il firmware è un castello di sabbia</a></li>
+        <li><a href="ch8-book.html#ch2-vm">2. Macchine virtuali su MCU</a></li>
+        <li><a href="ch8-book.html#ch3-determinismo">3. Determinismo come architettura</a></li>
+        <li><a href="ch8-book.html#ch4-memoria">4. La memoria come territorio</a></li>
+        <li><a href="ch8-book.html#ch5-oop">5. Oggetti, metodi e VTable</a></li>
+        <li><a href="ch8-book.html#ch6-dsl">6. Metaprogrammazione e DSL</a></li>
+        <li><a href="ch8-book.html#ch7-syscall">7. Syscall</a></li>
+        <li><a href="ch8-book.html#ch8-ecosistema">8. L'ecosistema</a></li>
+        <li><a href="ch8-book.html#ch9-futuro">9. Il futuro</a></li>
+      </ul>
+    </li>
+
+  </ul>
+</nav>
+
+
+<main class="main-content">
+  <div class="top-nav-wrap"><nav class="page-nav"><a href="ch6-syscalls.html" class="pn-prev"><span class="material-icons" style="font-size:1rem">chevron_left</span> Syscall</a><span class="pn-sep">|</span><a href="index.html" class="pn-index"><span class="material-icons" style="font-size:1rem;vertical-align:middle">list</span> Indice</a><span class="pn-sep">|</span><a href="ch8-book.html" class="pn-next">Oltre il Bit — Il libro <span class="material-icons" style="font-size:1rem">chevron_right</span></a></nav></div>
+
+<section id="ch7-assembler" class="doc-section">
+  <h2 class="section-title"><span class="material-icons section-icon">article</span> 7. Direttive e macro assembler</h2>
+
+  <p>Questo capitolo descrive tutto ciò che puoi scrivere in un file <code>.clasto</code> oltre alle istruzioni della VM. Le <b>direttive</b> (cominciano con <code>.</code>) controllano l'assemblatore a compile-time: definiscono costanti, includono file, dichiarano classi, configurano la memoria. Le <b>pseudo-istruzioni</b> (cominciano con <code>!</code>) sono scorciatoie per operazioni comuni come caricare un valore a 32-bit. Le <b>macro</b> (<code>.MACRO</code>) ti permettono di creare i tuoi comandi riutilizzabili.</p>
+
+  <h3 style="padding-top:1.2em">7.1 Direttive</h3>
+  <p>Le direttive controllano l&#39;assemblatore e non generano direttamente codice macchina.</p>
+  <div class="table-wrap">
+  <table class="doc-table">
+    <thead><tr><th>Direttiva</th><th>Sintassi</th><th>Descrizione</th></tr></thead>
+    <tbody>
+      <tr><td><code>.FILE</code></td><td><code>.FILE &quot;nomefile&quot;</code></td><td>Registra il nome del file sorgente corrente per debug (riga/colonna negli errori). Mettilo all'inizio di ogni file incluso per tracciare l'origine degli errori.</td></tr>
+      <tr><td><code>.CLASS</code></td><td><code>.CLASS NomeClasse</code></td><td>Apre un blocco classe. Usa .FIELD per i campi e .METHOD per i metodi. Chiudi con .END_CLASS per generare il Class Descriptor (header + VTable).</td></tr>
+      <tr><td><code>.INTERFACE</code></td><td><code>.INTERFACE Nome</code></td><td>Dichiara un contratto: solo firme metodi (.METHOD), senza codice. Una classe implementa un'interfaccia con .CLASS Nome IMPLEMENTS Interfaccia.</td></tr>
+      <tr><td><code>.END_INTERFACE</code></td><td><code>.END_INTERFACE</code></td><td>Chiude un blocco .INTERFACE. Dopo non puoi piu aggiungere metodi all'interfaccia.</td></tr>
+      <tr><td><code>.END_CLASS</code></td><td><code>.END_CLASS</code></td><td>Chiude .CLASS. L'assembler scrive Class Descriptor (header + VTable) e verifica che ogni metodo termini con RET e che l'interfaccia sia completamente implementata.</td></tr>
+      <tr><td><code>.FIELD</code></td><td><code>.FIELD Nome:Tipo</code></td><td>Dichiara un campo nella classe corrente. Tipi: U8, U16, U32, PTR, FLG. I campi vengono riordinati per dimensione e allineati. Il : e' convenzionale (es. .FIELD value:U16).</td></tr>
+      <tr><td><code>.METHOD</code></td><td><code>.METHOD Nome(tipo:TIPO, ...)</code></td><td>Dichiara un metodo con parametri tipizzati. Es. .METHOD Incrementa(amount:U16). I parametri sono accessibili su R13 con offset (il primo a offset 4).</td></tr>
+      <tr><td><code>.VECTOR</code></td><td><code>.VECTOR Evento(ABI), Label</code></td><td>Collega un evento (es. EVT_RESET, EVT_TICK_1MS) a un handler. .VECTOR NomeEvento(param:TIPO), label_handler. L'ABI valida i parametri dell'evento.</td></tr>
+      <tr><td><code>.CONST</code></td><td><code>.CONST Nome:Valore</code></td><td>Definisce una costante numerica risolta a compile-time. Usala in .IF, .CONFIG o come immediato (MOV.S R1, MAX_BUF). Il : e' convenzionale.</td></tr>
+      <tr><td><code>.ABI</code></td><td><code>.ABI (nome:TIPO, ...) -&gt; (out:TIPO) / .END_ABI</code></td><td>Dentro un blocco .ABI ... .END_ABI, i registri R1-R15 vengono rinominati con nomi logici (es. .ABI EVT_TICK_1MS(tick:FLG) ... MOV R8, tick .END_ABI). L'ABI può riferirsi a eventi o syscall per validare i tipi automaticamente.</td></tr>
+      <tr><td><code>.INCLUDE</code></td><td><code>.INCLUDE &quot;file&quot;</code></td><td>Incorpora il contenuto di un altro file .clasto come se fosse scritto li'. Usalo per condividere costanti e interfacce tra file. Il percorso e' relativo al file corrente o alla directory -I. Inclusioni multiple vengono ignorate.</td></tr>
+      <tr><td><code>.DB</code></td><td><code>.DB b1, b2, ... (dentro .STATIC)</code></td><td>Emette byte costanti nel bytecode. Dentro .STATIC accumula dati (max 512 byte totali). Metti una label prima per accedere con LDA (RAM) o MOV.S (flash).</td></tr>
+      <tr><td><code>.DW</code></td><td><code>.DW w1, w2, ... (dentro .STATIC)</code></td><td>Emette halfword (16-bit) costanti. Dentro .STATIC per tabelle di lookup o valori a 2 byte con label prima per LDA.</td></tr>
+      <tr><td><code>.DD</code></td><td><code>.DD d1, d2, ... (dentro .STATIC)</code></td><td>Emette word (32-bit) costanti in little-endian. Dentro .STATIC per puntatori, flag a 32-bit o tabelle numeriche.</td></tr>
+      <tr><td><code>.TEXT</code></td><td><code>.TEXT &quot;testo&quot; (dentro .STATIC)</code></td><td>Emette una stringa con null terminator e padding a 4 byte. Supporta escape: \n, \r, \t, \0, \\. Metti una label prima per accedere con LDA.</td></tr>
+      <tr><td><code>.IF</code></td><td><code>.IF expr / .ELSE / .END_IF</code></td><td>Assemblaggio condizionale: se l'espressione e' vera include il blocco, altrimenti lo salta. Supporta ==, !=, &amp;lt;, &amp;gt;, defined(), !, &amp;&amp;, ||. (&lt;a href=&quot;#ch6-if&quot;&gt;vedi espressioni&lt;/a&gt;)</td></tr>
+      <tr><td><code>.VM</code></td><td><code>.VM nome / ... / .END_VM</code></td><td>Delimita il codice di una VM in un sorgente multi-VM. Il CLI (clasto) elabora ogni blocco .VM ... .END_VM separatamente e produce un file .magma (container multi-VM). Serve solo per firmware con piu VM isolate.</td></tr>
+      <tr><td><code>.PRINT</code></td><td><code>.PRINT &quot;msg&quot;</code></td><td>Scrive un messaggio su stderr durante l'assemblaggio. Non blocca la compilazione. Utile per debug di .IF e .MACRO.</td></tr>
+      <tr><td><code>.ERROR</code></td><td><code>.ERROR &quot;msg&quot;</code></td><td>Scrive un errore su stderr e blocca la generazione del bytecode. Usalo per validazioni personalizzate (.IF ... .ELSE .ERROR &quot;msg&quot; .END_IF).</td></tr>
+      <tr><td><code>.LOC</code></td><td><code>.LOC numero</code></td><td>Forza il numero di riga interno dell'assemblatore. Utile per file preprocessati con mapping righe diverso.</td></tr>
+      <tr><td><code>.ALIAS</code></td><td><code>.ALIAS nome:Tipo, Rx</code></td><td>Rinomina un registro (R0-R15) con un nome simbolico globale; il tipo (U8/U16/U32/S8/S16/S32/PTR/FLG, anche array Tipo[N]...) e' obbligatorio. Es. .ALIAS counter:U32, R8 -&gt; puoi usare counter come registro. Senza tipo -&gt; E1503, tipo invalido -&gt; E1504; accessi indicizzati fuori range -&gt; E3010/E3011/E3012, larghezza LD/ST diversa dall'elemento -&gt; E3013, alias REG nudo come offset -&gt; E3014, alias OFFSET nudo -&gt; E3015.</td></tr>
+      <tr><td><code>.MACRO</code></td><td><code>.MACRO nome arg1, ... / .END_MACRO</code></td><td>Definisce una macro richiamabile con !nome. I parametri si usano con #nome. Es. .MACRO ADD3 r1,r2,r3 ... ADD #r1, #r2, #r3 ... .END_MACRO.</td></tr>
+      <tr><td><code>.SCOPE</code></td><td><code>.SCOPE [nome] / .END_SCOPE</code></td><td>Blocco di contesto: dentro .SCOPE le .CONST, gli .ALIAS, le label e i .PROTECT sono locali al blocco (shadowing legale). Il KEEP e' stato RIMOSSO: per la protezione per-call usare .KEEP Rx ... .END_KEEP.</td></tr>
+      <tr><td><code>.SLOT</code></td><td><code>.SLOT id ... .END_SLOT</code></td><td>Blocco riscrivibile (stile slot template): il file incluso dichiara il default, la glue riapre lo stesso id con il corpo vincente. Semantica &quot;l'ultimo vince&quot; (come .VECTOR): alla prima occorrenza (ancora) viene emesso il contenuto dell'ultima definizione. Senza override il default resta (compatibilita' totale). Espansione testuale dopo le .INCLUDE.</td></tr>
+      <tr><td><code>.PROTECT</code></td><td><code>.PROTECT Rx | alias, ...</code></td><td>Dichiara un registro &quot;prezioso&quot; che deve sopravvivere a ogni chiamata di routine. L'assembler verifica (post-pass) che nessuna routine chiamata clobberi un registro protetto letto dal chiamante dopo la CALL (E2100). R0 (zero) e R15 (SP) non sono proteggibili (E2102). Pattern riconosciuto: PUSH R13 ... CALL ... POP R13.</td></tr>
+      <tr><td><code>.WHILE</code></td><td><code>.WHILE Rd, Rs, COND / .END_WHILE</code></td><td>Ciclo a compile-time: confronta Rd con Rs, se COND (EQ/NE/GT/GE/LT/LE) e' falsa salta a .END_WHILE. Attenzione: se la condizione e' sempre vera, il ciclo si ripete all'infinito e l'assemblatore non termina.</td></tr>
+      <tr><td><code>.STATIC</code></td><td><code>.STATIC ... .END_STATIC</code></td><td>Blocco di dati copiati da flash a RAM all'avvio (leggibili/scrivibili). LDA da' indirizzo RAM; label in MOV.S da' indirizzo flash (sola lettura). Max 512 byte.</td></tr>
+      <tr><td><code>.SHARED</code></td><td><code>.SHARED n</code></td><td>Imposta la memoria condivisa in KB (n &gt;= 8). Se usato piu volte, prevale il valore massimo. Default: 64KB.</td></tr>
+      <tr><td><code>.SWITCH</code></td><td><code>.SWITCH expr ... .CASE val / .DEFAULT ... .END_SWITCH</code></td><td>Selezione compile-time a N rami: valuta l'espressione costante UNA volta e attiva il ramo .CASE con valore uguale (o il .DEFAULT se nessun caso matcha); i rami non attivi non vengono assemblati. Max 8 livelli di annidamento.</td></tr>
+      <tr><td><code>.ENUM</code></td><td><code>.ENUM [Nome] ... .END_ENUM</code></td><td>Costanti in serie: ogni voce diventa una .CONST (con prefisso Nome.Voce se l'enum ha un nome), valore ad auto-incremento con override esplicito (= val). Es. .ENUM Color / RED / GREEN / BLUE = 10 / ALPHA / .END_ENUM -&gt; Color.RED=0, Color.GREEN=1, Color.BLUE=10, Color.ALPHA=11.</td></tr>
+      <tr><td><code>.FOR</code></td><td><code>.FOR var, start, limit [, step] ... .END_FOR</code></td><td>Loop compile-time con variabile: replica il corpo per ogni valore di var da start a limit (limite esclusivo, stile C), step opzionale anche negativo; nel corpo la variabile si usa come #var. I bound accettano numeri, .CONST ed espressioni (N+2, CNT*2). .FOR e' annidabile (variabili distinte, anche referenze incrociate #i/#j). Max 10000 iterazioni.</td></tr>
+      <tr><td><code>.ALIGN</code></td><td><code>.ALIGN n</code></td><td>Allinea l'indirizzo corrente al prossimo multiplo di n (potenza di due, 1-64): nei dati (.STATIC) padding a byte zero, nel codice no-op fino all'allineamento (arrotondato al multiplo di 4).</td></tr>
+      <tr><td><code>.ASSERT</code></td><td><code>.ASSERT cond, &quot;msg&quot;</code></td><td>Verifica compile-time: se la condizione costante e' falsa l'assemblaggio fallisce con il messaggio (E1438). Es. .ASSERT N &lt; 8, &quot;N fuori range&quot;.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3 style="padding-top:1.2em" id="ch6-intro">6.2 Struttura file e utilità</h3>
+  <p>Un file <code>.clasto</code> contiene una riga per ogni operazione. Ogni riga può avere:<br>- una <b>istruzione</b>: <code>ADD R1, R2, R3</code><br>- una <b>direttiva</b> (comincia con <code>.</code>): <code>.CONST MAX 100</code><br>- una <b>pseudo-istruzione</b> (comincia con <code>!</code>): <code>!LI R1, 42</code><br>- una <b>etichetta</b> (nome + <code>:</code>): <code>loop:</code><br>- un <b>commento</b> (<code>;</code>): tutto dopo <code>;</code> viene ignorato</p><p><b>Ciclo di sviluppo</b>: <code>clasto input.clasto output.lava</code> poi <code>lava output.lava</code>.</p><p><b>Direttive di utilitá</b>:<br><code>.FILE "nome"</code> registra il nome file per il debug.<br><code>.LOC n</code> forza il numero di riga.<br><code>.PRINT "msg"</code> scrive su stderr.<br><code>.ERROR "msg"</code> blocca la compilazione.</p>
+  <h3 style="padding-top:1.2em" id="ch6-data">6.3 Dati e costanti</h3>
+  <p><code>.CONST Nome:Valore</code> definisce costanti numeriche risolte a compile-time — usale in <code>.IF</code>, <code>.CONFIG</code> o come immediato nelle istruzioni (es. <code>MOV.S R1, MAX_BUF</code>). Il <code>:</code> e' convenzionale, puoi usare anche <code>.CONST Nome Valore</code>.</p><p><code>.DB</code> (byte), <code>.DW</code> (halfword 16-bit), <code>.DD</code> (word 32-bit) e <code>.TEXT</code> (stringa) emettono dati costanti nel bytecode. Metti una label prima (es. <code>tabella:</code>) per poterli raggiungere.</p><p><code>.STATIC ... .END_STATIC</code> crea una sezione di dati che all'avvio della VM viene copiata dalla flash alla RAM privata, quindi sono leggibili e scrivibili. <code>LDA</code> carica l'indirizzo in RAM (per read/write con <code>ST</code>). Usare la label direttamente in <code>MOV.S</code> da' l'indirizzo flash (sola lettura, piu veloce). Max 512 byte totali.</p>
+  <pre class="code-block asm"><code><span class="hl-dir">.DB</span> <span class="hl-num">0x01</span>, <span class="hl-num">0x02</span>, <span class="hl-num">0xFF</span>              <span class="hl-cmt">; 3 byte</span>
+<span class="hl-dir">.DW</span> <span class="hl-num">0x1234</span>, <span class="hl-num">0x5678</span>                 <span class="hl-cmt">; 2 halfword</span>
+<span class="hl-dir">.DD</span> <span class="hl-num">0xDEADBEEF</span>, <span class="hl-num">0xCAFEBABE</span>        <span class="hl-cmt">; 2 word</span>
+<span class="hl-dir">.TEXT</span> <span class="hl-str">&quot;Hello, World!&quot;</span>              <span class="hl-cmt">; stringa + null</span></code></pre>
+  <h3 style="padding-top:1.2em" id="ch6-if">6.4 Condizionali e ripetizioni</h3>
+  <p><code>.IF expr ... .ELSE ... .END_IF</code> valuta un'espressione a compile-time: se il risultato e' diverso da zero, il blocco viene incluso nel bytecode, altrimenti viene saltato. Supporta <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>defined()</code>, <code>!</code>, <code>&&</code>, <code>||</code> e parentesi.</p><p><code>.FOR var, start, limit [, step] ... .END_FOR</code> replica il corpo per ogni valore di var da start a limit (limite esclusivo, stile C), step anche negativo; nel corpo la variabile si usa come <code>#var</code>. I bound accettano numeri, <code>.CONST</code> ed espressioni (<code>N+2</code>, <code>CNT*2</code>) e i <code>.FOR</code> sono annidabili (variabili distinte, anche referenze incrociate <code>#i</code>/<code>#j</code>).</p><p><code>.SWITCH expr ... .CASE val / .DEFAULT ... .END_SWITCH</code> e' la selezione compile-time a N rami: valuta l'espressione costante UNA volta e attiva il ramo .CASE con valore uguale (o il .DEFAULT se nessun caso matcha); i rami non attivi non vengono assemblati.</p><p><code>.ENUM [Nome] ... .END_ENUM</code> genera costanti in serie (auto-incremento, override con <code>= val</code>; con nome le voci diventano <code>Nome.Voce</code>). <code>.ALIGN n</code> allinea l'indirizzo al prossimo multiplo di n (potenza di due). <code>.ASSERT cond, "msg"</code> fa fallire l'assemblaggio se la condizione costante e' falsa.</p>
+  <table class="doc-table">
+    <thead><tr><th>Sintassi</th><th>Esempio</th><th>Descrizione</th></tr></thead>
+    <tbody>
+      <tr><td><code>defined(<i>nome</i>)</code></td><td><code>.IF defined(DEBUG)</code></td><td>Vero se <i>nome</i> è definito come <code>.CONST</code></td></tr>
+      <tr><td><code>defined <i>nome</i></code></td><td><code>.IF defined DEBUG</code></td><td>Stesso significato, senza parentesi</td></tr>
+      <tr><td><code><i>a</i> == <i>b</i></code></td><td><code>.IF VM_FEATURE_GDB == 1</code></td><td>Uguale</td></tr>
+      <tr><td><code><i>a</i> != <i>b</i></code></td><td><code>.IF VER_MAJ != 2</code></td><td>Diverso</td></tr>
+      <tr><td><code><i>a</i> &lt; <i>b</i></code></td><td><code>.IF COUNT &lt; 10</code></td><td>Minore (signed)</td></tr>
+      <tr><td><code><i>a</i> &lt;= <i>b</i></code></td><td><code>.IF X &lt;= Y</code></td><td>Minore o uguale</td></tr>
+      <tr><td><code><i>a</i> &gt; <i>b</i></code></td><td><code>.IF SIZE &gt; 0</code></td><td>Maggiore</td></tr>
+      <tr><td><code><i>a</i> &gt;= <i>b</i></code></td><td><code>.IF N &gt;= 3</code></td><td>Maggiore o uguale</td></tr>
+      <tr><td><code>! <i>expr</i></code></td><td><code>.IF !defined(DEBUG)</code></td><td>NOT logico</td></tr>
+      <tr><td><code><i>a</i> &amp;&amp; <i>b</i></code></td><td><code>.IF (X &gt; 0) &amp;&amp; (X &lt; 10)</code></td><td>AND logico</td></tr>
+      <tr><td><code><i>a</i> || <i>b</i></code></td><td><code>.IF (A == 1) || (B == 2)</code></td><td>OR logico</td></tr>
+      <tr><td><code>(<i>expr</i>)</code></td><td><code>.IF (A &gt; 0) &amp;&amp; (B &lt; 5)</code></td><td>Raggruppamento parentesi</td></tr>
+      <tr><td><code>numero</code></td><td><code>.IF 1</code></td><td>Qualsiasi valore diverso da zero è vero</td></tr>
+    </tbody>
+  </table>
+  <pre class="code-block asm"><code><span class="hl-dir">.IF</span> defined(MY_FLAG)          <span class="hl-cmt">; vero se MY_FLAG è definito</span>
+    <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, <span class="hl-num">10</span>
+<span class="hl-dir">.ELSE</span>
+    <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, <span class="hl-num">0</span>
+<span class="hl-dir">.END_IF</span>
+
+<span class="hl-dir">.IF</span> VM_FEATURE_GDB == <span class="hl-num">1</span>   <span class="hl-cmt">; confronto con costante</span>
+    <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, <span class="hl-num">100</span>
+<span class="hl-dir">.END_IF</span>
+
+<span class="hl-dir">.IF</span> (X > <span class="hl-num">0</span>) && (Y < <span class="hl-num">10</span>)  <span class="hl-cmt">; espressione composta</span>
+    <span class="hl-op">HALT</span>
+<span class="hl-dir">.END_IF</span></code></pre>
+  <h3 style="padding-top:1.2em" id="ch6-modular">6.5 Modularizzazione</h3>
+  <p><code>.INCLUDE "file"</code> incorpora il contenuto di un altro file <code>.clasto</code> nel punto corrente, come se il testo fosse scritto li'. Usalo per condividere costanti, definizioni di interfacce o macro tra piu file.</p><p>Il percorso e' relativo alla directory del file corrente (o alla directory specificata con <code>-I</code>). Se lo stesso file viene incluso piu volte, le successive vengono ignorate automaticamente.</p>
+  <pre class="code-block asm"><code><span class="hl-dir">.INCLUDE</span> <span class="hl-str">&quot;vm_consts.inc.clasto&quot;</span>     <span class="hl-cmt">; costanti VM</span>
+<span class="hl-dir">.INCLUDE</span> <span class="hl-str">&quot;platform/io.clasto&quot;</span>       <span class="hl-cmt">; driver I/O</span></code></pre>
+  <h3 style="padding-top:1.2em" id="ch6-pseudo">6.6 Pseudo-istruzioni e macro</h3>
+  <p><code>!LI Rd, valore</code> (Load Immediate, signed) carica un valore a 32-bit in un registro. Se il valore sta in 16 bit signed genera una <code>MOV.S</code> (1 word), altrimenti <code>MOV.S + MOV.H</code> (2 word). <code>!LU Rd, valore</code> (Load Unsigned) fa lo stesso ma con <code>MOV.U</code> invece di <code>MOV.S</code>. Entrambe accettano numeri e label.</p><p><code>.MACRO nome arg1, arg2 ... .END_MACRO</code> definisce una macro riutilizzabile. I parametri si riferiscono con <code>#nome</code> nel corpo. La macro si richiama con <code>!nome</code>.</p><p><code>.ALIAS nome:Tipo, Rx</code> associa un nome simbolico a un registro R0-R15 per tutto il file; il tipo (U8/U16/U32/S8/S16/S32/PTR/FLG, anche array) e' obbligatorio. Es. <code>.ALIAS counter:U32, R8</code> — poi puoi scrivere <code>MOV.S counter, 42</code>.</p>
+  <pre class="code-block asm"><code><span class="hl-pseudo">!LI</span> Rd, Imm    <span class="hl-cmt">; Carica immediato (numero o label)</span>
+<span class="hl-pseudo">!LI</span> <span class="hl-reg">R1</span>, <span class="hl-num">42</span>     <span class="hl-cmt">; R1 = 42 (short form: MOV.S)</span>
+<span class="hl-pseudo">!LI</span> <span class="hl-reg">R1</span>, label  <span class="hl-cmt">; R1 = indirizzo di label (short form: MOV.S)</span>
+<span class="hl-pseudo">!LI</span> <span class="hl-reg">R1</span>, <span class="hl-num">70000</span>  <span class="hl-cmt">; R1 = 70000 (long form: MOV.HIGH + OR.U)</span>
+<span class="hl-pseudo">!LU</span> Rd, Imm    <span class="hl-cmt">; Carica unsigned 32-bit (numero o label)</span>
+<span class="hl-pseudo">!LU</span> <span class="hl-reg">R1</span>, <span class="hl-num">65535</span>  <span class="hl-cmt">; R1 = 65535 (short form: MOV.U)</span>
+<span class="hl-pseudo">!LU</span> <span class="hl-reg">R1</span>, <span class="hl-num">70000</span>  <span class="hl-cmt">; R1 = 70000 (long form: MOV.HIGH + OR.U)</span></code></pre>
+  <h3 style="padding-top:1.2em" id="ch6-classes">6.7 Classi, interfacce, eventi e ABI</h3>
+  <p><code>.CLASS Nome</code> definisce una struttura con campi (<code>.FIELD Nome:Tipo</code>) e metodi (<code>.METHOD Nome(param:TIPO)</code>). Ogni classe genera un <b>Class Descriptor</b> (header con taglia + VTable con indirizzi dei metodi) per le chiamate virtuali (<code>CALLM</code>).</p><p><code>.INTERFACE Nome</code> dichiara solo le firme dei metodi — un contratto che una classe può implementare con <code>.CLASS Nome IMPLEMENTS Interfaccia</code>. L'assembler verifica che tutti i metodi siano presenti.</p><p><code>.VECTOR Evento(ABI), Label</code> collega un evento di sistema (es. <code>EVT_RESET</code>, <code>EVT_TICK_1MS</code>) a un handler nel tuo codice. L'ABI tra parentesi serve a validare i tipi dei parametri.</p><p><code>.ABI (nome:TIPO, ...) ... .END_ABI</code> crea uno scope dove i registri vengono rinominati con nomi logici. Es. <code>.ABI EVT_TICK_1MS(tick:FLG) ... MOV R8, tick .END_ABI</code>.</p>
+  <pre class="code-block asm"><code><span class="hl-dir">.CLASS</span> Contatore
+    <span class="hl-dir">.FIELD</span> value:U16
+    <span class="hl-dir">.FIELD</span> limit:U16
+
+    <span class="hl-dir">.METHOD</span> Init(limite:U16)
+        <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, <span class="hl-num">0</span>
+        <span class="hl-op">ST16</span> <span class="hl-reg">R1</span>, <span class="hl-num">4</span>(<span class="hl-reg">R13</span>)
+        <span class="hl-op">ST16</span> <span class="hl-reg">R2</span>, <span class="hl-num">6</span>(<span class="hl-reg">R13</span>)
+        <span class="hl-op">RET</span>
+    <span class="hl-dir">.METHOD</span> Incrementa
+        <span class="hl-op">LD16</span> <span class="hl-reg">R1</span>, <span class="hl-num">4</span>(<span class="hl-reg">R13</span>)
+        <span class="hl-op">ADD.S</span> <span class="hl-reg">R1</span>, <span class="hl-reg">R1</span>, <span class="hl-num">1</span>
+        <span class="hl-op">ST16</span> <span class="hl-reg">R1</span>, <span class="hl-num">4</span>(<span class="hl-reg">R13</span>)
+        <span class="hl-op">RET</span>
+<span class="hl-dir">.END_CLASS</span></code></pre>
+  <pre class="code-block asm"><code><span class="hl-dir">.VECTOR</span> EVT_RESET(flags:FLG), main
+<span class="hl-dir">.VECTOR</span> EVT_TICK_1MS(tick:FLG), on_tick
+
+<span class="hl-lbl">main</span>:
+    <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, <span class="hl-num">0</span>
+    <span class="hl-op">HALT</span>
+<span class="hl-lbl">on_tick</span>:
+    <span class="hl-op">ADD.S</span> <span class="hl-reg">R1</span>, <span class="hl-reg">R1</span>, <span class="hl-num">1</span>
+    <span class="hl-op">RET</span></code></pre>
+  <pre class="code-block asm"><code><span class="hl-dir">.CONST</span> MAX_SIZE, <span class="hl-num">256</span>
+<span class="hl-dir">.CONST</span> TIMEOUT_MS, <span class="hl-num">5000</span>
+
+<span class="hl-dir">.IF</span> defined(MAX_SIZE)
+    <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, MAX_SIZE
+<span class="hl-dir">.END_IF</span>
+
+<span class="hl-dir">.ABI</span> EVT_TICK_1MS(tick:FLG)
+    MOV <span class="hl-reg">R8</span>, tick          <span class="hl-cmt">; R8 = R1 (salva flag tick)</span>
+<span class="hl-dir">.END_ABI</span></code></pre>
+  <h3 style="padding-top:1.2em" id="ch6-advanced">6.8 Avanzate</h3>
+  <p><code>.VM nome ... .END_VM</code> delimita il codice di una VM in un sorgente che ne contiene piu di una. Il CLI (<code>clasto</code>) elabora ogni sezione separatamente e produce un file <code>.magma</code> (container multi-VM). Serve solo per firmware che esegue piu VM isolate.</p><p><code>.KEEP Rx ... .END_KEEP</code> avvolge OGNI <code>CALL</code>/<code>CALLM</code> del corpo con <code>PUSH Rx</code> prima e <code>POP Rx</code> dopo (in ordine inverso, LIFO): preserva il valore corrente dei registri attraverso la singola chiamata (protezione per-call). Sostituisce il vecchio KEEP di .SCOPE (rimosso).</p><p><code>.WHILE Rd, Rs, COND ... .END_WHILE</code> crea un ciclo a compile-time: confronta <code>Rd</code> con <code>Rs</code>, se la condizione COND (EQ/NE/GT/GE/LT/LE) e' falsa salta alla fine. Se la condizione resta sempre vera, il ciclo non termina.</p><p><code>.SHARED n</code> imposta la memoria condivisa in KB (n >= 8). Se usato piu volte, prevale il valore massimo. .VM nome [n]</code> imposta la memoria privata per quella VM.</p>
+  <pre class="code-block asm"><code><span class="hl-dir">.VM</span> alpha
+<span class="hl-dir">.FILE</span> <span class="hl-str">&quot;alpha.clasto&quot;</span>
+<span class="hl-dir">.VECTOR</span> EVT_RESET(flags:FLG), main
+<span class="hl-lbl">main</span>:
+    <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, <span class="hl-num">42</span>
+    <span class="hl-op">HALT</span>
+<span class="hl-dir">.END_VM</span>
+
+<span class="hl-dir">.VM</span> beta
+<span class="hl-dir">.FILE</span> <span class="hl-str">&quot;beta.clasto&quot;</span>
+<span class="hl-dir">.VECTOR</span> EVT_RESET(flags:FLG), main
+<span class="hl-lbl">main</span>:
+    <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, <span class="hl-num">99</span>
+    <span class="hl-op">HALT</span>
+<span class="hl-dir">.END_VM</span></code></pre>
+
+
+  <h3 style="padding-top:1.2em">7.9 Codici di errore</h3>
+  <p>Tutti gli errori dell&#39;assemblatore hanno un codice univoco <code>EXXXX</code> o <code>WXXXX</code>.</p>
+  <p>Il formato &egrave;: <code>Error: file:line:col: EXXXX: messaggio</code></p>
+  <p>Quando la colonna è disponibile, l&#39;errore mostra anche la riga incriminata con una freccia (<code>^^^^</code>) che punta al token esatto:</p>
+  <pre class="code-block">   3 |     YIELD
+      |     ^^^^^
+Error: file:3:4: E2000: YIELD not allowed inside MARK/FREE atomic section</pre>
+
+  <table class="doc-table">
+    <thead><tr><th>Codice</th><th>Messaggio</th></tr></thead>
+    <tbody>
+      <tr><td><code>W0001</code></td><td>W0001: R0 is read-only, write ignored</td></tr>
+      <tr><td><code>W0002</code></td><td>W0002: FAULT: code 0x%X in system range (0x80-0xFF): collisione con i fault standard della VM (usare 0x01-0x7F per i custom)</td></tr>
+      <tr><td><code>E0001</code></td><td>E0001: .IF: expression required</td></tr>
+      <tr><td><code>E0002</code></td><td>E0002: unknown directive '.%s'</td></tr>
+      <tr><td><code>E0003</code></td><td>E0003: .ALIAS: syntax '.ALIAS nome:Tipo, Rx'</td></tr>
+      <tr><td><code>E0004</code></td><td>E0004: .LOC: line number required</td></tr>
+      <tr><td><code>E0005</code></td><td>E0005: .IF: expression error (division by zero)</td></tr>
+      <tr><td><code>E0006</code></td><td>E0006: numeric literal '%s' out of range (32-bit)</td></tr>
+      <tr><td><code>E0007</code></td><td>E0007: line has too many tokens (max %d)</td></tr>
+      <tr><td><code>E1000</code></td><td>E1000: .INTERFACE: name required</td></tr>
+      <tr><td><code>E1001</code></td><td>E1001: .INTERFACE: cannot nest inside .CLASS</td></tr>
+      <tr><td><code>E1002</code></td><td>E1002: .INTERFACE: too many definitions (max 1024)</td></tr>
+      <tr><td><code>E1003</code></td><td>E1003: .CLASS: name required</td></tr>
+      <tr><td><code>E1004</code></td><td>E1004: .CLASS: too many definitions (max 128)</td></tr>
+      <tr><td><code>E1005</code></td><td>E1005: .CLASS: cannot nest inside .INTERFACE</td></tr>
+      <tr><td><code>E1006</code></td><td>E1006: .END_CLASS: no matching .CLASS</td></tr>
+      <tr><td><code>E1007</code></td><td>E1007: .END_CLASS: missing before end of file</td></tr>
+      <tr><td><code>E1008</code></td><td>E1008: .END_INTERFACE: no matching .INTERFACE</td></tr>
+      <tr><td><code>E1009</code></td><td>E1009: IMPLEMENTS: interface '%s' not found</td></tr>
+      <tr><td><code>E1010</code></td><td>E1010: interface method '%s' not implemented in class</td></tr>
+      <tr><td><code>E1011</code></td><td>E1011: .END_CLASS: VTable[%d] mismatch, expected method '%s'</td></tr>
+      <tr><td><code>E1012</code></td><td>E1012: .END_CLASS: method address not found in symbol table</td></tr>
+      <tr><td><code>E1013</code></td><td>E1013: .END_CLASS: method '%s' missing RET</td></tr>
+      <tr><td><code>E1100</code></td><td>E1100: .FIELD: outside .CLASS block</td></tr>
+      <tr><td><code>E1101</code></td><td>E1101: .FIELD: name and type required</td></tr>
+      <tr><td><code>E1102</code></td><td>E1102: .FIELD: unknown type '%s'</td></tr>
+      <tr><td><code>E1103</code></td><td>E1103: .FIELD: too many fields (max 16)</td></tr>
+      <tr><td><code>E1104</code></td><td>E1104: class instance too large (%d bytes, max 4092)</td></tr>
+      <tr><td><code>E1105</code></td><td>E1105: .FIELD: duplicate name '%s'</td></tr>
+      <tr><td><code>E1200</code></td><td>E1200: .INTERFACE: too many methods (max 32)</td></tr>
+      <tr><td><code>E1201</code></td><td>E1201: .METHOD: name required</td></tr>
+      <tr><td><code>E1202</code></td><td>E1202: .METHOD: outside .CLASS or .INTERFACE block</td></tr>
+      <tr><td><code>E1204</code></td><td>E1204: .METHOD: too many methods (max 32)</td></tr>
+      <tr><td><code>E1205</code></td><td>E1205: .METHOD: duplicate name '%s'</td></tr>
+      <tr><td><code>E1206</code></td><td>E1206: .METHOD: unknown parameter type '%s'</td></tr>
+      <tr><td><code>E1207</code></td><td>E1207: .METHOD: too many parameters (max 4)</td></tr>
+      <tr><td><code>E1208</code></td><td>E1208: .METHOD: duplicate parameter '%s'</td></tr>
+      <tr><td><code>E1300</code></td><td>E1300: .CONST: name and value required</td></tr>
+      <tr><td><code>E1301</code></td><td>E1301: .CONST: name must be an identifier</td></tr>
+      <tr><td><code>E1302</code></td><td>E1302: .CONST: value must be a number</td></tr>
+      <tr><td><code>E1303</code></td><td>E1303: .CONST: too many definitions (max 256)</td></tr>
+      <tr><td><code>E1305</code></td><td>E1305: .CONST: value out of range (32-bit)</td></tr>
+      <tr><td><code>E1304</code></td><td>E1304: .CONST: duplicate name '%s'</td></tr>
+      <tr><td><code>E1400</code></td><td>E1400: .SCOPE: expected [name]</td></tr>
+      <tr><td><code>E1401</code></td><td>E1401: .SCOPE: nesting too deep (max 8)</td></tr>
+      <tr><td><code>E1404</code></td><td>E1404: .END_SCOPE: no matching .SCOPE</td></tr>
+      <tr><td><code>E1405</code></td><td>E1405: .WHILE: syntax '.WHILE Rd, Rs, COND'</td></tr>
+      <tr><td><code>E1406</code></td><td>E1406: .WHILE: unknown condition '%s'</td></tr>
+      <tr><td><code>E1407</code></td><td>E1407: .WHILE: missing .END_WHILE</td></tr>
+      <tr><td><code>E1408</code></td><td>E1408: .END_WHILE: no matching .WHILE</td></tr>
+      <tr><td><code>E1409</code></td><td>E1409: .END_WHILE: internal error</td></tr>
+      <tr><td><code>E1410</code></td><td>E1410: .END_MACRO: no matching .MACRO</td></tr>
+      <tr><td><code>E1411</code></td><td>E1411: .MACRO: too many definitions (max 128)</td></tr>
+      <tr><td><code>E1412</code></td><td>E1412: .WHILE: nesting too deep (max 16)</td></tr>
+      <tr><td><code>E1413</code></td><td>E1413: .SCOPE: missing .END_SCOPE at end of file</td></tr>
+      <tr><td><code>E1414</code></td><td>E1414: .ELSE: no matching .IF</td></tr>
+      <tr><td><code>E1415</code></td><td>E1415: .END_IF: no matching .IF</td></tr>
+      <tr><td><code>E1416</code></td><td>E1416: .REENTRANT: not inside a method or a label with ABI parameters</td></tr>
+      <tr><td><code>E1417</code></td><td>E1417: .REENTRANT: must be declared before any CALL/CALLM in the body</td></tr>
+      <tr><td><code>E1418</code></td><td>E1418: .REENTRANT: the method/label has no parameters to preserve</td></tr>
+      <tr><td><code>E1419</code></td><td>E1419: .REENTRANT: unsupported (array parameters or extra arguments)</td></tr>
+      <tr><td><code>E1420</code></td><td>E1420: .REENTRANT: place it right after .ABI label(...), before any label of the block (inline signatures are not supported)</td></tr>
+      <tr><td><code>E1421</code></td><td>E1421: .KEEP: syntax '.KEEP Rx, Ry'</td></tr>
+      <tr><td><code>E1422</code></td><td>E1422: .KEEP: invalid register (R0/R1/R12/R13/R14/R15 are reserved)</td></tr>
+      <tr><td><code>E1423</code></td><td>E1423: .KEEP: duplicate register</td></tr>
+      <tr><td><code>E1424</code></td><td>E1424: .END_KEEP: no matching .KEEP</td></tr>
+      <tr><td><code>E1425</code></td><td>E1425: .KEEP: nesting too deep (max 8)</td></tr>
+      <tr><td><code>E1427</code></td><td>E1427: .REENTRANT: inside a method it must be declared in the .METHOD header (.METHOD Name ARGS (...) REENTRANT)</td></tr>
+      <tr><td><code>E1428</code></td><td>E1428: .SWITCH: expression required</td></tr>
+      <tr><td><code>E1429</code></td><td>E1429: .SWITCH: expression error (division by zero)</td></tr>
+      <tr><td><code>E1430</code></td><td>E1430: .END_SWITCH: no matching .SWITCH</td></tr>
+      <tr><td><code>E1431</code></td><td>E1431: .SWITCH: missing .END_SWITCH</td></tr>
+      <tr><td><code>E1432</code></td><td>E1432: .CASE/.DEFAULT: expression error</td></tr>
+      <tr><td><code>E1433</code></td><td>E1433: .ENUM: missing .END_ENUM</td></tr>
+      <tr><td><code>E1434</code></td><td>E1434: .END_ENUM: no matching .ENUM</td></tr>
+      <tr><td><code>E1435</code></td><td>E1435: .FOR: missing .END_FOR</td></tr>
+      <tr><td><code>E1436</code></td><td>E1436: .END_FOR: no matching .FOR</td></tr>
+      <tr><td><code>E1437</code></td><td>E1437: .ALIGN: alignment must be a power of two (1-64)</td></tr>
+      <tr><td><code>E1438</code></td><td>E1438: .ASSERT failed: %s</td></tr>
+      <tr><td><code>E1439</code></td><td>E1439: .ASSERT: expression error</td></tr>
+      <tr><td><code>E1440</code></td><td>E1440: .CASE/.DEFAULT: no matching .SWITCH</td></tr>
+      <tr><td><code>E1441</code></td><td>E1441: .SWITCH: nesting too deep (max 8)</td></tr>
+      <tr><td><code>E1442</code></td><td>E1442: .FOR: nested loop reuses variable '%s' (shadowing not supported; use distinct names)</td></tr>
+      <tr><td><code>E1443</code></td><td>E1443: .FOR: too many iterations (max 10000)</td></tr>
+      <tr><td><code>E1444</code></td><td>E1444: .ENUM: cannot evaluate override '%s'</td></tr>
+      <tr><td><code>E1445</code></td><td>E1445: .IF: missing .END_IF</td></tr>
+      <tr><td><code>E1446</code></td><td>E1446: .INTERFACE: missing .END_INTERFACE</td></tr>
+      <tr><td><code>E1447</code></td><td>E1447: .MACRO: missing .END_MACRO</td></tr>
+      <tr><td><code>E1448</code></td><td>E1448: .SLOT: missing .END_SLOT</td></tr>
+      <tr><td><code>E1449</code></td><td>E1449: .END_SLOT: no matching .SLOT</td></tr>
+      <tr><td><code>E1450</code></td><td>E1450: .FAULTCHK: expected ON or OFF</td></tr>
+      <tr><td><code>E1451</code></td><td>E1451: .FAULTNAME: syntax '.FAULTNAME code, Name'</td></tr>
+      <tr><td><code>E1452</code></td><td>E1452: .FAULTNAME: too many names (max 32)</td></tr>
+      <tr><td><code>E1453</code></td><td>E1453: .FAULTNAME: duplicate code 0x%X</td></tr>
+      <tr><td><code>E1454</code></td><td>E1454: .SYSCALL: syntax '.SYSCALL name, id, (abi)'</td></tr>
+      <tr><td><code>E1455</code></td><td>E1455: .SYSCALL: too many syscalls (max 32)</td></tr>
+      <tr><td><code>E1456</code></td><td>E1456: .SYSCALL: duplicate id 0x%X</td></tr>
+      <tr><td><code>E1457</code></td><td>E1457: .EVENT: syntax '.EVENT name, offset, (abi), slice'</td></tr>
+      <tr><td><code>E1458</code></td><td>E1458: .EVENT: too many events (max 32)</td></tr>
+      <tr><td><code>E1459</code></td><td>E1459: .EVENT: duplicate offset 0x%X</td></tr>
+      <tr><td><code>E1460</code></td><td>E1460: event '%s' shadowed (overridden da .EVENT — usare il nome nuovo)</td></tr>
+      <tr><td><code>E1500</code></td><td>E1500: .ALIAS: invalid register (valid: R0-R15)</td></tr>
+      <tr><td><code>E1501</code></td><td>E1501: .ALIAS: too many aliases</td></tr>
+      <tr><td><code>E1502</code></td><td>E1502: duplicate .ALIAS '%s'</td></tr>
+      <tr><td><code>E1503</code></td><td>E1503: .ALIAS: type required (syntax '.ALIAS nome:Tipo, Rx')</td></tr>
+      <tr><td><code>E1504</code></td><td>E1504: .ALIAS: invalid type</td></tr>
+      <tr><td><code>E1600</code></td><td>E1600: .VECTOR: event name and label required</td></tr>
+      <tr><td><code>E1601</code></td><td>E1601: .VECTOR: event '%s' ABI mismatch</td></tr>
+      <tr><td><code>E1602</code></td><td>E1602: .VECTOR: unknown event '%s'</td></tr>
+      <tr><td><code>E1603</code></td><td>E1603: .VECTOR: undefined label '%s'</td></tr>
+      <tr><td><code>E1604</code></td><td>E1604: .VECTOR: handler '%s' is static data (use a code label)</td></tr>
+      <tr><td><code>E1605</code></td><td>E1605: .VECTOR: handler '%s' is a method (use a plain label)</td></tr>
+      <tr><td><code>E1700</code></td><td>E1700: .ABI: nesting too deep (max 4)</td></tr>
+      <tr><td><code>E1701</code></td><td>E1701: .ABI: syscall '%s' mismatch, expected '%s', got '%s'</td></tr>
+      <tr><td><code>E1702</code></td><td>E1702: .ABI: method '%s' mismatch, expected %d params, got %d</td></tr>
+      <tr><td><code>E1703</code></td><td>E1703: .ABI: parameter %d type mismatch in '%s'</td></tr>
+      <tr><td><code>E1704</code></td><td>E1704: .ABI: entity required (use label(params) with the entry label declared)</td></tr>
+      <tr><td><code>E1705</code></td><td>E1705: .ABI: missing .END_ABI</td></tr>
+      <tr><td><code>E1706</code></td><td>E1706: .ABI: .END_ABI without matching .ABI</td></tr>
+      <tr><td><code>E1707</code></td><td>E1707: SYSCALL '%s' parameter names do not match .ABI entity '%s', expected '%s'</td></tr>
+      <tr><td><code>E1708</code></td><td>E1708: SYSCALL '%s' parameter %d type mismatch in .ABI entity '%s', expected '%s'</td></tr>
+      <tr><td><code>E1709</code></td><td>E1709: CALLM '%s' parameter names do not match .ABI entity '%s', expected '%s'</td></tr>
+      <tr><td><code>E1710</code></td><td>E1710: CALLM '%s' parameter %d type mismatch in .ABI entity '%s', expected '%s'</td></tr>
+      <tr><td><code>E1711</code></td><td>E1711: CALL '%s' parameter names do not match .ABI entity '%s', expected '%s'</td></tr>
+      <tr><td><code>E1712</code></td><td>E1712: CALL '%s' parameter %d type mismatch in .ABI entity '%s', expected '%s'</td></tr>
+      <tr><td><code>E1713</code></td><td>E1713: .ABI: duplicate parameter '%s'</td></tr>
+      <tr><td><code>E1720</code></td><td>E1720: CALL to internal label '%s' (block entry is '%s')</td></tr>
+      <tr><td><code>E1721</code></td><td>E1721: anonymous .ABI is forbidden (declare the block as .ABI label(params) with the entry label)</td></tr>
+      <tr><td><code>E1800</code></td><td>E1800: .STRUCT: name required</td></tr>
+      <tr><td><code>E1801</code></td><td>E1801: .STRUCT: duplicate field '%s'</td></tr>
+      <tr><td><code>E1802</code></td><td>E1802: .STRUCT: unknown type '%s'</td></tr>
+      <tr><td><code>E1803</code></td><td>E1803: .STRUCT: field count limit (max 16)</td></tr>
+      <tr><td><code>E1804</code></td><td>E1804: .END_STRUCT: no matching .STRUCT</td></tr>
+      <tr><td><code>E1805</code></td><td>E1805: .STRUCT: missing .END_STRUCT</td></tr>
+      <tr><td><code>E1806</code></td><td>E1806: .STRUCT: nesting too deep (max 4)</td></tr>
+      <tr><td><code>E1810</code></td><td>E1810: .UNION: name required</td></tr>
+      <tr><td><code>E1811</code></td><td>E1811: .UNION: duplicate field '%s'</td></tr>
+      <tr><td><code>E1812</code></td><td>E1812: .UNION: unknown type '%s'</td></tr>
+      <tr><td><code>E1813</code></td><td>E1813: .UNION: field count limit (max 16)</td></tr>
+      <tr><td><code>E1814</code></td><td>E1814: .END_UNION: no matching .UNION</td></tr>
+      <tr><td><code>E1815</code></td><td>E1815: .UNION: missing .END_UNION</td></tr>
+      <tr><td><code>E1816</code></td><td>E1816: .UNION: nesting too deep (max 4)</td></tr>
+      <tr><td><code>E2001</code></td><td>E2001: invalid register (valid: R0-R15)</td></tr>
+      <tr><td><code>E2002</code></td><td>E2002: duplicate label '%s'</td></tr>
+      <tr><td><code>E2003</code></td><td>E2003: symbol table full (max 1024)</td></tr>
+      <tr><td><code>E2004</code></td><td>E2004: empty file: no code or data to assemble</td></tr>
+      <tr><td><code>E2005</code></td><td>E2005: macro: arguments required</td></tr>
+      <tr><td><code>E2006</code></td><td>E2006: !LI: syntax '!LI Rd, Imm/Label'</td></tr>
+      <tr><td><code>E2007</code></td><td>E2007: !LI: undefined label '%s'</td></tr>
+      <tr><td><code>E2008</code></td><td>E2008: !LI: number or label required</td></tr>
+      <tr><td><code>E2009</code></td><td>E2009: !LU: syntax '!LU Rd, Imm/Label'</td></tr>
+      <tr><td><code>E2010</code></td><td>E2010: !LU: undefined label '%s'</td></tr>
+      <tr><td><code>E2011</code></td><td>E2011: !LU: number or label required</td></tr>
+      <tr><td><code>E2012</code></td><td>E2012: unknown macro '!%s'</td></tr>
+      <tr><td><code>E2013</code></td><td>E2013: invalid operands for '%s'</td></tr>
+      <tr><td><code>E2014</code></td><td>E2014: unexpected %s '%s' at start of line</td></tr>
+      <tr><td><code>E2015</code></td><td>E2015: label '%s' starts with reserved prefix '_'</td></tr>
+      <tr><td><code>E2016</code></td><td>E2016: macro '%s' must be invoked as '!%s'</td></tr>
+      <tr><td><code>E2017</code></td><td>E2017: .STATIC data address requires LDA (label '%s')</td></tr>
+      <tr><td><code>E2018</code></td><td>E2018: !LI/!LU: immediate out of range (32-bit)</td></tr>
+      <tr><td><code>E2019</code></td><td>E2019: memory displacement expression: undefined symbol '%s'</td></tr>
+      <tr><td><code>E2023</code></td><td>E2023: %s shift count %d out of range (0-31)</td></tr>
+      <tr><td><code>E2025</code></td><td>E2025: '%s' has an implicit base (R%d); remove the explicit base</td></tr>
+      <tr><td><code>E2030</code></td><td>E2030: accumulator index %d out of range (max %d)</td></tr>
+      <tr><td><code>E2031</code></td><td>E2031: inside .ABI '%s', R%d is the alias '%s' — use '%s' or a non-aliased register (R0, R4-R15)</td></tr>
+      <tr><td><code>E2032</code></td><td>E2032: '%s' is an OFFSET alias (method parameter) — use it as offset (e.g. '%s(R13)'), not as a register</td></tr>
+      <tr><td><code>E2033</code></td><td>E2033: %s immediate %d out of range (%s) — use !LI/!LU or a .U/.H variant</td></tr>
+      <tr><td><code>E2034</code></td><td>E2034: .KEEP R%d: CALL %s returns in R1..R%d — the POP would overwrite the declared return; drop R%d from the .KEEP or widen the signature</td></tr>
+      <tr><td><code>E2035</code></td><td>E2035: .REENTRANT: CALL %s returns in R1..R%d but the parameter restore rewrites R%d..R%d — the return would be lost; move the call out of the reentrant body or widen the signature</td></tr>
+      <tr><td><code>F2020</code></td><td>F2020: SYSCALL: unknown syscall 0x%X (not registered in this target)</td></tr>
+      <tr><td><code>F2021</code></td><td>F2021: FIRE.U: event offset 0x%X out of range (0-255, multiple of 4)</td></tr>
+      <tr><td><code>F2022</code></td><td>F2022: %s division by zero (immediate divisor)</td></tr>
+      <tr><td><code>F2024</code></td><td>F2024: NEW: class index %d out of range (declared %d)</td></tr>
+      <tr><td><code>F2026</code></td><td>F2026: %s target '%s' is static data (use a code label)</td></tr>
+      <tr><td><code>E2100</code></td><td>E2100: %s clobbers protected %s (%s), read by caller '%s' after call</td></tr>
+      <tr><td><code>E2101</code></td><td>E2101: .PROTECT: unknown register or alias '%s'</td></tr>
+      <tr><td><code>E2102</code></td><td>E2102: .PROTECT: cannot protect %s</td></tr>
+      <tr><td><code>E3000</code></td><td>E3000: .DB: static data buffer overflow (max 512 bytes)</td></tr>
+      <tr><td><code>E3001</code></td><td>E3001: .DB: numeric arguments required</td></tr>
+      <tr><td><code>E3002</code></td><td>E3002: .DW: static data buffer overflow (max 512 bytes)</td></tr>
+      <tr><td><code>E3003</code></td><td>E3003: .DW: numeric arguments required</td></tr>
+      <tr><td><code>E3004</code></td><td>E3004: .DD: static data buffer overflow (max 512 bytes)</td></tr>
+      <tr><td><code>E3005</code></td><td>E3005: .DD: numeric arguments required</td></tr>
+      <tr><td><code>E3006</code></td><td>E3006: .TEXT: string argument required</td></tr>
+      <tr><td><code>E3007</code></td><td>E3007: .TEXT: static data buffer overflow (max 512 bytes)</td></tr>
+      <tr><td><code>E3008</code></td><td>E3008: .STATIC: missing .END_STATIC at end of file</td></tr>
+      <tr><td><code>E3009</code></td><td>E3009: .%s value out of range (8/16-bit)</td></tr>
+      <tr><td><code>E3010</code></td><td>E3010: array '%s' index %d out of bounds (dimension %d)</td></tr>
+      <tr><td><code>E3011</code></td><td>E3011: array '%s' has %d dimension(s), %d index(es) given</td></tr>
+      <tr><td><code>E3012</code></td><td>E3012: array '%s' offset %d out of bounds (size %d)</td></tr>
+      <tr><td><code>E3013</code></td><td>E3013: '%s' element size %d does not match %s width %d</td></tr>
+      <tr><td><code>E3014</code></td><td>E3014: '%s' is a register alias (R%d); use offset(%s) for memory access</td></tr>
+      <tr><td><code>E3015</code></td><td>E3015: '%s' is an offset alias; use '%s(Rx)' syntax</td></tr>
+      <tr><td><code>E3016</code></td><td>E3016: value %d does not fit declared type %s</td></tr>
+      <tr><td><code>E3017</code></td><td>E3017: %s treatment corrupts %s value %d (use %s instead)</td></tr>
+      <tr><td><code>E3018</code></td><td>E3018: %s requires a PTR base (got %s)</td></tr>
+      <tr><td><code>E3019</code></td><td>E3019: LDA into %s: address does not fit (use a 32-bit type)</td></tr>
+      <tr><td><code>E3020</code></td><td>E3020: %s is an opaque handle (HND), not dereferenceable</td></tr>
+      <tr><td><code>E3021</code></td><td>E3021: NEW/CALLM requires an OBJ/PTR instance, got %s</td></tr>
+      <tr><td><code>E3022</code></td><td>E3022: memory base %s is %s (use PTR/OBJ or a 32-bit type)</td></tr>
+      <tr><td><code>E3023</code></td><td>E3023: %s on FLG: bitmask allows only bitwise ops (AND/OR/XOR/NOT), loads/stores and MOV</td></tr>
+      <tr><td><code>E4002</code></td><td>E4002: .SHARED: numeric value >= 8 required</td></tr>
+      <tr><td><code>E5000</code></td><td>E5000: .FILE: filename required</td></tr>
+    </tbody>
+  </table>
+</section>
+
+  <div class="bot-nav-wrap"><nav class="page-nav"><a href="ch6-syscalls.html" class="pn-prev"><span class="material-icons" style="font-size:1rem">chevron_left</span> Syscall</a><span class="pn-sep">|</span><a href="index.html" class="pn-index"><span class="material-icons" style="font-size:1rem;vertical-align:middle">list</span> Indice</a><span class="pn-sep">|</span><a href="ch8-book.html" class="pn-next">Oltre il Bit — Il libro <span class="material-icons" style="font-size:1rem">chevron_right</span></a></nav></div>
+  <footer class="doc-footer">
+    <p>Caldeira VM &copy; 2026</p>
+  </footer>
+</main>
+
+
+<script src="script.js"></script>
+</body>
+</html>

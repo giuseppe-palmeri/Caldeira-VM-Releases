@@ -221,10 +221,7 @@
   "documentation": {
     "title": "Documentation",
     "description": "Documentation is published as part of the public ecosystem.",
-    "incoming": "Public documentation is still being prepared. The repository is the current source for project information.",
-    "cta": "Explore documentation",
-    "browse": "Browse the repository",
-    "readme": "Read the README",
+    "cta": "Read the documentation",
     "tocTitle": "Reference documentation",
     "chapters": {
       "quickstart": {
@@ -259,7 +256,10 @@
         "name": "Beyond the Bit",
         "desc": "Deterministic VMs, regional memory, DSLs, future."
       }
-    }
+    },
+    "available": "The reference documentation is available here — the complete book with architecture, ISA, events, syscalls and the assembler guide.",
+    "download": "Download documentation (ZIP)",
+    "read": "Read"
   },
   "commercial": {
     "title": "Commercial integration",

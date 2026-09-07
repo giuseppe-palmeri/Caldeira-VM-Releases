@@ -407,14 +407,24 @@ function renderDynamicCards() {
         if (value) el.textContent = value;
     });
 
-    // Documentation chapters teaser (contents from the real reference book)
-    const docsKeys = ['quickstart', 'registers', 'isa', 'faults', 'events', 'syscalls', 'assembler', 'book'];
+    // Documentation chapters teaser — now links to the real book chapters
+    const docsKeys = [
+        { key: 'quickstart', href: 'reference/ch1-quickstart.html' },
+        { key: 'registers', href: 'reference/ch2-registers.html' },
+        { key: 'isa', href: 'reference/ch3-isa.html' },
+        { key: 'faults', href: 'reference/ch4-faults.html' },
+        { key: 'events', href: 'reference/ch5-events.html' },
+        { key: 'syscalls', href: 'reference/ch6-syscalls.html' },
+        { key: 'assembler', href: 'reference/ch7-assembler.html' },
+        { key: 'book', href: 'reference/ch8-book.html' },
+    ];
     const docsGrid = document.querySelector('[data-docs-grid]');
     if (docsGrid) {
-        docsGrid.innerHTML = docsKeys.map((k) => `
+        docsGrid.innerHTML = docsKeys.map(({ key, href }) => `
             <article class="card">
-                <h3>${escapeHtml(t(`documentation.chapters.${k}.name`))}</h3>
-                <p>${escapeHtml(t(`documentation.chapters.${k}.desc`))}</p>
+                <h3>${escapeHtml(t(`documentation.chapters.${key}.name`))}</h3>
+                <p>${escapeHtml(t(`documentation.chapters.${key}.desc`))}</p>
+                <a class="card-link" href="${escapeHtml(href)}">${escapeHtml(t('documentation.read'))}<span aria-hidden="true"> →</span></a>
             </article>
         `).join('');
     }

@@ -221,10 +221,7 @@
   "documentation": {
     "title": "Documentazione",
     "description": "La documentazione è pubblicata come parte dell'ecosistema aperto.",
-    "incoming": "La documentazione pubblica è ancora in preparazione. Il repository è la fonte attuale delle informazioni sul progetto.",
-    "cta": "Esplora la documentazione",
-    "browse": "Sfoglia il repository",
-    "readme": "Leggi il README",
+    "cta": "Leggi la documentazione",
     "tocTitle": "Documentazione di riferimento",
     "chapters": {
       "quickstart": {
@@ -259,7 +256,10 @@
         "name": "Oltre il Bit",
         "desc": "VM deterministiche, memoria regionale, DSL, futuro."
       }
-    }
+    },
+    "available": "La documentazione di riferimento è disponibile qui — il libro completo con architettura, ISA, eventi, syscall e la guida all'assembler.",
+    "download": "Scarica la documentazione (ZIP)",
+    "read": "Leggi"
   },
   "commercial": {
     "title": "Integrazione commerciale",
