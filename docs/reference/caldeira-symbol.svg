@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Caldeira chip symbol — stylized from the mark inside the logo
+       triangle: a square with pins/traces on all sides. -->
+  <g fill="none" stroke="#2ea043" stroke-linecap="round" stroke-linejoin="round">
+    <!-- pins: top (start half-stroke above the body so the round cap
+         touches the edge without entering it; center shorter) -->
+    <path stroke-width="14" d="M92 76 V34 M128 76 V46 M164 76 V34"/>
+    <!-- pins: bottom (center shorter, no dot; ends on the body edge) -->
+    <path stroke-width="14" d="M92 180 V224 M128 180 V210 M164 180 V224"/>
+    <!-- pins: left (outer traces longer, center trace shorter, no dot; ends on the body edge) -->
+    <path stroke-width="12" d="M76 100 H28 M76 128 H48 M76 156 H28"/>
+    <!-- pins: right (outer traces longer, center trace shorter, no dot; ends on the body edge) -->
+    <path stroke-width="12" d="M180 100 H228 M180 128 H208 M180 156 H228"/>
+    <!-- body -->
+    <rect x="70" y="70" width="116" height="116" rx="14" stroke-width="12"/>
+    <!-- junction dots at the outer ends of the outer lateral traces only -->
+    <g fill="#2ea043">
+        <circle cx="28" cy="100" r="8"/>
+        <circle cx="28" cy="156" r="8"/>
+        <circle cx="228" cy="100" r="8"/>
+        <circle cx="228" cy="156" r="8"/>
+        <!-- bottom: dots on the outer vertical pins -->
+        <circle cx="92" cy="224" r="9"/>
+        <circle cx="164" cy="224" r="9"/>
+    </g>
+  </g>
+</svg>
