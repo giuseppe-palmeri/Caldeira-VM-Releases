@@ -4,8 +4,8 @@
   <g fill="none" stroke="#2ea043" stroke-linecap="round" stroke-linejoin="round">
     <!-- pins: top -->
     <path stroke-width="14" d="M92 70 V38 M128 70 V38 M164 70 V38"/>
-    <!-- pins: bottom -->
-    <path stroke-width="14" d="M92 186 V218 M128 186 V218 M164 186 V218"/>
+    <!-- pins: bottom (center shorter, no dot) -->
+    <path stroke-width="14" d="M92 186 V218 M128 186 V206 M164 186 V218"/>
     <!-- pins: left (center trace shorter, no dot) -->
     <path stroke-width="12" d="M64 100 H38 M64 128 H52 M64 156 H38"/>
     <!-- pins: right (center trace shorter, no dot) -->
@@ -20,6 +20,9 @@
         <circle cx="38" cy="156" r="8"/>
         <circle cx="218" cy="100" r="8"/>
         <circle cx="218" cy="156" r="8"/>
+        <!-- bottom: dots on the outer vertical pins -->
+        <circle cx="92" cy="218" r="9"/>
+        <circle cx="164" cy="218" r="9"/>
     </g>
   </g>
 </svg>
