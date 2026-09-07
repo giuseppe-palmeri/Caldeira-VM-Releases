@@ -1490,6 +1490,31 @@ code {
 #documentation {
     padding-top: 0;
 }
+
+/* Documentation card: same width/layout as the Install widget */
+#documentation .panel-callout {
+    max-width: 62rem;
+    width: 100%;
+    text-align: left;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--panel-shadow);
+    padding: var(--space-5);
+}
+#documentation .docs-intro {
+    margin: 0 0 var(--space-2);
+}
+#documentation .panel-callout p {
+    margin: 0 0 var(--space-4);
+}
+#documentation .docs-chapters {
+    justify-content: flex-start;
+    margin-top: var(--space-4);
+}
+#documentation .panel-callout .btn-row {
+    justify-content: flex-start;
+}
 .section-cta {
     text-align: center;
     margin-top: var(--space-6);
