@@ -429,11 +429,7 @@ function renderDynamicCards() {
     const docsGrid = document.querySelector('[data-docs-grid]');
     if (docsGrid) {
         docsGrid.innerHTML = docsKeys.map(({ key, anchor }) => `
-            <article class="card">
-                <h3>${escapeHtml(t(`documentation.chapters.${key}.name`))}</h3>
-                <p>${escapeHtml(t(`documentation.chapters.${key}.desc`))}</p>
-                <a class="card-link" href="${escapeHtml(refBase + anchor)}">${escapeHtml(t('documentation.read'))}<span aria-hidden="true"> →</span></a>
-            </article>
+            <li class="docs-chapter-link"><a href="${escapeHtml(refBase + anchor)}">${escapeHtml(t(`documentation.chapters.${key}.name`))}</a></li>
         `).join('');
     }
 }
