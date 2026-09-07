@@ -1,19 +1,14 @@
 #!/usr/bin/env python3
-"""Generate docs/images/favicon-32.png and favicon-16.png from caldeira.png."""
+"""Generate docs/images/favicon-32.png and favicon-16.png from caldeira-mark.png."""
 from PIL import Image
 
-src = Image.open("docs/images/caldeira.png").convert("RGB")
+src = Image.open("docs/images/caldeira-mark.png").convert("RGB")
 w, h = src.size
-# content bounding box (from analysis): 310..1250 x 152..848
-box = (310, 152, 1250, 848)
-content = src.crop(box)
-cw, ch = content.size
-side = max(cw, ch)
-# square canvas with white background, content centered
+side = max(w, h)
 for size in (32, 16):
     canvas = Image.new("RGB", (size, size), (255, 255, 255))
     scale = size / side
-    thumb = content.resize((max(1, int(cw * scale)), max(1, int(ch * scale))), Image.LANCZOS)
+    thumb = src.resize((max(1, int(w * scale)), max(1, int(h * scale))), Image.LANCZOS)
     canvas.paste(thumb, ((size - thumb.width) // 2, (size - thumb.height) // 2))
     out = f"docs/images/favicon-{size}.png"
     canvas.save(out)

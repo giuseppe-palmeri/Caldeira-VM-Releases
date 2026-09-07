@@ -24,10 +24,9 @@ for y in range(0, H, 48):
 for r in range(240, 0, -4):
     d.ellipse([W / 2 - r, -r * 0.8, W / 2 + r, r * 0.8], fill=(16, 32, 22))
 
-# Official logo (white image; paste as-is on dark bg): the white background
-# becomes a visible tile — keep it small in a white rounded chip.
+# Official logo mark (cropped to content, no baked-in white margins)
 try:
-    logo = Image.open("docs/images/caldeira.png").convert("RGB")
+    logo = Image.open("docs/images/caldeira-mark.png").convert("RGB")
     target_h = 150
     ratio = target_h / logo.height
     logo_small = logo.resize((int(logo.width * ratio), target_h), Image.LANCZOS)
