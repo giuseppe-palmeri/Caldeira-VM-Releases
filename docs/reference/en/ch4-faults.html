@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fault Codes — Caldeira VM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav id="sidebar" class="sidebar" role="navigation" aria-label="Documentation navigation">
+  <div class="sidebar-header">
+    <a href="index.html" class="logo-link">
+      <img src="caldeira.png" alt="Caldeira VM" class="sidebar-logo" />
+    </a>
+    <div class="sidebar-title">
+      <span class="sidebar-brand">Caldeira VM</span>
+      <span class="sidebar-sub">Documentation</span>
+    </div>
+  </div>
+  <div class="sidebar-search">
+    <input type="text" id="nav-search" placeholder="Search instructions..." oninput="filterNav(this.value)" />
+  </div>
+  <ul class="nav-tree">
+    <li><a href="ch1-quickstart.html" class="nav-chapter"><span class="material-icons nav-icon">rocket_launch</span> First Program</a>
+    </li>
+    <li><a href="ch2-registers.html" class="nav-chapter"><span class="material-icons nav-icon">developer_board</span> Register Architecture</a>
+      <ul class="nav-subs">
+        <li><a href="ch2-registers.html#reg-table">Registers R0–R15</a></li>
+        <li><a href="ch2-registers.html#flags-psr">PSR flags</a></li>
+      </ul>
+    </li>
+    <li><a href="ch3-isa.html" class="nav-chapter"><span class="material-icons nav-icon">code</span> Instruction Set (ISA)</a>
+      <ul class="nav-subs">
+        <li class="nav-cat"><a href="ch3-isa.html#aritmetica-e-logica">Aritmetica e logica</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-add">ADD</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-sub">SUB</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-and">AND</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-or">OR</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-xor">XOR</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-shl">SHL</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-shr">SHR</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-asr">ASR</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-mul">MUL</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-div">DIV</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-mod">MOD</a></li>
+            <li><a href="ch3-isa.html#aritmetica-e-logica" data-instr="instr-not">NOT</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#aritmetica-64-bit">Aritmetica 64-bit</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#aritmetica-64-bit" data-instr="instr-mac">MAC</a></li>
+            <li><a href="ch3-isa.html#aritmetica-64-bit" data-instr="instr-clracc">CLRACC</a></li>
+            <li><a href="ch3-isa.html#aritmetica-64-bit" data-instr="instr-getacc">GETACC</a></li>
+            <li><a href="ch3-isa.html#aritmetica-64-bit" data-instr="instr-setacc">SETACC</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#confronto-e-salti-condizionali">Confronto e salti condizionali</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-cmp">CMP</a></li>
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-beq">BEQ</a></li>
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-bne">BNE</a></li>
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-blt">BLT</a></li>
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-bgt">BGT</a></li>
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-ble">BLE</a></li>
+            <li><a href="ch3-isa.html#confronto-e-salti-condizionali" data-instr="instr-bge">BGE</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#caricamento-costanti">Caricamento costanti</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#caricamento-costanti" data-instr="instr-mov-h">MOV.H</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#memoria">Memoria</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#memoria" data-instr="instr-ld8">LD8</a></li>
+            <li><a href="ch3-isa.html#memoria" data-instr="instr-ld16">LD16</a></li>
+            <li><a href="ch3-isa.html#memoria" data-instr="instr-ld32">LD32</a></li>
+            <li><a href="ch3-isa.html#memoria" data-instr="instr-st8">ST8</a></li>
+            <li><a href="ch3-isa.html#memoria" data-instr="instr-st16">ST16</a></li>
+            <li><a href="ch3-isa.html#memoria" data-instr="instr-st32">ST32</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#allocazione">Allocazione</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-alloc">ALLOC</a></li>
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-alloc-fr">ALLOC.FR</a></li>
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-alloc-u">ALLOC.U</a></li>
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-mark">MARK</a></li>
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-free">FREE</a></li>
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-mark-fr">MARK.FR</a></li>
+            <li><a href="ch3-isa.html#allocazione" data-instr="instr-free-fr">FREE.FR</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#oggetti-e-metodi-virtuali">Oggetti e metodi virtuali</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#oggetti-e-metodi-virtuali" data-instr="instr-new">NEW</a></li>
+            <li><a href="ch3-isa.html#oggetti-e-metodi-virtuali" data-instr="instr-new-fr">NEW.FR</a></li>
+            <li><a href="ch3-isa.html#oggetti-e-metodi-virtuali" data-instr="instr-callm">CALLM</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#controllo-di-flusso">Controllo di flusso</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#controllo-di-flusso" data-instr="instr-jmp">JMP</a></li>
+            <li><a href="ch3-isa.html#controllo-di-flusso" data-instr="instr-call">CALL</a></li>
+            <li><a href="ch3-isa.html#controllo-di-flusso" data-instr="instr-jmp-r">JMP.R</a></li>
+            <li><a href="ch3-isa.html#controllo-di-flusso" data-instr="instr-call-r">CALL.R</a></li>
+            <li><a href="ch3-isa.html#controllo-di-flusso" data-instr="instr-ret">RET</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#stack">Stack</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#stack" data-instr="instr-push">PUSH</a></li>
+            <li><a href="ch3-isa.html#stack" data-instr="instr-pop">POP</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#protezione-fault-handling">Protezione (fault handling)</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#protezione-fault-handling" data-instr="instr-guard">GUARD</a></li>
+            <li><a href="ch3-isa.html#protezione-fault-handling" data-instr="instr-fault">FAULT</a></li>
+            <li><a href="ch3-isa.html#protezione-fault-handling" data-instr="instr-unguard">UNGUARD</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#i-o-e-system-call">I/O e System Call</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#i-o-e-system-call" data-instr="instr-getc">GETC</a></li>
+            <li><a href="ch3-isa.html#i-o-e-system-call" data-instr="instr-putc">PUTC</a></li>
+            <li><a href="ch3-isa.html#i-o-e-system-call" data-instr="instr-syscall">SYSCALL</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#eventi">Eventi</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#eventi" data-instr="instr-fire">FIRE</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#gestione-vm">Gestione VM</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#gestione-vm" data-instr="instr-slice">SLICE</a></li>
+            <li><a href="ch3-isa.html#gestione-vm" data-instr="instr-exit">EXIT</a></li>
+            <li><a href="ch3-isa.html#gestione-vm" data-instr="instr-halt">HALT</a></li>
+            <li><a href="ch3-isa.html#gestione-vm" data-instr="instr-yield">YIELD</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch3-isa.html#altro">Altro</a>
+          <ul class="nav-subs">
+            <li><a href="ch3-isa.html#altro" data-instr="instr-nop">NOP</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-cmp-s">CMP.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-add-s">ADD.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-and-u">AND.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-or-u">OR.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-sub-s">SUB.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-mul-s">MUL.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-div-s">DIV.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-mod-s">MOD.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-xor-u">XOR.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-shl-u">SHL.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-shr-u">SHR.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-asr-u">ASR.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-mov-s">MOV.S</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-mov-u">MOV.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-lda">LDA</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-alloc-fr-u">ALLOC.FR.U</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-blo">BLO</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-bhs">BHS</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-bhi">BHI</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-bls">BLS</a></li>
+            <li><a href="ch3-isa.html#altro" data-instr="instr-fire-u">FIRE.U</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li class="expanded"><a href="ch4-faults.html" class="nav-chapter current"><span class="material-icons nav-icon">warning</span> Fault Codes</a>
+      <ul class="nav-subs">
+        <li><a href="#fault-user-generic">USER_GENERIC</a></li>
+        <li><a href="#fault-null-pointer">NULL_POINTER</a></li>
+        <li><a href="#fault-invalid-obj">INVALID_OBJ</a></li>
+        <li><a href="#fault-oom-scratch">OOM_SCRATCH</a></li>
+        <li><a href="#fault-oom-frame">OOM_FRAME</a></li>
+        <li><a href="#fault-stack-overflow">STACK_OVERFLOW</a></li>
+        <li><a href="#fault-stack-underflow">STACK_UNDERFLOW</a></li>
+        <li><a href="#fault-mark-overflow">MARK_OVERFLOW</a></li>
+        <li><a href="#fault-div-zero">DIV_ZERO</a></li>
+        <li><a href="#fault-invalid-opcode">INVALID_OPCODE</a></li>
+        <li><a href="#fault-invalid-pc">INVALID_PC</a></li>
+        <li><a href="#fault-event-overflow">EVENT_OVERFLOW</a></li>
+        <li><a href="#fault-bad-class-id">BAD_CLASS_ID</a></li>
+        <li><a href="#fault-no-method">NO_METHOD</a></li>
+        <li><a href="#fault-field-bounds">FIELD_BOUNDS</a></li>
+        <li><a href="#fault-illegal-yield">ILLEGAL_YIELD</a></li>
+        <li><a href="#fault-invalid-char">INVALID_CHAR</a></li>
+        <li><a href="#fault-mark-underflow">MARK_UNDERFLOW</a></li>
+        <li><a href="#fault-unguard-without-guard">UNGUARD_WITHOUT_GUARD</a></li>
+        <li><a href="#fault-method-bounds">METHOD_BOUNDS</a></li>
+        <li><a href="#fault-invalid-event">INVALID_EVENT</a></li>
+        <li><a href="#fault-invalid-syscall">INVALID_SYSCALL</a></li>
+        <li><a href="#fault-invalid-read">INVALID_READ</a></li>
+        <li><a href="#fault-invalid-write">INVALID_WRITE</a></li>
+        <li><a href="#fault-static-not-loaded">STATIC_NOT_LOADED</a></li>
+        <li><a href="#fault-dead">DEAD</a></li>
+      </ul>
+    </li>
+    <li><a href="ch5-events.html" class="nav-chapter"><span class="material-icons nav-icon">rss_feed</span> Events</a>
+      <ul class="nav-subs">
+        <li class="nav-cat"><a href="ch5-events.html#evt-0x00">0x00 — SISTEMA (Core)</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-reset-flags-flg">EVT_RESET(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-tick-1ms-tick-flg">EVT_TICK_1MS(tick:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0x04">0x04 — DEEP SLEEP (soppiantano i WAKE_DEEP core, ora qui)</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-wake-deep-timer-flags-flg">EVT_WAKE_DEEP_TIMER(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-wake-deep-gpio-flags-flg">EVT_WAKE_DEEP_GPIO(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-wake-deep-touch-flags-flg">EVT_WAKE_DEEP_TOUCH(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0x20">0x20 — TIMER HARDWARE</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-timer0-exp-flags-flg">EVT_TIMER0_EXP(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-timer1-exp-flags-flg">EVT_TIMER1_EXP(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-timer2-exp-flags-flg">EVT_TIMER2_EXP(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-timer3-exp-flags-flg">EVT_TIMER3_EXP(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-watchdog-flags-flg">EVT_WATCHDOG(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0x40">0x40 — I/O DIGITALE &amp; ANALOGICO</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-gpio-bank0-flags-flg">EVT_GPIO_BANK0(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-gpio-bank1-flags-flg">EVT_GPIO_BANK1(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-adc-ready-buf-ptr-len-u16">EVT_ADC_READY(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-adc-thr-cross-flags-flg">EVT_ADC_THR_CROSS(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-dac-empty">EVT_DAC_EMPTY</a></li>
+            <li><a href="ch5-events.html#evt-evt-pwm-fault-flags-flg">EVT_PWM_FAULT(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-keydown-scancode-u32">EVT_SDL_KEYDOWN(scancode:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-keyup-scancode-u32">EVT_SDL_KEYUP(scancode:U32)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0x80">0x80 — COMUNICAZIONE SERIALE</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-uart0-rx-buf-ptr-len-u16">EVT_UART0_RX(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-uart0-tx-empty">EVT_UART0_TX_EMPTY</a></li>
+            <li><a href="ch5-events.html#evt-evt-uart0-err-flags-flg">EVT_UART0_ERR(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-uart1-rx-buf-ptr-len-u16">EVT_UART1_RX(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-uart1-tx-empty">EVT_UART1_TX_EMPTY</a></li>
+            <li><a href="ch5-events.html#evt-evt-spi0-trans-buf-ptr-len-u16">EVT_SPI0_TRANS(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-spi0-tx-empty">EVT_SPI0_TX_EMPTY</a></li>
+            <li><a href="ch5-events.html#evt-evt-i2c0-slave-rx-buf-ptr-len-u16">EVT_I2C0_SLAVE_RX(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-i2c0-slave-tx">EVT_I2C0_SLAVE_TX</a></li>
+            <li><a href="ch5-events.html#evt-evt-i2c0-master-done-flags-flg">EVT_I2C0_MASTER_DONE(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0xc0">0xC0 — NETWORK &amp; PROTOCOLLI</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-net-link-flags-flg">EVT_NET_LINK(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-net-pkt-rx-buf-ptr-len-u16">EVT_NET_PKT_RX(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-net-pkt-tx-done">EVT_NET_PKT_TX_DONE</a></li>
+            <li><a href="ch5-events.html#evt-evt-bt-stack-flags-flg">EVT_BT_STACK(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0xd0">0xD0 — TOUCH SCREEN (contratto input, ABI compatibile con il mouse SDL)</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-touch-down-x-u32-y-u32">EVT_TOUCH_DOWN(x:U32,y:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-touch-move-x-u32-y-u32">EVT_TOUCH_MOVE(x:U32,y:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-touch-up-x-u32-y-u32">EVT_TOUCH_UP(x:U32,y:U32)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0xe0-0xf8">0xE0-0xF8 — SPAZIO UTENTE (portabile, Role = U)</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-user-custom-0">EVT_USER_CUSTOM_0</a></li>
+            <li><a href="ch5-events.html#evt-evt-user-custom-1-flags-flg">EVT_USER_CUSTOM_1(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-user-custom-2-value-u32">EVT_USER_CUSTOM_2(value:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-user-custom-3-buf-ptr-len-u16">EVT_USER_CUSTOM_3(buf:PTR,len:U16)</a></li>
+            <li><a href="ch5-events.html#evt-evt-user-custom-4-cmd-u32-ptr-ptr">EVT_USER_CUSTOM_4(cmd:U32,ptr:PTR)</a></li>
+            <li><a href="ch5-events.html#evt-evt-user-custom-5-dst-ptr-src-ptr-size-u32">EVT_USER_CUSTOM_5(dst:PTR,src:PTR,size:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-user-custom-6-flags-flg-buf-ptr-len-u16">EVT_USER_CUSTOM_6(flags:FLG,buf:PTR,len:U16)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-uncategorized">Uncategorized</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-sdl-quit">EVT_SDL_QUIT</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-close">EVT_SDL_CLOSE</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-mousemotion-x-u32-y-u32">EVT_SDL_MOUSEMOTION(x:U32,y:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-mousebuttondown-btn-u32-x-u32-y-u32">EVT_SDL_MOUSEBUTTONDOWN(btn:U32,x:U32,y:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-mousebuttonup-btn-u32-x-u32-y-u32">EVT_SDL_MOUSEBUTTONUP(btn:U32,x:U32,y:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-mousewheel-sx-s32-sy-s32">EVT_SDL_MOUSEWHEEL(sx:S32,sy:S32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-window-resized-width-u32-height-u32">EVT_SDL_WINDOW_RESIZED(width:U32,height:U32)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="ch6-syscalls.html" class="nav-chapter"><span class="material-icons nav-icon">api</span> Syscalls</a>
+      <ul class="nav-subs">
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x00">0x00 — SISTEMA</a>
+          <ul class="nav-subs">
+            <li><a href="ch6-syscalls.html#sys-sys-reset">sys_reset</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-version">sys_version</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-features">sys_features</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-millis">sys_millis</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-static-ptr">sys_static_ptr</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-event-id">sys_event_id</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x10">0x10 — HAL</a>
+          <ul class="nav-subs">
+            <li><a href="ch6-syscalls.html#sys-sys-print">sys_print</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-print-status">sys_print_status</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x20">0x20 — GPIO</a>
+          <ul class="nav-subs">
+            <li><a href="ch6-syscalls.html#sys-sys-gpio-set-dir">sys_gpio_set_dir</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gpio-write">sys_gpio_write</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gpio-read">sys_gpio_read</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x30">0x30 — UART</a>
+          <ul class="nav-subs">
+            <li><a href="ch6-syscalls.html#sys-sys-uart-send">sys_uart_send</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-uart-read">sys_uart_read</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x40">0x40 — Timer</a>
+          <ul class="nav-subs">
+            <li><a href="ch6-syscalls.html#sys-sys-delay">sys_delay</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0xd0">0xD0 — GRAPHICS (contratto condiviso con linux SDL2)</a>
+          <ul class="nav-subs">
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-open">sys_gfx_open</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-flush">sys_gfx_flush</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-poll">sys_gfx_poll</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-close">sys_gfx_close</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-info">sys_gfx_info</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-get-input-addr">sys_gfx_get_input_addr</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-read-input">sys_gfx_read_input</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-get-mouse">sys_gfx_get_mouse</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-get-winsize">sys_gfx_get_winsize</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-text-print">sys_text_print</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-ttf-render">sys_ttf_render</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="ch7-assembler.html" class="nav-chapter"><span class="material-icons nav-icon">article</span> Assembler Directives</a>
+      <ul class="nav-subs">
+        <li><a href="ch7-assembler.html#ch6-intro">File structure and utilities</a></li>
+        <li><a href="ch7-assembler.html#ch6-data">Data and constants</a></li>
+        <li><a href="ch7-assembler.html#ch6-if">Conditionals and loops</a></li>
+        <li><a href="ch7-assembler.html#ch6-modular">Modularization (.INCLUDE)</a></li>
+        <li><a href="ch7-assembler.html#ch6-pseudo">Pseudo-instructions and macros</a></li>
+        <li><a href="ch7-assembler.html#ch6-classes">Classes, events and ABI</a></li>
+        <li><a href="ch7-assembler.html#ch6-advanced">Advanced</a></li>
+      </ul>
+    </li>
+    <li><a href="ch8-book.html" class="nav-chapter"><span class="material-icons nav-icon">menu_book</span> Beyond the Bit — The Book</a>
+      <ul class="nav-subs">
+        <li><a href="ch8-book.html#ch1-castello">1. Firmware as a sand castle</a></li>
+        <li><a href="ch8-book.html#ch2-vm">2. Virtual machines on MCUs</a></li>
+        <li><a href="ch8-book.html#ch3-determinismo">3. Determinism as architecture</a></li>
+        <li><a href="ch8-book.html#ch4-memoria">4. Memory as territory</a></li>
+        <li><a href="ch8-book.html#ch5-oop">5. Objects, methods and VTable</a></li>
+        <li><a href="ch8-book.html#ch6-dsl">6. Metaprogramming and DSLs</a></li>
+        <li><a href="ch8-book.html#ch7-syscall">7. Syscalls</a></li>
+        <li><a href="ch8-book.html#ch8-ecosistema">8. The ecosystem</a></li>
+        <li><a href="ch8-book.html#ch9-futuro">9. The future</a></li>
+      </ul>
+    </li>
+
+  </ul>
+</nav>
+
+
+<main class="main-content">
+  <div class="top-nav-wrap"><nav class="page-nav"><a href="ch3-isa.html" class="pn-prev"><span class="material-icons" style="font-size:1rem">chevron_left</span> Instruction Set (ISA)</a><span class="pn-sep">|</span><a href="index.html" class="pn-index"><span class="material-icons" style="font-size:1rem;vertical-align:middle">list</span> Index</a><span class="pn-sep">|</span><a href="ch5-events.html" class="pn-next">Events <span class="material-icons" style="font-size:1rem">chevron_right</span></a></nav></div>
+
+<section id="ch4-faults" class="doc-section">
+  <h2 class="section-title"><span class="material-icons section-icon">warning</span> 4. Codici di fault</h2>
+  <p>I fault sono errori software recuperabili tramite <code>GUARD</code> / <code>UNGUARD</code>.
+  Quando si verifica un fault all'interno di un blocco protetto, la VM
+  ripristina lo stato al checkpoint e scrive il codice in <strong>R14</strong>.</p>
+  <div class="table-wrap">
+  <table class="doc-table">
+    <thead><tr><th>Codice</th><th>Costante</th><th>Descrizione</th></tr></thead>
+    <tbody>
+    <tr id="fault-user-generic"><td><code>0x00</code></td><td><code>USER_GENERIC</code></td><td>Errore generico utente</td></tr>
+    <tr id="fault-null-pointer"><td><code>0x80</code></td><td><code>NULL_POINTER</code></td><td>Accesso a puntatore NULL (R1 = 0)</td></tr>
+    <tr id="fault-invalid-obj"><td><code>0x81</code></td><td><code>INVALID_OBJ</code></td><td>Puntatore non punta a un oggetto valido</td></tr>
+    <tr id="fault-oom-scratch"><td><code>0x82</code></td><td><code>OOM_SCRATCH</code></td><td>Out Of Memory (Arena Scratch)</td></tr>
+    <tr id="fault-oom-frame"><td><code>0x83</code></td><td><code>OOM_FRAME</code></td><td>Out Of Memory (Arena Frame)</td></tr>
+    <tr id="fault-stack-overflow"><td><code>0x84</code></td><td><code>STACK_OVERFLOW</code></td><td>Stack Pointer superato limite</td></tr>
+    <tr id="fault-stack-underflow"><td><code>0x85</code></td><td><code>STACK_UNDERFLOW</code></td><td>Stack Pointer superato limite</td></tr>
+    <tr id="fault-mark-overflow"><td><code>0x86</code></td><td><code>MARK_OVERFLOW</code></td><td>MARK esauriti</td></tr>
+    <tr id="fault-div-zero"><td><code>0x87</code></td><td><code>DIV_ZERO</code></td><td>Divisione per zero</td></tr>
+    <tr id="fault-invalid-opcode"><td><code>0x88</code></td><td><code>INVALID_OPCODE</code></td><td>Istruzione non valida</td></tr>
+    <tr id="fault-invalid-pc"><td><code>0x89</code></td><td><code>INVALID_PC</code></td><td>PC non valido</td></tr>
+    <tr id="fault-event-overflow"><td><code>0x8A</code></td><td><code>EVENT_OVERFLOW</code></td><td>Event Queue piena</td></tr>
+    <tr id="fault-bad-class-id"><td><code>0x90</code></td><td><code>BAD_CLASS_ID</code></td><td>ClassID non valido nella VTable</td></tr>
+    <tr id="fault-no-method"><td><code>0x91</code></td><td><code>NO_METHOD</code></td><td>Metodo non trovato nella VTable</td></tr>
+    <tr id="fault-field-bounds"><td><code>0x92</code></td><td><code>FIELD_BOUNDS</code></td><td>Accesso fuori dai limiti dell'oggetto</td></tr>
+    <tr id="fault-illegal-yield"><td><code>0x94</code></td><td><code>ILLEGAL_YIELD</code></td><td>YIELD non consentito in questo contesto</td></tr>
+    <tr id="fault-invalid-char"><td><code>0x95</code></td><td><code>INVALID_CHAR</code></td><td>Carattere non valido in GETC/PUTC</td></tr>
+    <tr id="fault-mark-underflow"><td><code>0x96</code></td><td><code>MARK_UNDERFLOW</code></td><td>FREE/FREE.FR senza MARK/MARK.FR attivo</td></tr>
+    <tr id="fault-unguard-without-guard"><td><code>0x97</code></td><td><code>UNGUARD_WITHOUT_GUARD</code></td><td>UNGUARD senza GUARD attiva</td></tr>
+    <tr id="fault-method-bounds"><td><code>0x98</code></td><td><code>METHOD_BOUNDS</code></td><td>Indice metodo fuori dai limiti nella VTable</td></tr>
+    <tr id="fault-invalid-event"><td><code>0x99</code></td><td><code>INVALID_EVENT</code></td><td>Event slot fuori range</td></tr>
+    <tr id="fault-invalid-syscall"><td><code>0x9A</code></td><td><code>INVALID_SYSCALL</code></td><td>Syscall ID non valido</td></tr>
+    <tr id="fault-invalid-read"><td><code>0x8B</code></td><td><code>INVALID_READ</code></td><td>Lettura da indirizzo non valido</td></tr>
+    <tr id="fault-invalid-write"><td><code>0x8C</code></td><td><code>INVALID_WRITE</code></td><td>Scrittura su indirizzo non valido (read-only o fuori memoria)</td></tr>
+    <tr id="fault-static-not-loaded"><td><code>0x9B</code></td><td><code>STATIC_NOT_LOADED</code></td><td>LDA su .STATIC dichiarata ma non caricata (overflow del modello)</td></tr>
+    <tr id="fault-dead"><td><code>0xDEAD</code></td><td><code>DEAD</code></td><td>Errore fatale generico (ponte HW→VM)</td></tr>
+
+    </tbody>
+  </table>
+  </div>
+</section>
+
+  <div class="bot-nav-wrap"><nav class="page-nav"><a href="ch3-isa.html" class="pn-prev"><span class="material-icons" style="font-size:1rem">chevron_left</span> Instruction Set (ISA)</a><span class="pn-sep">|</span><a href="index.html" class="pn-index"><span class="material-icons" style="font-size:1rem;vertical-align:middle">list</span> Index</a><span class="pn-sep">|</span><a href="ch5-events.html" class="pn-next">Events <span class="material-icons" style="font-size:1rem">chevron_right</span></a></nav></div>
+  <footer class="doc-footer">
+    <p>Caldeira VM &copy; 2026</p>
+  </footer>
+</main>
+
+
+<script src="script.js"></script>
+</body>
+</html>

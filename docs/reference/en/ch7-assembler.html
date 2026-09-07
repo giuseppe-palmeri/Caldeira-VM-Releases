@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Direttive assembler — Caldeira VM</title>
+<title>Assembler Directives — Caldeira VM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,29 +12,29 @@
 </head>
 <body>
 
-<nav id="sidebar" class="sidebar" role="navigation" aria-label="Navigazione documentazione">
+<nav id="sidebar" class="sidebar" role="navigation" aria-label="Documentation navigation">
   <div class="sidebar-header">
     <a href="index.html" class="logo-link">
       <img src="caldeira.png" alt="Caldeira VM" class="sidebar-logo" />
     </a>
     <div class="sidebar-title">
       <span class="sidebar-brand">Caldeira VM</span>
-      <span class="sidebar-sub">Documentazione</span>
+      <span class="sidebar-sub">Documentation</span>
     </div>
   </div>
   <div class="sidebar-search">
-    <input type="text" id="nav-search" placeholder="Cerca istruzioni..." oninput="filterNav(this.value)" />
+    <input type="text" id="nav-search" placeholder="Search instructions..." oninput="filterNav(this.value)" />
   </div>
   <ul class="nav-tree">
-    <li><a href="ch1-quickstart.html" class="nav-chapter"><span class="material-icons nav-icon">rocket_launch</span> Primo programma</a>
+    <li><a href="ch1-quickstart.html" class="nav-chapter"><span class="material-icons nav-icon">rocket_launch</span> First Program</a>
     </li>
-    <li><a href="ch2-registers.html" class="nav-chapter"><span class="material-icons nav-icon">developer_board</span> Architettura registri</a>
+    <li><a href="ch2-registers.html" class="nav-chapter"><span class="material-icons nav-icon">developer_board</span> Register Architecture</a>
       <ul class="nav-subs">
-        <li><a href="ch2-registers.html#reg-table">Registri R0–R15</a></li>
-        <li><a href="ch2-registers.html#flags-psr">Flags PSR</a></li>
+        <li><a href="ch2-registers.html#reg-table">Registers R0–R15</a></li>
+        <li><a href="ch2-registers.html#flags-psr">PSR flags</a></li>
       </ul>
     </li>
-    <li><a href="ch3-isa.html" class="nav-chapter"><span class="material-icons nav-icon">code</span> Set di istruzioni (ISA)</a>
+    <li><a href="ch3-isa.html" class="nav-chapter"><span class="material-icons nav-icon">code</span> Instruction Set (ISA)</a>
       <ul class="nav-subs">
         <li class="nav-cat"><a href="ch3-isa.html#aritmetica-e-logica">Aritmetica e logica</a>
           <ul class="nav-subs">
@@ -174,7 +174,7 @@
         </li>
       </ul>
     </li>
-    <li><a href="ch4-faults.html" class="nav-chapter"><span class="material-icons nav-icon">warning</span> Codici di fault</a>
+    <li><a href="ch4-faults.html" class="nav-chapter"><span class="material-icons nav-icon">warning</span> Fault Codes</a>
       <ul class="nav-subs">
         <li><a href="ch4-faults.html#fault-user-generic">USER_GENERIC</a></li>
         <li><a href="ch4-faults.html#fault-null-pointer">NULL_POINTER</a></li>
@@ -204,7 +204,7 @@
         <li><a href="ch4-faults.html#fault-dead">DEAD</a></li>
       </ul>
     </li>
-    <li><a href="ch5-events.html" class="nav-chapter"><span class="material-icons nav-icon">rss_feed</span> Eventi</a>
+    <li><a href="ch5-events.html" class="nav-chapter"><span class="material-icons nav-icon">rss_feed</span> Events</a>
       <ul class="nav-subs">
         <li class="nav-cat"><a href="ch5-events.html#evt-0x00">0x00 — SISTEMA (Core)</a>
           <ul class="nav-subs">
@@ -236,6 +236,8 @@
             <li><a href="ch5-events.html#evt-evt-adc-thr-cross-flags-flg">EVT_ADC_THR_CROSS(flags:FLG)</a></li>
             <li><a href="ch5-events.html#evt-evt-dac-empty">EVT_DAC_EMPTY</a></li>
             <li><a href="ch5-events.html#evt-evt-pwm-fault-flags-flg">EVT_PWM_FAULT(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-keydown-scancode-u32">EVT_SDL_KEYDOWN(scancode:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-keyup-scancode-u32">EVT_SDL_KEYUP(scancode:U32)</a></li>
           </ul>
         </li>
         <li class="nav-cat"><a href="ch5-events.html#evt-0x80">0x80 — COMUNICAZIONE SERIALE</a>
@@ -260,6 +262,13 @@
             <li><a href="ch5-events.html#evt-evt-bt-stack-flags-flg">EVT_BT_STACK(flags:FLG)</a></li>
           </ul>
         </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0xd0">0xD0 — TOUCH SCREEN (contratto input, ABI compatibile con il mouse SDL)</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-touch-down-x-u32-y-u32">EVT_TOUCH_DOWN(x:U32,y:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-touch-move-x-u32-y-u32">EVT_TOUCH_MOVE(x:U32,y:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-touch-up-x-u32-y-u32">EVT_TOUCH_UP(x:U32,y:U32)</a></li>
+          </ul>
+        </li>
         <li class="nav-cat"><a href="ch5-events.html#evt-0xe0-0xf8">0xE0-0xF8 — SPAZIO UTENTE (portabile, Role = U)</a>
           <ul class="nav-subs">
             <li><a href="ch5-events.html#evt-evt-user-custom-0">EVT_USER_CUSTOM_0</a></li>
@@ -273,8 +282,6 @@
         </li>
         <li class="nav-cat"><a href="ch5-events.html#evt-uncategorized">Uncategorized</a>
           <ul class="nav-subs">
-            <li><a href="ch5-events.html#evt-evt-sdl-keydown-scancode-u32">EVT_SDL_KEYDOWN(scancode:U32)</a></li>
-            <li><a href="ch5-events.html#evt-evt-sdl-keyup-scancode-u32">EVT_SDL_KEYUP(scancode:U32)</a></li>
             <li><a href="ch5-events.html#evt-evt-sdl-quit">EVT_SDL_QUIT</a></li>
             <li><a href="ch5-events.html#evt-evt-sdl-close">EVT_SDL_CLOSE</a></li>
             <li><a href="ch5-events.html#evt-evt-sdl-mousemotion-x-u32-y-u32">EVT_SDL_MOUSEMOTION(x:U32,y:U32)</a></li>
@@ -286,7 +293,7 @@
         </li>
       </ul>
     </li>
-    <li><a href="ch6-syscalls.html" class="nav-chapter"><span class="material-icons nav-icon">api</span> Syscall</a>
+    <li><a href="ch6-syscalls.html" class="nav-chapter"><span class="material-icons nav-icon">api</span> Syscalls</a>
       <ul class="nav-subs">
         <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x00">0x00 — SISTEMA</a>
           <ul class="nav-subs">
@@ -322,7 +329,7 @@
             <li><a href="ch6-syscalls.html#sys-sys-delay">sys_delay</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0xd0">0xD0 — SDL2 GRAPHICS</a>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0xd0">0xD0 — GRAPHICS (contratto condiviso con linux SDL2)</a>
           <ul class="nav-subs">
             <li><a href="ch6-syscalls.html#sys-sys-gfx-open">sys_gfx_open</a></li>
             <li><a href="ch6-syscalls.html#sys-sys-gfx-flush">sys_gfx_flush</a></li>
@@ -339,28 +346,28 @@
         </li>
       </ul>
     </li>
-    <li class="expanded"><a href="ch7-assembler.html" class="nav-chapter current"><span class="material-icons nav-icon">article</span> Direttive assembler</a>
+    <li class="expanded"><a href="ch7-assembler.html" class="nav-chapter current"><span class="material-icons nav-icon">article</span> Assembler Directives</a>
       <ul class="nav-subs">
-        <li><a href="#ch6-intro">Struttura file e utilità</a></li>
-        <li><a href="#ch6-data">Dati e costanti</a></li>
-        <li><a href="#ch6-if">Condizionali e ripetizioni</a></li>
-        <li><a href="#ch6-modular">Modularizzazione (.INCLUDE)</a></li>
-        <li><a href="#ch6-pseudo">Pseudo-istruzioni e macro</a></li>
-        <li><a href="#ch6-classes">Classi, eventi e ABI</a></li>
-        <li><a href="#ch6-advanced">Avanzate</a></li>
+        <li><a href="#ch6-intro">File structure and utilities</a></li>
+        <li><a href="#ch6-data">Data and constants</a></li>
+        <li><a href="#ch6-if">Conditionals and loops</a></li>
+        <li><a href="#ch6-modular">Modularization (.INCLUDE)</a></li>
+        <li><a href="#ch6-pseudo">Pseudo-instructions and macros</a></li>
+        <li><a href="#ch6-classes">Classes, events and ABI</a></li>
+        <li><a href="#ch6-advanced">Advanced</a></li>
       </ul>
     </li>
-    <li><a href="ch8-book.html" class="nav-chapter"><span class="material-icons nav-icon">menu_book</span> Oltre il Bit — Il libro</a>
+    <li><a href="ch8-book.html" class="nav-chapter"><span class="material-icons nav-icon">menu_book</span> Beyond the Bit — The Book</a>
       <ul class="nav-subs">
-        <li><a href="ch8-book.html#ch1-castello">1. Il firmware è un castello di sabbia</a></li>
-        <li><a href="ch8-book.html#ch2-vm">2. Macchine virtuali su MCU</a></li>
-        <li><a href="ch8-book.html#ch3-determinismo">3. Determinismo come architettura</a></li>
-        <li><a href="ch8-book.html#ch4-memoria">4. La memoria come territorio</a></li>
-        <li><a href="ch8-book.html#ch5-oop">5. Oggetti, metodi e VTable</a></li>
-        <li><a href="ch8-book.html#ch6-dsl">6. Metaprogrammazione e DSL</a></li>
-        <li><a href="ch8-book.html#ch7-syscall">7. Syscall</a></li>
-        <li><a href="ch8-book.html#ch8-ecosistema">8. L'ecosistema</a></li>
-        <li><a href="ch8-book.html#ch9-futuro">9. Il futuro</a></li>
+        <li><a href="ch8-book.html#ch1-castello">1. Firmware as a sand castle</a></li>
+        <li><a href="ch8-book.html#ch2-vm">2. Virtual machines on MCUs</a></li>
+        <li><a href="ch8-book.html#ch3-determinismo">3. Determinism as architecture</a></li>
+        <li><a href="ch8-book.html#ch4-memoria">4. Memory as territory</a></li>
+        <li><a href="ch8-book.html#ch5-oop">5. Objects, methods and VTable</a></li>
+        <li><a href="ch8-book.html#ch6-dsl">6. Metaprogramming and DSLs</a></li>
+        <li><a href="ch8-book.html#ch7-syscall">7. Syscalls</a></li>
+        <li><a href="ch8-book.html#ch8-ecosistema">8. The ecosystem</a></li>
+        <li><a href="ch8-book.html#ch9-futuro">9. The future</a></li>
       </ul>
     </li>
 
@@ -369,7 +376,7 @@
 
 
 <main class="main-content">
-  <div class="top-nav-wrap"><nav class="page-nav"><a href="ch6-syscalls.html" class="pn-prev"><span class="material-icons" style="font-size:1rem">chevron_left</span> Syscall</a><span class="pn-sep">|</span><a href="index.html" class="pn-index"><span class="material-icons" style="font-size:1rem;vertical-align:middle">list</span> Indice</a><span class="pn-sep">|</span><a href="ch8-book.html" class="pn-next">Oltre il Bit — Il libro <span class="material-icons" style="font-size:1rem">chevron_right</span></a></nav></div>
+  <div class="top-nav-wrap"><nav class="page-nav"><a href="ch6-syscalls.html" class="pn-prev"><span class="material-icons" style="font-size:1rem">chevron_left</span> Syscalls</a><span class="pn-sep">|</span><a href="index.html" class="pn-index"><span class="material-icons" style="font-size:1rem;vertical-align:middle">list</span> Index</a><span class="pn-sep">|</span><a href="ch8-book.html" class="pn-next">Beyond the Bit — The Book <span class="material-icons" style="font-size:1rem">chevron_right</span></a></nav></div>
 
 <section id="ch7-assembler" class="doc-section">
   <h2 class="section-title"><span class="material-icons section-icon">article</span> 7. Direttive e macro assembler</h2>
@@ -422,7 +429,7 @@
   <h3 style="padding-top:1.2em" id="ch6-intro">6.2 Struttura file e utilità</h3>
   <p>Un file <code>.clasto</code> contiene una riga per ogni operazione. Ogni riga può avere:<br>- una <b>istruzione</b>: <code>ADD R1, R2, R3</code><br>- una <b>direttiva</b> (comincia con <code>.</code>): <code>.CONST MAX 100</code><br>- una <b>pseudo-istruzione</b> (comincia con <code>!</code>): <code>!LI R1, 42</code><br>- una <b>etichetta</b> (nome + <code>:</code>): <code>loop:</code><br>- un <b>commento</b> (<code>;</code>): tutto dopo <code>;</code> viene ignorato</p><p><b>Ciclo di sviluppo</b>: <code>clasto input.clasto output.lava</code> poi <code>lava output.lava</code>.</p><p><b>Direttive di utilitá</b>:<br><code>.FILE "nome"</code> registra il nome file per il debug.<br><code>.LOC n</code> forza il numero di riga.<br><code>.PRINT "msg"</code> scrive su stderr.<br><code>.ERROR "msg"</code> blocca la compilazione.</p>
   <h3 style="padding-top:1.2em" id="ch6-data">6.3 Dati e costanti</h3>
-  <p><code>.CONST Nome:Valore</code> definisce costanti numeriche risolte a compile-time — usale in <code>.IF</code>, <code>.CONFIG</code> o come immediato nelle istruzioni (es. <code>MOV.S R1, MAX_BUF</code>). Il <code>:</code> e' convenzionale, puoi usare anche <code>.CONST Nome Valore</code>.</p><p><code>.DB</code> (byte), <code>.DW</code> (halfword 16-bit), <code>.DD</code> (word 32-bit) e <code>.TEXT</code> (stringa) emettono dati costanti nel bytecode. Metti una label prima (es. <code>tabella:</code>) per poterli raggiungere.</p><p><code>.STATIC ... .END_STATIC</code> crea una sezione di dati che all'avvio della VM viene copiata dalla flash alla RAM privata, quindi sono leggibili e scrivibili. <code>LDA</code> carica l'indirizzo in RAM (per read/write con <code>ST</code>). Usare la label direttamente in <code>MOV.S</code> da' l'indirizzo flash (sola lettura, piu veloce). Max 512 byte totali.</p>
+  <p><code>.CONST Nome:Valore</code> definisce costanti numeriche risolte a compile-time — usale in <code>.IF</code>, <code>.CONFIG</code> o come immediato nelle istruzioni (es. <code>MOV.S R1, MAX_BUF</code>). Il <code>:</code> e' convenzionale, puoi usare anche <code>.CONST Nome Valore</code>.</p><p><b>Letterali numerici</b>: i numeri si scrivono in decimale (<code>42</code>), esadecimale (<code>0x2A</code>), ottale (<code>0o52</code>) o binario (<code>0b101010</code>). Tutte le basi sono valide ovunque serva un numero (immediati, <code>.CONST</code>, espressioni, <code>.DB/.DW/.DD</code>) e si possono mescolare nelle espressioni. Limite: 32 bit; oltre -&gt; E0006.</p><p><code>.DB</code> (byte), <code>.DW</code> (halfword 16-bit), <code>.DD</code> (word 32-bit) e <code>.TEXT</code> (stringa) emettono dati costanti nel bytecode. Metti una label prima (es. <code>tabella:</code>) per poterli raggiungere.</p><p><code>.STATIC ... .END_STATIC</code> crea una sezione di dati che all'avvio della VM viene copiata dalla flash alla RAM privata, quindi sono leggibili e scrivibili. <code>LDA</code> carica l'indirizzo in RAM (per read/write con <code>ST</code>). Usare la label direttamente in <code>MOV.S</code> da' l'indirizzo flash (sola lettura, piu veloce). Max 512 byte totali.</p>
   <pre class="code-block asm"><code><span class="hl-dir">.DB</span> <span class="hl-num">0x01</span>, <span class="hl-num">0x02</span>, <span class="hl-num">0xFF</span>              <span class="hl-cmt">; 3 byte</span>
 <span class="hl-dir">.DW</span> <span class="hl-num">0x1234</span>, <span class="hl-num">0x5678</span>                 <span class="hl-cmt">; 2 halfword</span>
 <span class="hl-dir">.DD</span> <span class="hl-num">0xDEADBEEF</span>, <span class="hl-num">0xCAFEBABE</span>        <span class="hl-cmt">; 2 word</span>
@@ -548,6 +555,7 @@ Error: file:3:4: E2000: YIELD not allowed inside MARK/FREE atomic section</pre>
       <tr><td><code>E0005</code></td><td>E0005: .IF: expression error (division by zero)</td></tr>
       <tr><td><code>E0006</code></td><td>E0006: numeric literal '%s' out of range (32-bit)</td></tr>
       <tr><td><code>E0007</code></td><td>E0007: line has too many tokens (max %d)</td></tr>
+      <tr><td><code>E0008</code></td><td>E0008: invalid digit '%c' in numeric literal '%s'</td></tr>
       <tr><td><code>E1000</code></td><td>E1000: .INTERFACE: name required</td></tr>
       <tr><td><code>E1001</code></td><td>E1001: .INTERFACE: cannot nest inside .CLASS</td></tr>
       <tr><td><code>E1002</code></td><td>E1002: .INTERFACE: too many definitions (max 1024)</td></tr>
@@ -640,6 +648,12 @@ Error: file:3:4: E2000: YIELD not allowed inside MARK/FREE atomic section</pre>
       <tr><td><code>E1458</code></td><td>E1458: .EVENT: too many events (max 32)</td></tr>
       <tr><td><code>E1459</code></td><td>E1459: .EVENT: duplicate offset 0x%X</td></tr>
       <tr><td><code>E1460</code></td><td>E1460: event '%s' shadowed (overridden da .EVENT — usare il nome nuovo)</td></tr>
+      <tr><td><code>E1461</code></td><td>E1461: .GUARD: missing .END_GUARD</td></tr>
+      <tr><td><code>E1462</code></td><td>E1462: .HANDLER: no matching .GUARD</td></tr>
+      <tr><td><code>E1463</code></td><td>E1463: .END_GUARD: no matching .GUARD</td></tr>
+      <tr><td><code>E1464</code></td><td>E1464: .GUARD: nesting too deep (max 8)</td></tr>
+      <tr><td><code>E1465</code></td><td>E1465: .HANDLER: duplicate handler in .GUARD block</td></tr>
+      <tr><td><code>E1466</code></td><td>E1466: .GUARD: missing .HANDLER (il blocco ha 3 elementi: .GUARD try .HANDLER catch .END_GUARD)</td></tr>
       <tr><td><code>E1500</code></td><td>E1500: .ALIAS: invalid register (valid: R0-R15)</td></tr>
       <tr><td><code>E1501</code></td><td>E1501: .ALIAS: too many aliases</td></tr>
       <tr><td><code>E1502</code></td><td>E1502: duplicate .ALIAS '%s'</td></tr>
@@ -746,7 +760,7 @@ Error: file:3:4: E2000: YIELD not allowed inside MARK/FREE atomic section</pre>
   </table>
 </section>
 
-  <div class="bot-nav-wrap"><nav class="page-nav"><a href="ch6-syscalls.html" class="pn-prev"><span class="material-icons" style="font-size:1rem">chevron_left</span> Syscall</a><span class="pn-sep">|</span><a href="index.html" class="pn-index"><span class="material-icons" style="font-size:1rem;vertical-align:middle">list</span> Indice</a><span class="pn-sep">|</span><a href="ch8-book.html" class="pn-next">Oltre il Bit — Il libro <span class="material-icons" style="font-size:1rem">chevron_right</span></a></nav></div>
+  <div class="bot-nav-wrap"><nav class="page-nav"><a href="ch6-syscalls.html" class="pn-prev"><span class="material-icons" style="font-size:1rem">chevron_left</span> Syscalls</a><span class="pn-sep">|</span><a href="index.html" class="pn-index"><span class="material-icons" style="font-size:1rem;vertical-align:middle">list</span> Index</a><span class="pn-sep">|</span><a href="ch8-book.html" class="pn-next">Beyond the Bit — The Book <span class="material-icons" style="font-size:1rem">chevron_right</span></a></nav></div>
   <footer class="doc-footer">
     <p>Caldeira VM &copy; 2026</p>
   </footer>

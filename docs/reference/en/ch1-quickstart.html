@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Syscall — Caldeira VM</title>
+<title>First Program — Caldeira VM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,29 +12,29 @@
 </head>
 <body>
 
-<nav id="sidebar" class="sidebar" role="navigation" aria-label="Navigazione documentazione">
+<nav id="sidebar" class="sidebar" role="navigation" aria-label="Documentation navigation">
   <div class="sidebar-header">
     <a href="index.html" class="logo-link">
       <img src="caldeira.png" alt="Caldeira VM" class="sidebar-logo" />
     </a>
     <div class="sidebar-title">
       <span class="sidebar-brand">Caldeira VM</span>
-      <span class="sidebar-sub">Documentazione</span>
+      <span class="sidebar-sub">Documentation</span>
     </div>
   </div>
   <div class="sidebar-search">
-    <input type="text" id="nav-search" placeholder="Cerca istruzioni..." oninput="filterNav(this.value)" />
+    <input type="text" id="nav-search" placeholder="Search instructions..." oninput="filterNav(this.value)" />
   </div>
   <ul class="nav-tree">
-    <li><a href="ch1-quickstart.html" class="nav-chapter"><span class="material-icons nav-icon">rocket_launch</span> Primo programma</a>
+    <li class="expanded"><a href="ch1-quickstart.html" class="nav-chapter current"><span class="material-icons nav-icon">rocket_launch</span> First Program</a>
     </li>
-    <li><a href="ch2-registers.html" class="nav-chapter"><span class="material-icons nav-icon">developer_board</span> Architettura registri</a>
+    <li><a href="ch2-registers.html" class="nav-chapter"><span class="material-icons nav-icon">developer_board</span> Register Architecture</a>
       <ul class="nav-subs">
-        <li><a href="ch2-registers.html#reg-table">Registri R0–R15</a></li>
-        <li><a href="ch2-registers.html#flags-psr">Flags PSR</a></li>
+        <li><a href="ch2-registers.html#reg-table">Registers R0–R15</a></li>
+        <li><a href="ch2-registers.html#flags-psr">PSR flags</a></li>
       </ul>
     </li>
-    <li><a href="ch3-isa.html" class="nav-chapter"><span class="material-icons nav-icon">code</span> Set di istruzioni (ISA)</a>
+    <li><a href="ch3-isa.html" class="nav-chapter"><span class="material-icons nav-icon">code</span> Instruction Set (ISA)</a>
       <ul class="nav-subs">
         <li class="nav-cat"><a href="ch3-isa.html#aritmetica-e-logica">Aritmetica e logica</a>
           <ul class="nav-subs">
@@ -174,7 +174,7 @@
         </li>
       </ul>
     </li>
-    <li><a href="ch4-faults.html" class="nav-chapter"><span class="material-icons nav-icon">warning</span> Codici di fault</a>
+    <li><a href="ch4-faults.html" class="nav-chapter"><span class="material-icons nav-icon">warning</span> Fault Codes</a>
       <ul class="nav-subs">
         <li><a href="ch4-faults.html#fault-user-generic">USER_GENERIC</a></li>
         <li><a href="ch4-faults.html#fault-null-pointer">NULL_POINTER</a></li>
@@ -204,7 +204,7 @@
         <li><a href="ch4-faults.html#fault-dead">DEAD</a></li>
       </ul>
     </li>
-    <li><a href="ch5-events.html" class="nav-chapter"><span class="material-icons nav-icon">rss_feed</span> Eventi</a>
+    <li><a href="ch5-events.html" class="nav-chapter"><span class="material-icons nav-icon">rss_feed</span> Events</a>
       <ul class="nav-subs">
         <li class="nav-cat"><a href="ch5-events.html#evt-0x00">0x00 — SISTEMA (Core)</a>
           <ul class="nav-subs">
@@ -236,6 +236,8 @@
             <li><a href="ch5-events.html#evt-evt-adc-thr-cross-flags-flg">EVT_ADC_THR_CROSS(flags:FLG)</a></li>
             <li><a href="ch5-events.html#evt-evt-dac-empty">EVT_DAC_EMPTY</a></li>
             <li><a href="ch5-events.html#evt-evt-pwm-fault-flags-flg">EVT_PWM_FAULT(flags:FLG)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-keydown-scancode-u32">EVT_SDL_KEYDOWN(scancode:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-sdl-keyup-scancode-u32">EVT_SDL_KEYUP(scancode:U32)</a></li>
           </ul>
         </li>
         <li class="nav-cat"><a href="ch5-events.html#evt-0x80">0x80 — COMUNICAZIONE SERIALE</a>
@@ -260,6 +262,13 @@
             <li><a href="ch5-events.html#evt-evt-bt-stack-flags-flg">EVT_BT_STACK(flags:FLG)</a></li>
           </ul>
         </li>
+        <li class="nav-cat"><a href="ch5-events.html#evt-0xd0">0xD0 — TOUCH SCREEN (contratto input, ABI compatibile con il mouse SDL)</a>
+          <ul class="nav-subs">
+            <li><a href="ch5-events.html#evt-evt-touch-down-x-u32-y-u32">EVT_TOUCH_DOWN(x:U32,y:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-touch-move-x-u32-y-u32">EVT_TOUCH_MOVE(x:U32,y:U32)</a></li>
+            <li><a href="ch5-events.html#evt-evt-touch-up-x-u32-y-u32">EVT_TOUCH_UP(x:U32,y:U32)</a></li>
+          </ul>
+        </li>
         <li class="nav-cat"><a href="ch5-events.html#evt-0xe0-0xf8">0xE0-0xF8 — SPAZIO UTENTE (portabile, Role = U)</a>
           <ul class="nav-subs">
             <li><a href="ch5-events.html#evt-evt-user-custom-0">EVT_USER_CUSTOM_0</a></li>
@@ -273,8 +282,6 @@
         </li>
         <li class="nav-cat"><a href="ch5-events.html#evt-uncategorized">Uncategorized</a>
           <ul class="nav-subs">
-            <li><a href="ch5-events.html#evt-evt-sdl-keydown-scancode-u32">EVT_SDL_KEYDOWN(scancode:U32)</a></li>
-            <li><a href="ch5-events.html#evt-evt-sdl-keyup-scancode-u32">EVT_SDL_KEYUP(scancode:U32)</a></li>
             <li><a href="ch5-events.html#evt-evt-sdl-quit">EVT_SDL_QUIT</a></li>
             <li><a href="ch5-events.html#evt-evt-sdl-close">EVT_SDL_CLOSE</a></li>
             <li><a href="ch5-events.html#evt-evt-sdl-mousemotion-x-u32-y-u32">EVT_SDL_MOUSEMOTION(x:U32,y:U32)</a></li>
@@ -286,81 +293,81 @@
         </li>
       </ul>
     </li>
-    <li class="expanded"><a href="ch6-syscalls.html" class="nav-chapter current"><span class="material-icons nav-icon">api</span> Syscall</a>
+    <li><a href="ch6-syscalls.html" class="nav-chapter"><span class="material-icons nav-icon">api</span> Syscalls</a>
       <ul class="nav-subs">
-        <li class="nav-cat"><a href="#sys-0x00">0x00 — SISTEMA</a>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x00">0x00 — SISTEMA</a>
           <ul class="nav-subs">
-            <li><a href="#sys-sys-reset">sys_reset</a></li>
-            <li><a href="#sys-sys-version">sys_version</a></li>
-            <li><a href="#sys-sys-features">sys_features</a></li>
-            <li><a href="#sys-sys-millis">sys_millis</a></li>
-            <li><a href="#sys-sys-static-ptr">sys_static_ptr</a></li>
-            <li><a href="#sys-sys-event-id">sys_event_id</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-reset">sys_reset</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-version">sys_version</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-features">sys_features</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-millis">sys_millis</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-static-ptr">sys_static_ptr</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-event-id">sys_event_id</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="#sys-0x10">0x10 — HAL</a>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x10">0x10 — HAL</a>
           <ul class="nav-subs">
-            <li><a href="#sys-sys-print">sys_print</a></li>
-            <li><a href="#sys-sys-print-status">sys_print_status</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-print">sys_print</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-print-status">sys_print_status</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="#sys-0x20">0x20 — GPIO</a>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x20">0x20 — GPIO</a>
           <ul class="nav-subs">
-            <li><a href="#sys-sys-gpio-set-dir">sys_gpio_set_dir</a></li>
-            <li><a href="#sys-sys-gpio-write">sys_gpio_write</a></li>
-            <li><a href="#sys-sys-gpio-read">sys_gpio_read</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gpio-set-dir">sys_gpio_set_dir</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gpio-write">sys_gpio_write</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gpio-read">sys_gpio_read</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="#sys-0x30">0x30 — UART</a>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x30">0x30 — UART</a>
           <ul class="nav-subs">
-            <li><a href="#sys-sys-uart-send">sys_uart_send</a></li>
-            <li><a href="#sys-sys-uart-read">sys_uart_read</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-uart-send">sys_uart_send</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-uart-read">sys_uart_read</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="#sys-0x40">0x40 — Timer</a>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0x40">0x40 — Timer</a>
           <ul class="nav-subs">
-            <li><a href="#sys-sys-delay">sys_delay</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-delay">sys_delay</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="#sys-0xd0">0xD0 — SDL2 GRAPHICS</a>
+        <li class="nav-cat"><a href="ch6-syscalls.html#sys-0xd0">0xD0 — GRAPHICS (contratto condiviso con linux SDL2)</a>
           <ul class="nav-subs">
-            <li><a href="#sys-sys-gfx-open">sys_gfx_open</a></li>
-            <li><a href="#sys-sys-gfx-flush">sys_gfx_flush</a></li>
-            <li><a href="#sys-sys-gfx-poll">sys_gfx_poll</a></li>
-            <li><a href="#sys-sys-gfx-close">sys_gfx_close</a></li>
-            <li><a href="#sys-sys-gfx-info">sys_gfx_info</a></li>
-            <li><a href="#sys-sys-gfx-get-input-addr">sys_gfx_get_input_addr</a></li>
-            <li><a href="#sys-sys-gfx-read-input">sys_gfx_read_input</a></li>
-            <li><a href="#sys-sys-gfx-get-mouse">sys_gfx_get_mouse</a></li>
-            <li><a href="#sys-sys-gfx-get-winsize">sys_gfx_get_winsize</a></li>
-            <li><a href="#sys-sys-text-print">sys_text_print</a></li>
-            <li><a href="#sys-sys-ttf-render">sys_ttf_render</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-open">sys_gfx_open</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-flush">sys_gfx_flush</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-poll">sys_gfx_poll</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-close">sys_gfx_close</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-info">sys_gfx_info</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-get-input-addr">sys_gfx_get_input_addr</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-read-input">sys_gfx_read_input</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-get-mouse">sys_gfx_get_mouse</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-gfx-get-winsize">sys_gfx_get_winsize</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-text-print">sys_text_print</a></li>
+            <li><a href="ch6-syscalls.html#sys-sys-ttf-render">sys_ttf_render</a></li>
           </ul>
         </li>
       </ul>
     </li>
-    <li><a href="ch7-assembler.html" class="nav-chapter"><span class="material-icons nav-icon">article</span> Direttive assembler</a>
+    <li><a href="ch7-assembler.html" class="nav-chapter"><span class="material-icons nav-icon">article</span> Assembler Directives</a>
       <ul class="nav-subs">
-        <li><a href="ch7-assembler.html#ch6-intro">Struttura file e utilità</a></li>
-        <li><a href="ch7-assembler.html#ch6-data">Dati e costanti</a></li>
-        <li><a href="ch7-assembler.html#ch6-if">Condizionali e ripetizioni</a></li>
-        <li><a href="ch7-assembler.html#ch6-modular">Modularizzazione (.INCLUDE)</a></li>
-        <li><a href="ch7-assembler.html#ch6-pseudo">Pseudo-istruzioni e macro</a></li>
-        <li><a href="ch7-assembler.html#ch6-classes">Classi, eventi e ABI</a></li>
-        <li><a href="ch7-assembler.html#ch6-advanced">Avanzate</a></li>
+        <li><a href="ch7-assembler.html#ch6-intro">File structure and utilities</a></li>
+        <li><a href="ch7-assembler.html#ch6-data">Data and constants</a></li>
+        <li><a href="ch7-assembler.html#ch6-if">Conditionals and loops</a></li>
+        <li><a href="ch7-assembler.html#ch6-modular">Modularization (.INCLUDE)</a></li>
+        <li><a href="ch7-assembler.html#ch6-pseudo">Pseudo-instructions and macros</a></li>
+        <li><a href="ch7-assembler.html#ch6-classes">Classes, events and ABI</a></li>
+        <li><a href="ch7-assembler.html#ch6-advanced">Advanced</a></li>
       </ul>
     </li>
-    <li><a href="ch8-book.html" class="nav-chapter"><span class="material-icons nav-icon">menu_book</span> Oltre il Bit — Il libro</a>
+    <li><a href="ch8-book.html" class="nav-chapter"><span class="material-icons nav-icon">menu_book</span> Beyond the Bit — The Book</a>
       <ul class="nav-subs">
-        <li><a href="ch8-book.html#ch1-castello">1. Il firmware è un castello di sabbia</a></li>
-        <li><a href="ch8-book.html#ch2-vm">2. Macchine virtuali su MCU</a></li>
-        <li><a href="ch8-book.html#ch3-determinismo">3. Determinismo come architettura</a></li>
-        <li><a href="ch8-book.html#ch4-memoria">4. La memoria come territorio</a></li>
-        <li><a href="ch8-book.html#ch5-oop">5. Oggetti, metodi e VTable</a></li>
-        <li><a href="ch8-book.html#ch6-dsl">6. Metaprogrammazione e DSL</a></li>
-        <li><a href="ch8-book.html#ch7-syscall">7. Syscall</a></li>
-        <li><a href="ch8-book.html#ch8-ecosistema">8. L'ecosistema</a></li>
-        <li><a href="ch8-book.html#ch9-futuro">9. Il futuro</a></li>
+        <li><a href="ch8-book.html#ch1-castello">1. Firmware as a sand castle</a></li>
+        <li><a href="ch8-book.html#ch2-vm">2. Virtual machines on MCUs</a></li>
+        <li><a href="ch8-book.html#ch3-determinismo">3. Determinism as architecture</a></li>
+        <li><a href="ch8-book.html#ch4-memoria">4. Memory as territory</a></li>
+        <li><a href="ch8-book.html#ch5-oop">5. Objects, methods and VTable</a></li>
+        <li><a href="ch8-book.html#ch6-dsl">6. Metaprogramming and DSLs</a></li>
+        <li><a href="ch8-book.html#ch7-syscall">7. Syscalls</a></li>
+        <li><a href="ch8-book.html#ch8-ecosistema">8. The ecosystem</a></li>
+        <li><a href="ch8-book.html#ch9-futuro">9. The future</a></li>
       </ul>
     </li>
 
@@ -369,181 +376,135 @@
 
 
 <main class="main-content">
-  <div class="top-nav-wrap"><nav class="page-nav"><a href="ch5-events.html" class="pn-prev"><span class="material-icons" style="font-size:1rem">chevron_left</span> Eventi</a><span class="pn-sep">|</span><a href="index.html" class="pn-index"><span class="material-icons" style="font-size:1rem;vertical-align:middle">list</span> Indice</a><span class="pn-sep">|</span><a href="ch7-assembler.html" class="pn-next">Direttive assembler <span class="material-icons" style="font-size:1rem">chevron_right</span></a></nav></div>
+  <div class="top-nav-wrap"><nav class="page-nav"><span class="pn-disabled">←</span><span class="pn-sep">|</span><a href="index.html" class="pn-index"><span class="material-icons" style="font-size:1rem;vertical-align:middle">list</span> Index</a><span class="pn-sep">|</span><a href="ch2-registers.html" class="pn-next">Register Architecture <span class="material-icons" style="font-size:1rem">chevron_right</span></a></nav></div>
 
-<section id="ch6-syscalls" class="doc-section">
-  <h2 class="section-title"><span class="material-icons section-icon">api</span> 6. Syscall</h2>
-  <p class="section-subtitle">Chiamate di sistema.</p>
-  <div class="evt-category" id="sys-0x00">
-  <h3 class="category-title">0x00</h3>
-<p>SISTEMA</p>
-  <div class="table-wrap">
-  <table class="doc-table compact">
-    <thead><tr><th>Target</th><th>ID</th><th>Nome</th><th>ABI</th><th>Descrizione</th></tr></thead>
+<section id="ch1-quickstart" class="doc-section">
+  <h2 class="section-title"><span class="material-icons section-icon">rocket_launch</span> 1. Primo programma</h2>
+
+  <p>Caldeira VM e' una macchina virtuale deterministica per sistemi embedded. Scrivi il tuo programma in un file <code>.clasto</code>, lo compili con <code>clasto</code> in bytecode <code>.lava</code>, e lo esegui con <code>lava</code>.</p>
+
+  <h3>1.1 Il tuo primo programma</h3>
+  <p>Crea un file <code>primo.clasto</code>:</p>
+  <pre class="code-block asm"><code><span class="hl-dir">.VECTOR</span> EVT_RESET(flags:FLG), main
+<span class="hl-lbl">main</span>:
+    <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, <span class="hl-num">42</span>
+    <span class="hl-op">HALT</span></code></pre>
+  <p>Salva, compila ed esegui:</p>
+  <pre class="code-block bash"><code>clasto primo.clasto primo.lava
+lava primo.lava</code></pre>
+  <p>La VM parte, carica R1=42, poi si ferma (HALT) e torna in stato IDLE. Questo e' un programma Caldeira funzionante.</p>
+
+  <h3>1.2 Aggiungere dati: .CONST e .STATIC</h3>
+  <p>Le costanti si definiscono a compile-time con <code>.CONST</code>. I dati inizializzati vanno in <code>.STATIC ... .END_STATIC</code>:</p>
+  <pre class="code-block asm"><code><span class="hl-dir">.CONST</span> BUF_SIZE <span class="hl-num">64</span>
+
+<span class="hl-dir">.STATIC</span>
+<span class="hl-lbl">msg:</span>
+    <span class="hl-dir">.TEXT</span> <span class="hl-str">&quot;Ciao Mondo!&quot;</span>
+<span class="hl-dir">.END_STATIC</span>
+
+<span class="hl-dir">.VECTOR</span> EVT_RESET(flags:FLG), main
+<span class="hl-lbl">main</span>:
+    <span class="hl-op">LDA</span> <span class="hl-reg">R1</span>, msg        <span class="hl-cmt">; R1 = indirizzo RAM di msg (scrivibile)</span>
+    <span class="hl-op">HALT</span></code></pre>
+  <p><code>.STATIC</code> copia i dati dalla flash alla RAM all'avvio. <code>LDA</code> carica l'indirizzo in RAM (leggibile e scrivibile).</p>
+
+  <h3>1.3 Ciclo di sviluppo</h3>
+  <table class="doc-table">
+    <thead><tr><th>Comando</th><th>Cosa fa</th></tr></thead>
     <tbody>
-    <tr id="sys-sys-reset"><td><code>all</code></td><td><code>0x00</code></td>
-<td><code>sys_reset</code></td>
-<td><code>()-&gt;(ok:U32)</code></td>
-<td>Reset VM</td></tr>
-    <tr id="sys-sys-version"><td><code>all</code></td><td><code>0x01</code></td>
-<td><code>sys_version</code></td>
-<td><code>()-&gt;(version:U32)</code></td>
-<td>Versione VM</td></tr>
-    <tr id="sys-sys-features"><td><code>all</code></td><td><code>0x02</code></td>
-<td><code>sys_features</code></td>
-<td><code>()-&gt;(flags:FLG)</code></td>
-<td>Feature abilitate</td></tr>
-    <tr id="sys-sys-millis"><td><code>all</code></td><td><code>0x03</code></td>
-<td><code>sys_millis</code></td>
-<td><code>()-&gt;(ms:U32)</code></td>
-<td>Tempo corrente in ms</td></tr>
-    <tr id="sys-sys-static-ptr"><td><code>all</code></td><td><code>0x04</code></td>
-<td><code>sys_static_ptr</code></td>
-<td><code>(addr:U32)-&gt;(ptr:PTR)</code></td>
-<td>Converte indirizzo .STATIC in puntatore RAM scrivibile</td></tr>
-    <tr id="sys-sys-event-id"><td><code>all</code></td><td><code>0x05</code></td>
-<td><code>sys_event_id</code></td>
-<td><code>()-&gt;(id:U32)</code></td>
-<td>ID Evento corrente (0xFFFFFFFF = nessuno)</td></tr>
+      <tr><td><code>clasto sorgente.clasto output.lava</code></td><td>Compila in bytecode</td></tr>
+      <tr><td><code>lava output.lava</code></td><td>Esegue il bytecode</td></tr>
+      <tr><td><code>lava -v1 output.lava</code></td><td>Esegue con output verboso (stato finale)</td></tr>
+      <tr><td><code>clasto -l sorgente.clasto</code></td><td>Elenca le VM in un sorgente multi-VM</td></tr>
     </tbody>
   </table>
+
+  <h3>1.4 Esempio completo: Contatore con classe</h3>
+  <p>Questo esempio dimostra classi, metodi, fault handling e stack. Copia in <code>demo.clasto</code>, compila ed esegui.</p>
+  <details class="example-block">
+  <summary><strong>Esempio:</strong> <code>templates/examples/DEMO.clasto</code></summary>
+  <div class="code-wrap">
+    <button class="copy-btn" onclick="copyCode(this)" title="Copia" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:0.2rem"><span class="material-icons" style="font-size:0.8rem">content_copy</span></button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Light / Dark" style="font-size:0.5rem;padding:0.1rem 0.25rem;top:0.2rem;right:1.5rem"><span class="material-icons" style="font-size:0.8rem">dark_mode</span></button>
+    <pre class="code-block asm"><code><span class="hl-cmt">; Comprehensive demo program</span>
+<span class="hl-cmt">; Demonstrates classes, methods, stack usage, fault handling and the special</span>
+<span class="hl-cmt">; registers R13 (this), R14 (fault code) and R15 (stack pointer).</span>
+<span class="hl-dir">.FILE</span> <span class="hl-str">&quot;demo.clasto&quot;</span>
+
+<span class="hl-dir">.VECTOR</span> EVT_RESET(flags:FLG), main
+
+<span class="hl-dir">.CLASS</span> Counter
+    <span class="hl-dir">.FIELD</span> value:U16           <span class="hl-cmt">; offset 4 (after the 4-byte object header)</span>
+    <span class="hl-dir">.FIELD</span> limit:U16           <span class="hl-cmt">; offset 6</span>
+
+    <span class="hl-dir">.METHOD</span> Init               <span class="hl-cmt">; limit argument passed in R2 (no ABI declared)</span>
+        <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, <span class="hl-num">0</span>
+        <span class="hl-op">ST16</span> <span class="hl-reg">R1</span>, <span class="hl-num">4</span>(<span class="hl-reg">R13</span>)        <span class="hl-cmt">; value = 0</span>
+        <span class="hl-op">ST16</span> <span class="hl-reg">R2</span>, <span class="hl-num">6</span>(<span class="hl-reg">R13</span>)        <span class="hl-cmt">; limit = R2</span>
+        <span class="hl-op">RET</span>
+
+    <span class="hl-dir">.METHOD</span> Increment
+        <span class="hl-op">LD16</span> <span class="hl-reg">R1</span>, <span class="hl-num">4</span>(<span class="hl-reg">R13</span>)        <span class="hl-cmt">; load value</span>
+        <span class="hl-op">LD16</span> <span class="hl-reg">R2</span>, <span class="hl-num">6</span>(<span class="hl-reg">R13</span>)        <span class="hl-cmt">; load limit</span>
+        <span class="hl-op">ADD.S</span> <span class="hl-reg">R1</span>, <span class="hl-reg">R1</span>, <span class="hl-num">1</span>
+        <span class="hl-op">CMP</span> <span class="hl-reg">R1</span>, <span class="hl-reg">R2</span>
+        <span class="hl-op">BLT</span> no_overflow
+        <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, <span class="hl-num">0</span>            <span class="hl-cmt">; limit reached: wrap around to zero</span>
+<span class="hl-lbl">no_overflow</span>:
+        <span class="hl-op">ST16</span> <span class="hl-reg">R1</span>, <span class="hl-num">4</span>(<span class="hl-reg">R13</span>)
+        <span class="hl-op">RET</span>
+
+    <span class="hl-dir">.METHOD</span> GetValue
+        <span class="hl-op">LD16</span> <span class="hl-reg">R1</span>, <span class="hl-num">4</span>(<span class="hl-reg">R13</span>)        <span class="hl-cmt">; R1 = return value</span>
+        <span class="hl-op">RET</span>
+<span class="hl-dir">.END_CLASS</span>
+
+<span class="hl-lbl">main</span>:
+    <span class="hl-cmt">; Save the registers we keep across the whole program</span>
+    <span class="hl-op">PUSH</span> <span class="hl-reg">R8</span>
+    <span class="hl-op">PUSH</span> <span class="hl-reg">R9</span>
+
+    <span class="hl-cmt">; Create a Counter object in the scratch arena</span>
+    <span class="hl-op">MARK</span>                     <span class="hl-cmt">; save scratch position</span>
+    <span class="hl-op">NEW</span> <span class="hl-reg">R8</span>, %Counter         <span class="hl-cmt">; R8 = new Counter instance</span>
+    <span class="hl-op">MOV.S</span> <span class="hl-reg">R2</span>, <span class="hl-num">10</span>             <span class="hl-cmt">; limit = 10</span>
+    <span class="hl-op">CALLM</span> <span class="hl-reg">R8</span>, %Counter.Init
+
+    <span class="hl-cmt">; Loop: increment the counter and read it back</span>
+    <span class="hl-op">MOV.S</span> <span class="hl-reg">R9</span>, <span class="hl-num">0</span>
+<span class="hl-lbl">loop</span>:
+    <span class="hl-op">CALLM</span> <span class="hl-reg">R8</span>, %Counter.Increment
+    <span class="hl-op">CALLM</span> <span class="hl-reg">R8</span>, %Counter.GetValue
+    <span class="hl-op">ADD.S</span> <span class="hl-reg">R9</span>, <span class="hl-reg">R9</span>, <span class="hl-num">1</span>
+    <span class="hl-op">CMP.S</span> <span class="hl-reg">R9</span>, <span class="hl-num">15</span>
+    <span class="hl-op">BLT</span> loop
+
+    <span class="hl-cmt">; Protect a division against faults</span>
+    <span class="hl-op">GUARD</span> fault_handler
+    <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, <span class="hl-num">42</span>
+    <span class="hl-op">MOV.S</span> <span class="hl-reg">R2</span>, <span class="hl-num">0</span>
+    <span class="hl-op">DIV</span> <span class="hl-reg">R3</span>, <span class="hl-reg">R1</span>, <span class="hl-reg">R2</span>            <span class="hl-cmt">; division by zero -&gt; fault</span>
+    <span class="hl-op">UNGUARD</span>
+    <span class="hl-op">JMP</span> done
+
+<span class="hl-lbl">fault_handler</span>:
+    <span class="hl-cmt">; R14 holds the fault code (FAULT_DIV_ZERO); R15 restored to checkpoint</span>
+    <span class="hl-op">ADD</span> <span class="hl-reg">R10</span>, <span class="hl-reg">R14</span>, <span class="hl-reg">R0</span>          <span class="hl-cmt">; R10 = fault code</span>
+    <span class="hl-op">UNGUARD</span>
+
+<span class="hl-lbl">done</span>:
+    <span class="hl-op">FREE</span>                     <span class="hl-cmt">; scratch arena back to MARK</span>
+    <span class="hl-op">POP</span> <span class="hl-reg">R9</span>
+    <span class="hl-op">POP</span> <span class="hl-reg">R8</span>
+    <span class="hl-op">EXIT</span> <span class="hl-num">0</span>
+</code></pre>
   </div>
-</div>
-<div class="evt-category" id="sys-0x10">
-  <h3 class="category-title">0x10</h3>
-<p>HAL</p>
-  <div class="table-wrap">
-  <table class="doc-table compact">
-    <thead><tr><th>Target</th><th>ID</th><th>Nome</th><th>ABI</th><th>Descrizione</th></tr></thead>
-    <tbody>
-    <tr id="sys-sys-print"><td><code>all</code></td><td><code>0x10</code></td>
-<td><code>sys_print</code></td>
-<td><code>(fmt:PTR,args:PTR)-&gt;(ok:U32)</code></td>
-<td>Stampa stringa formattata</td></tr>
-    <tr id="sys-sys-print-status"><td><code>all</code></td><td><code>0x13</code></td>
-<td><code>sys_print_status</code></td>
-<td><code>()</code></td>
-<td>Stampa stato VM</td></tr>
-    </tbody>
-  </table>
-  </div>
-</div>
-<div class="evt-category" id="sys-0x20">
-  <h3 class="category-title">0x20</h3>
-<p>GPIO</p>
-  <div class="table-wrap">
-  <table class="doc-table compact">
-    <thead><tr><th>Target</th><th>ID</th><th>Nome</th><th>ABI</th><th>Descrizione</th></tr></thead>
-    <tbody>
-    <tr id="sys-sys-gpio-set-dir"><td><code>esp32, esp32s3</code></td><td><code>0x20</code></td>
-<td><code>sys_gpio_set_dir</code></td>
-<td><code>(pin:U32,dir:U32)-&gt;(ok:U32)</code></td>
-<td>GPIO set direction</td></tr>
-    <tr id="sys-sys-gpio-write"><td><code>esp32, esp32s3</code></td><td><code>0x21</code></td>
-<td><code>sys_gpio_write</code></td>
-<td><code>(pin:U32,value:U32)-&gt;(ok:U32)</code></td>
-<td>GPIO write</td></tr>
-    <tr id="sys-sys-gpio-read"><td><code>esp32, esp32s3</code></td><td><code>0x22</code></td>
-<td><code>sys_gpio_read</code></td>
-<td><code>(pin:U32)-&gt;(value:U32)</code></td>
-<td>GPIO read</td></tr>
-    </tbody>
-  </table>
-  </div>
-</div>
-<div class="evt-category" id="sys-0x30">
-  <h3 class="category-title">0x30</h3>
-<p>UART</p>
-  <div class="table-wrap">
-  <table class="doc-table compact">
-    <thead><tr><th>Target</th><th>ID</th><th>Nome</th><th>ABI</th><th>Descrizione</th></tr></thead>
-    <tbody>
-    <tr id="sys-sys-uart-send"><td><code>esp32, esp32s3</code></td><td><code>0x30</code></td>
-<td><code>sys_uart_send</code></td>
-<td><code>(byte:U32)-&gt;(ok:U32)</code></td>
-<td>UART send</td></tr>
-    <tr id="sys-sys-uart-read"><td><code>esp32, esp32s3</code></td><td><code>0x31</code></td>
-<td><code>sys_uart_read</code></td>
-<td><code>(port:U32)-&gt;(byte:U32)</code></td>
-<td>UART read</td></tr>
-    </tbody>
-  </table>
-  </div>
-</div>
-<div class="evt-category" id="sys-0x40">
-  <h3 class="category-title">0x40</h3>
-<p>Timer</p>
-  <div class="table-wrap">
-  <table class="doc-table compact">
-    <thead><tr><th>Target</th><th>ID</th><th>Nome</th><th>ABI</th><th>Descrizione</th></tr></thead>
-    <tbody>
-    <tr id="sys-sys-delay"><td><code>esp32, esp32s3</code></td><td><code>0x40</code></td>
-<td><code>sys_delay</code></td>
-<td><code>(ms:U32)-&gt;(ok:U32)</code></td>
-<td>Delay ms</td></tr>
-    </tbody>
-  </table>
-  </div>
-</div>
-<div class="evt-category" id="sys-0xd0">
-  <h3 class="category-title">0xD0</h3>
-<p>SDL2 GRAPHICS</p>
-  <div class="table-wrap">
-  <table class="doc-table compact">
-    <thead><tr><th>Target</th><th>ID</th><th>Nome</th><th>ABI</th><th>Descrizione</th></tr></thead>
-    <tbody>
-    <tr id="sys-sys-gfx-open"><td><code>linux</code></td><td><code>0xD0</code></td>
-<td><code>sys_gfx_open</code></td>
-<td><code>(width:U32,height:U32,title:PTR)-&gt;(handle:HND)</code></td>
-<td>Apre finestra</td></tr>
-    <tr id="sys-sys-gfx-flush"><td><code>linux</code></td><td><code>0xD1</code></td>
-<td><code>sys_gfx_flush</code></td>
-<td><code>(handle:HND,buf:PTR,size:U32)-&gt;(ok:U32)</code></td>
-<td>Flush buffer pixel</td></tr>
-    <tr id="sys-sys-gfx-poll"><td><code>linux</code></td><td><code>0xD2</code></td>
-<td><code>sys_gfx_poll</code></td>
-<td><code>(handle:HND)-&gt;(event:U32)</code></td>
-<td>Legge evento</td></tr>
-    <tr id="sys-sys-gfx-close"><td><code>linux</code></td><td><code>0xD3</code></td>
-<td><code>sys_gfx_close</code></td>
-<td><code>(handle:HND)-&gt;(ok:U32)</code></td>
-<td>Chiude finestra</td></tr>
-    <tr id="sys-sys-gfx-info"><td><code>linux</code></td><td><code>0xD4</code></td>
-<td><code>sys_gfx_info</code></td>
-<td><code>(handle:HND,buf:PTR)-&gt;(ok:U32)</code></td>
-<td>Legge info schermo</td></tr>
-    <tr id="sys-sys-gfx-get-input-addr"><td><code>linux</code></td><td><code>0xD5</code></td>
-<td><code>sys_gfx_get_input_addr</code></td>
-<td><code>(handle:HND)-&gt;(addr:PTR)</code></td>
-<td>Indirizzo input word</td></tr>
-    <tr id="sys-sys-gfx-read-input"><td><code>linux</code></td><td><code>0xD6</code></td>
-<td><code>sys_gfx_read_input</code></td>
-<td><code>(handle:HND)-&gt;(scancode:U32)</code></td>
-<td>Legge scancode</td></tr>
-    <tr id="sys-sys-gfx-get-mouse"><td><code>linux</code></td><td><code>0xD7</code></td>
-<td><code>sys_gfx_get_mouse</code></td>
-<td><code>(handle:HND)-&gt;(x:U32,y:U32,btn:FLG)</code></td>
-<td>Stato mouse</td></tr>
-    <tr id="sys-sys-gfx-get-winsize"><td><code>linux</code></td><td><code>0xD8</code></td>
-<td><code>sys_gfx_get_winsize</code></td>
-<td><code>(handle:HND)-&gt;(width:U32,height:U32)</code></td>
-<td>Dimensione finestra</td></tr>
-    <tr id="sys-sys-text-print"><td><code>linux</code></td><td><code>0xD9</code></td>
-<td><code>sys_text_print</code></td>
-<td><code>(handle:HND,str:PTR,x:U32,y:U32,fg:U32,bg:U32,fb:PTR)-&gt;(ok:U32)</code></td>
-<td>Stampa testo bitmap</td></tr>
-    <tr id="sys-sys-ttf-render"><td><code>linux</code></td><td><code>0xDA</code></td>
-<td><code>sys_ttf_render</code></td>
-<td><code>(handle:HND,str:PTR,x:U32,y:U32,fg:U32,bg:U32,fb:PTR)-&gt;(ok:U32)</code></td>
-<td>Testo TrueType</td></tr>
-    </tbody>
-  </table>
-  </div>
-</div>
+</details>
 
 </section>
 
-  <div class="bot-nav-wrap"><nav class="page-nav"><a href="ch5-events.html" class="pn-prev"><span class="material-icons" style="font-size:1rem">chevron_left</span> Eventi</a><span class="pn-sep">|</span><a href="index.html" class="pn-index"><span class="material-icons" style="font-size:1rem;vertical-align:middle">list</span> Indice</a><span class="pn-sep">|</span><a href="ch7-assembler.html" class="pn-next">Direttive assembler <span class="material-icons" style="font-size:1rem">chevron_right</span></a></nav></div>
+  <div class="bot-nav-wrap"><nav class="page-nav"><span class="pn-disabled">←</span><span class="pn-sep">|</span><a href="index.html" class="pn-index"><span class="material-icons" style="font-size:1rem;vertical-align:middle">list</span> Index</a><span class="pn-sep">|</span><a href="ch2-registers.html" class="pn-next">Register Architecture <span class="material-icons" style="font-size:1rem">chevron_right</span></a></nav></div>
   <footer class="doc-footer">
     <p>Caldeira VM &copy; 2026</p>
   </footer>

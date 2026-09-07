@@ -407,24 +407,29 @@ function renderDynamicCards() {
         if (value) el.textContent = value;
     });
 
-    // Documentation chapters teaser — now links to the real book chapters
+    // Documentation chapters teaser — links to the real book chapters.
+    // The reference book is generated per language: reference/<lang>/chN…
+    const refBase = `reference/${currentLang}/`;
     const docsKeys = [
-        { key: 'quickstart', href: 'reference/ch1-quickstart.html' },
-        { key: 'registers', href: 'reference/ch2-registers.html' },
-        { key: 'isa', href: 'reference/ch3-isa.html' },
-        { key: 'faults', href: 'reference/ch4-faults.html' },
-        { key: 'events', href: 'reference/ch5-events.html' },
-        { key: 'syscalls', href: 'reference/ch6-syscalls.html' },
-        { key: 'assembler', href: 'reference/ch7-assembler.html' },
-        { key: 'book', href: 'reference/ch8-book.html' },
+        { key: 'quickstart', file: 'ch1-quickstart.html' },
+        { key: 'registers', file: 'ch2-registers.html' },
+        { key: 'isa', file: 'ch3-isa.html' },
+        { key: 'faults', file: 'ch4-faults.html' },
+        { key: 'events', file: 'ch5-events.html' },
+        { key: 'syscalls', file: 'ch6-syscalls.html' },
+        { key: 'assembler', file: 'ch7-assembler.html' },
+        { key: 'book', file: 'ch8-book.html' },
     ];
+    // Update the CTA too
+    const cta = document.querySelector('[data-docs-cta]');
+    if (cta) cta.setAttribute('href', `reference/${currentLang}/`);
     const docsGrid = document.querySelector('[data-docs-grid]');
     if (docsGrid) {
-        docsGrid.innerHTML = docsKeys.map(({ key, href }) => `
+        docsGrid.innerHTML = docsKeys.map(({ key, file }) => `
             <article class="card">
                 <h3>${escapeHtml(t(`documentation.chapters.${key}.name`))}</h3>
                 <p>${escapeHtml(t(`documentation.chapters.${key}.desc`))}</p>
-                <a class="card-link" href="${escapeHtml(href)}">${escapeHtml(t('documentation.read'))}<span aria-hidden="true"> →</span></a>
+                <a class="card-link" href="${escapeHtml(refBase + file)}">${escapeHtml(t('documentation.read'))}<span aria-hidden="true"> →</span></a>
             </article>
         `).join('');
     }
