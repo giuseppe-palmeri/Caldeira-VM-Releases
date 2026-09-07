@@ -60,7 +60,7 @@ const checks = [
     ['vscode section present', /id="vscode"/.test(dom) && /vscode-extension\.png/.test(dom) && (dom.match(/vscode-feature/g) || []).length >= 3],
     ['docs CTA to reference', /href="reference\/(it|en)?\/"/.test(dom) && /data-docs-cta/.test(dom)],
     ['docs ZIP download', /caldeira-docs\.zip/.test(dom)],
-    ['docs chapters in both langs', /reference\/(it|en)\/ch1-quickstart\.html/.test(dom)],
+    ['docs chapters in both langs', /reference\/(it|en)\/index\.html#ch1-quickstart/.test(dom)],
     ['footer rendered', /site-footer/.test(dom)],
     ['official logo used (hero)', (dom.match(/images\/caldeira\.png/g) || []).length >= 1],
     ['chip symbol in header/footer', (dom.match(/images\/caldeira-symbol\.png/g) || []).length >= 2],
