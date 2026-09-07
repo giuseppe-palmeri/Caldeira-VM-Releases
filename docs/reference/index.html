@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Caldeira VM — Documentation</title>
+<meta http-equiv="refresh" content="0; url=en/index.html">
+<script>
+  // Redirect to the docs in the browser language (EN is the default).
+  var l = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+  l = (l || '').toLowerCase();
+  var target = 'en/index.html';
+      if (l === 'it' || l.indexOf('it-') === 0) { target = 'it/index.html'; }
+        location.replace(target);
+</script>
 <style>
   body { font-family: 'Inter', -apple-system, sans-serif; background:#0d1117; color:#e6edf3;
          display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; }
@@ -22,7 +31,7 @@
 <body>
   <div class="wrap">
     <h1>Caldeira VM — Documentation</h1>
-    <p>Choose your language — Scegli la lingua</p>
+    <p>Redirecting to the documentation for your language…</p>
     <div class="lang-grid">
 <a class="lang-card" href="en/index.html"><span class="lang-code">EN</span><span class="lang-name">English</span></a>
 <a class="lang-card" href="it/index.html"><span class="lang-code">IT</span><span class="lang-name">Italiano</span></a>
