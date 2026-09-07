@@ -323,6 +323,16 @@ function renderDynamicCards() {
         wrench: '<path d="M14.7 6.3a4.5 4.5 0 00-6.4 6.4L3 18v3h3l5.3-5.3a4.5 4.5 0 006.4-6.4L14 12l-2-2 2.7-3.7z"/>',
     };
     const iconify = (icon) => `<span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icon}</svg></span>`;
+    // Icon + title on the same row (long titles wrap less)
+    const cardWithIcon = (icon, title, desc) => `
+        <article class="card">
+            <div class="card-head">
+                ${iconify(icon)}
+                <h3>${title}</h3>
+            </div>
+            <p>${desc}</p>
+        </article>
+    `;
 
     // Why cards
     const whyItems = [
@@ -335,13 +345,7 @@ function renderDynamicCards() {
     ];
     const whyGrid = document.querySelector('[data-why-cards]');
     if (whyGrid) {
-        whyGrid.innerHTML = whyItems.map(({ key, icon }) => `
-            <article class="card">
-                ${iconify(icon)}
-                <h3>${escapeHtml(t(`why.${key}`))}</h3>
-                <p>${escapeHtml(t(`why.${key}Desc`))}</p>
-            </article>
-        `).join('');
+        whyGrid.innerHTML = whyItems.map(({ key, icon }) => cardWithIcon(icon, escapeHtml(t(`why.${key}`)), escapeHtml(t(`why.${key}Desc`)))).join('');
     }
 
     // Concepts cards (same card style — keep icons consistent)
@@ -355,13 +359,7 @@ function renderDynamicCards() {
     ];
     const conceptGrid = document.querySelector('[data-concepts-cards]');
     if (conceptGrid) {
-        conceptGrid.innerHTML = conceptItems.map(({ key, icon }) => `
-            <article class="card">
-                ${iconify(icon)}
-                <h3>${escapeHtml(t(`concepts.${key}`))}</h3>
-                <p>${escapeHtml(t(`concepts.${key}Desc`))}</p>
-            </article>
-        `).join('');
+        conceptGrid.innerHTML = conceptItems.map(({ key, icon }) => cardWithIcon(icon, escapeHtml(t(`concepts.${key}`)), escapeHtml(t(`concepts.${key}Desc`)))).join('');
     }
 
     // Ecosystem cards — link only to resources that actually exist publicly.
