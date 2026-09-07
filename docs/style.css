@@ -1598,8 +1598,7 @@ code {
     }
 
     .install-prompt {
-        padding-left: var(--space-4);
-        padding-top: var(--space-2);
+        display: none;
     }
 
     /* Mobile: keep the command on one line, horizontal scroll (per spec) */
