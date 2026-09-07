@@ -532,16 +532,6 @@ code {
     min-width: 0;
 }
 
-.eyebrow {
-    display: inline-block;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--accent-text);
-    margin-bottom: var(--space-4);
-}
-
 .hero-title {
     font-size: clamp(1.8rem, 3.6vw, 2.9rem);
     letter-spacing: -0.03em;
