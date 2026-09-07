@@ -304,7 +304,7 @@ pre.code-block {
    palette but rely on the frame or keep a simple border. */
 pre.code-block:not(.code-frame pre) { background:var(--tok-bg); }
 .code-wrap { position:relative; }
-.code-wrap .code-frame { margin:5px; }
+.code-wrap .code-frame { margin:10px; }
 .code-frame .copy-btn, .code-frame .theme-toggle {
   width:28px; height:28px;
   display:inline-flex; align-items:center; justify-content:center;
@@ -364,6 +364,9 @@ code {
 </style>
 </head>
 <body>
+<script>/* bootstrap theme */
+(function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+
 <script>/* bootstrap theme */
 (function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
 
@@ -10050,7 +10053,10 @@ function filterNav(query) {
 
 // ── Copy code from example blocks ──
 function copyCode(btn) {
-  var code = btn.parentElement.querySelector('code');
+  // The button lives in the .code-frame-bar; find the code inside the
+  // frame (fallback to the button parent for legacy layouts).
+  var host = btn.closest('.code-frame') || btn.parentElement;
+  var code = host.querySelector('code');
   if (!code) return;
   var text = code.textContent;
   if (navigator.clipboard) {
