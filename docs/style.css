@@ -851,6 +851,19 @@ code {
     color: var(--accent-text);
 }
 
+.card-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-md);
+    background: var(--accent-soft);
+    color: var(--accent-text);
+    margin-bottom: var(--space-3);
+    flex-shrink: 0;
+}
+
 .card p {
     font-size: 0.93rem;
     color: var(--text-secondary);

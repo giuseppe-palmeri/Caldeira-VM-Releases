@@ -44,6 +44,7 @@ const checks = [
     ['page has <html lang>', /<html[^>]*lang="(en|it)"/.test(dom)],
     ['hero title rendered', /<h1[^>]*hero-title[^>]*>.*(virtual machine for microcontrollers|macchina virtuale leggera)/.test(dom)],
     ['why cards (6)', (dom.match(/data-why-cards/) ? (dom.match(/<article class="card">/g) || []).length >= 6 : false)],
+    ['card icons rendered (12)', (dom.match(/card-icon/g) || []).length >= 12],
     ['install command present', /curl -fsSL https:\/\/raw\.githubusercontent\.com\/giuseppe-palmeri\/Caldeira-VM-Releases\/main\/caldeira-bootstrap\.sh \| bash/.test(dom)],
     ['install widget before hero badges', dom.indexOf('install-widget') < dom.indexOf('hero-badges')],
     ['copy button present', /data-copy-button/.test(dom)],

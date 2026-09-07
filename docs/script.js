@@ -288,27 +288,54 @@ function escapeHtml(s) {
 function renderDynamicCards() {
     if (!activeLangData) return;
 
-    const whyKeys = [
-        'firmwareLongevity', 'hardwareChanges', 'portability', 'predictableExecution',
-        'softwareEvolution', 'embeddedConstraints',
+    const ICONS = {
+        shieldCheck: '<path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/>',
+        shield: '<path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/>',
+        refresh: '<path d="M4 7h10M14 7l-3-3M14 7l-3 3"/><path d="M20 17H10M10 17l3-3M10 17l3 3"/>',
+        layers: '<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12L4 7.5M12 12v9"/>',
+        target: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>',
+        trend: '<path d="M3 17l6-6 4 4 7-8"/><path d="M14 7h6v6"/>',
+        chip: '<rect x="7" y="7" width="10" height="10" rx="1"/><path d="M12 3v4M12 17v4M5 12h2M17 12h2"/>',
+        wrench: '<path d="M14.7 6.3a4.5 4.5 0 00-6.4 6.4L3 18v3h3l5.3-5.3a4.5 4.5 0 006.4-6.4L14 12l-2-2 2.7-3.7z"/>',
+    };
+    const iconify = (icon) => `<span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icon}</svg></span>`;
+
+    // Why cards
+    const whyItems = [
+        { key: 'firmwareLongevity', icon: ICONS.shieldCheck },
+        { key: 'hardwareChanges', icon: ICONS.refresh },
+        { key: 'portability', icon: ICONS.layers },
+        { key: 'predictableExecution', icon: ICONS.target },
+        { key: 'softwareEvolution', icon: ICONS.trend },
+        { key: 'embeddedConstraints', icon: ICONS.chip },
     ];
     const whyGrid = document.querySelector('[data-why-cards]');
     if (whyGrid) {
-        whyGrid.innerHTML = whyKeys.map((k) => `
+        whyGrid.innerHTML = whyItems.map(({ key, icon }) => `
             <article class="card">
-                <h3>${escapeHtml(t(`why.${k}`))}</h3>
-                <p>${escapeHtml(t(`why.${k}Desc`))}</p>
+                ${iconify(icon)}
+                <h3>${escapeHtml(t(`why.${key}`))}</h3>
+                <p>${escapeHtml(t(`why.${key}Desc`))}</p>
             </article>
         `).join('');
     }
 
-    const conceptKeys = ['deterministic', 'portability', 'stableEnv', 'maintainability', 'evolution', 'embedded'];
+    // Concepts cards (same card style — keep icons consistent)
+    const conceptItems = [
+        { key: 'deterministic', icon: ICONS.target },
+        { key: 'portability', icon: ICONS.layers },
+        { key: 'stableEnv', icon: ICONS.shield },
+        { key: 'maintainability', icon: ICONS.wrench },
+        { key: 'evolution', icon: ICONS.trend },
+        { key: 'embedded', icon: ICONS.chip },
+    ];
     const conceptGrid = document.querySelector('[data-concepts-cards]');
     if (conceptGrid) {
-        conceptGrid.innerHTML = conceptKeys.map((k) => `
+        conceptGrid.innerHTML = conceptItems.map(({ key, icon }) => `
             <article class="card">
-                <h3>${escapeHtml(t(`concepts.${k}`))}</h3>
-                <p>${escapeHtml(t(`concepts.${k}Desc`))}</p>
+                ${iconify(icon)}
+                <h3>${escapeHtml(t(`concepts.${key}`))}</h3>
+                <p>${escapeHtml(t(`concepts.${key}Desc`))}</p>
             </article>
         `).join('');
     }
