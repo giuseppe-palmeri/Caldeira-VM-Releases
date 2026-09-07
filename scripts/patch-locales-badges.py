@@ -1,18 +1,14 @@
 #!/usr/bin/env python3
-"""Add the new hero badge translation keys."""
+"""Add the two new hero badge translation keys."""
 import json
 
 EN = {
-    "badgeMicrocontrollers": "Microcontrollers",
-    "badgeBytecode": "Portable bytecode",
-    "badgeFirmware": "Long-lived firmware",
-    "badgePortability": "Hardware portability",
+    "badgeVm": "Virtual machine",
+    "badgeAssembly": "Clasto assembly",
 }
 IT = {
-    "badgeMicrocontrollers": "Microcontrollori",
-    "badgeBytecode": "Bytecode portabile",
-    "badgeFirmware": "Firmware longevo",
-    "badgePortability": "Portabilità hardware",
+    "badgeVm": "Macchina virtuale",
+    "badgeAssembly": "Assembly Clasto",
 }
 
 

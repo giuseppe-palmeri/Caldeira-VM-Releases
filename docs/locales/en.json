@@ -34,7 +34,9 @@
     "badgeMicrocontrollers": "Microcontrollers",
     "badgeBytecode": "Portable bytecode",
     "badgeFirmware": "Long-lived firmware",
-    "badgePortability": "Hardware portability"
+    "badgePortability": "Hardware portability",
+    "badgeVm": "Virtual machine",
+    "badgeAssembly": "Clasto assembly"
   },
   "installation": {
     "title": "Install Caldeira VM",
