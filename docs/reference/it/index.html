@@ -11,7 +11,7 @@
 <style>
 /* ═══════════════════════ RESET & BASE — site design system ═══════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; }
+html { scroll-behavior: smooth; scroll-padding-top: 3.5rem; font-size: 16px; }
 :root, :root[data-theme="dark"] {
   color-scheme: dark;
   --bg: #0d1117; --bg-elev: #161b22; --bg-inset: #0a0d12; --bg-hover: #1c2129;
@@ -364,6 +364,9 @@ code {
 </style>
 </head>
 <body>
+<script>/* bootstrap theme */
+(function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+
 <script>/* bootstrap theme */
 (function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
 
