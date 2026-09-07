@@ -394,11 +394,11 @@ code {
             <li><a href="#stack" data-instr="instr-pop">POP</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="#protezione-fault-handling">Protezione (fault handling)</a>
+        <li class="nav-cat"><a href="#protezione-e-fault-handling">Protezione e fault handling</a>
           <ul class="nav-subs">
-            <li><a href="#protezione-fault-handling" data-instr="instr-guard">GUARD</a></li>
-            <li><a href="#protezione-fault-handling" data-instr="instr-fault">FAULT</a></li>
-            <li><a href="#protezione-fault-handling" data-instr="instr-unguard">UNGUARD</a></li>
+            <li><a href="#protezione-e-fault-handling" data-instr="instr-guard">GUARD</a></li>
+            <li><a href="#protezione-e-fault-handling" data-instr="instr-fault">FAULT</a></li>
+            <li><a href="#protezione-e-fault-handling" data-instr="instr-unguard">UNGUARD</a></li>
           </ul>
         </li>
         <li class="nav-cat"><a href="#i-o-e-system-call">I/O e System Call</a>
@@ -481,13 +481,13 @@ code {
     </li>
     <li><a href="#ch5-events" class="nav-chapter has-subs"><span class="material-icons nav-icon">rss_feed</span> Eventi</a>
       <ul class="nav-subs">
-        <li class="nav-cat"><a href="#evt-0x00">0x00 — SISTEMA (Core)</a>
+        <li class="nav-cat"><a href="#evt-0x00">0x00 — SISTEMA</a>
           <ul class="nav-subs">
             <li><a href="#evt-evt-reset-flags-flg">EVT_RESET(flags:FLG)</a></li>
             <li><a href="#evt-evt-tick-1ms-tick-flg">EVT_TICK_1MS(tick:FLG)</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="#evt-0x04">0x04 — DEEP SLEEP (soppiantano i WAKE_DEEP core, ora qui)</a>
+        <li class="nav-cat"><a href="#evt-0x04">0x04 — DEEP SLEEP</a>
           <ul class="nav-subs">
             <li><a href="#evt-evt-wake-deep-timer-flags-flg">EVT_WAKE_DEEP_TIMER(flags:FLG)</a></li>
             <li><a href="#evt-evt-wake-deep-gpio-flags-flg">EVT_WAKE_DEEP_GPIO(flags:FLG)</a></li>
@@ -503,7 +503,7 @@ code {
             <li><a href="#evt-evt-watchdog-flags-flg">EVT_WATCHDOG(flags:FLG)</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="#evt-0x40">0x40 — I/O DIGITALE &amp; ANALOGICO</a>
+        <li class="nav-cat"><a href="#evt-0x40">0x40 — I/O DIGITALE & ANALOGICO</a>
           <ul class="nav-subs">
             <li><a href="#evt-evt-gpio-bank0-flags-flg">EVT_GPIO_BANK0(flags:FLG)</a></li>
             <li><a href="#evt-evt-gpio-bank1-flags-flg">EVT_GPIO_BANK1(flags:FLG)</a></li>
@@ -529,7 +529,7 @@ code {
             <li><a href="#evt-evt-i2c0-master-done-flags-flg">EVT_I2C0_MASTER_DONE(flags:FLG)</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="#evt-0xc0">0xC0 — NETWORK &amp; PROTOCOLLI</a>
+        <li class="nav-cat"><a href="#evt-0xc0">0xC0 — NETWORK & PROTOCOLLI</a>
           <ul class="nav-subs">
             <li><a href="#evt-evt-net-link-flags-flg">EVT_NET_LINK(flags:FLG)</a></li>
             <li><a href="#evt-evt-net-pkt-rx-buf-ptr-len-u16">EVT_NET_PKT_RX(buf:PTR,len:U16)</a></li>
@@ -537,14 +537,14 @@ code {
             <li><a href="#evt-evt-bt-stack-flags-flg">EVT_BT_STACK(flags:FLG)</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="#evt-0xd0">0xD0 — TOUCH SCREEN (contratto input, ABI compatibile con il mouse SDL)</a>
+        <li class="nav-cat"><a href="#evt-0xd0">0xD0 — TOUCH SCREEN</a>
           <ul class="nav-subs">
             <li><a href="#evt-evt-touch-down-x-u32-y-u32">EVT_TOUCH_DOWN(x:U32,y:U32)</a></li>
             <li><a href="#evt-evt-touch-move-x-u32-y-u32">EVT_TOUCH_MOVE(x:U32,y:U32)</a></li>
             <li><a href="#evt-evt-touch-up-x-u32-y-u32">EVT_TOUCH_UP(x:U32,y:U32)</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="#evt-0xe0-0xf8">0xE0-0xF8 — SPAZIO UTENTE (portabile, Role = U)</a>
+        <li class="nav-cat"><a href="#evt-0xe0-0xf8">0xE0-0xF8 — SPAZIO UTENTE</a>
           <ul class="nav-subs">
             <li><a href="#evt-evt-user-custom-0">EVT_USER_CUSTOM_0</a></li>
             <li><a href="#evt-evt-user-custom-1-flags-flg">EVT_USER_CUSTOM_1(flags:FLG)</a></li>
@@ -604,7 +604,7 @@ code {
             <li><a href="#sys-sys-delay">sys_delay</a></li>
           </ul>
         </li>
-        <li class="nav-cat"><a href="#sys-0xd0">0xD0 — GRAPHICS (contratto condiviso con linux SDL2)</a>
+        <li class="nav-cat"><a href="#sys-0xd0">0xD0 — GRAPHICS</a>
           <ul class="nav-subs">
             <li><a href="#sys-sys-gfx-open">sys_gfx_open</a></li>
             <li><a href="#sys-sys-gfx-flush">sys_gfx_flush</a></li>
@@ -3748,19 +3748,19 @@ lava primo.lava</code></pre>
 </div>
 </div>
 </div>
-<div class="isa-category" id="protezione-fault-handling">
-  <h3 class="category-title">Protezione (fault handling)</h3>
+<div class="isa-category" id="protezione-e-fault-handling">
+  <h3 class="category-title">Protezione e fault handling</h3>
 <p class="category-desc">Checkpoint GUARD/UNGUARD e fault espliciti.</p>
-<div class="carousel" id="slider-protezione-fault-handling">
+<div class="carousel" id="slider-protezione-e-fault-handling">
 <div class="carousel-header">
-  <span class="carousel-counter" id="slider-protezione-fault-handling-ctr">1 / 3</span>
+  <span class="carousel-counter" id="slider-protezione-e-fault-handling-ctr">1 / 3</span>
   <div class="carousel-btns">
-    <button class="cbtn" onclick="carouselMove('slider-protezione-fault-handling', -1)" id="slider-protezione-fault-handling-prev">‹</button>
-    <button class="cbtn" onclick="carouselMove('slider-protezione-fault-handling', 1)" id="slider-protezione-fault-handling-next">›</button>
+    <button class="cbtn" onclick="carouselMove('slider-protezione-e-fault-handling', -1)" id="slider-protezione-e-fault-handling-prev">‹</button>
+    <button class="cbtn" onclick="carouselMove('slider-protezione-e-fault-handling', 1)" id="slider-protezione-e-fault-handling-next">›</button>
   </div>
 </div>
 <div class="carousel-viewport">
-  <div class="carousel-track" id="slider-protezione-fault-handling-track">
+  <div class="carousel-track" id="slider-protezione-e-fault-handling-track">
     <div class="carousel-slide" data-idx="0" id="instr-guard">
       <div class="carousel-card">
         <div class="carousel-card-head">
