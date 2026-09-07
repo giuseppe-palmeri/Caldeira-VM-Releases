@@ -8,7 +8,7 @@ From the monochrome logo (dark ink on white):
 From the chip symbol SVG already rendered:
   - caldeira-symbol-white.png (white chip on transparent)
 """
-from PIL import Image
+from PIL import Image, ImageOps
 
 DARK_BG = (13, 17, 23)
 INVERT_T = 180  # pixels darker than this are "ink"
@@ -54,6 +54,24 @@ def to_dark_tile(src_path, out_path, margin=60):
 
 to_white_transparent("docs/images/caldeira.png", "docs/images/caldeira-white.png")
 to_dark_tile("docs/images/caldeira.png", "docs/images/caldeira-dark.png")
+
+# True white<->black inversion (negative) for PNGs without an SVG counterpart
+orig = Image.open("docs/images/caldeira.png").convert("RGB")
+inv = ImageOps.invert(orig)
+inv.save("docs/images/caldeira-inverted.png", optimize=True)
+print("wrote docs/images/caldeira-inverted.png", inv.size)
+# and a transparent-background variant: black bg -> transparent, white ink kept
+rgba = inv.convert("RGBA")
+data = rgba.load()
+W, H = rgba.size
+for y in range(H):
+    for x in range(W):
+        r, g, b, a = data[x, y]
+        if r < 40 and g < 40 and b < 40:
+            data[x, y] = (0, 0, 0, 0)
+rgba.save("docs/images/caldeira-white.png", optimize=True)
+print("wrote docs/images/caldeira-white.png (white ink, transparent bg)")
+
 to_white_transparent("docs/images/caldeira-symbol.png", "docs/images/caldeira-symbol-white.png")
 # symbol dark tile (square)
 s = Image.open("docs/images/caldeira-symbol.png").convert("RGBA")
