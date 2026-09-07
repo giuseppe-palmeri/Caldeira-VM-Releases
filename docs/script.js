@@ -25,9 +25,11 @@ let activeLangData = null;   // translations of the current language
 let fallbackData = null;     // English fallback pool
 
 /* ── i18n helpers ──────────────────────────────────────────────────────── */
+const LOCALE_CACHE_BUSTER = 'v=2'; // bump when locales change to defeat stale caches
+
 async function loadTranslations(lang) {
     try {
-        const res = await fetch(`locales/${lang}.json`);
+        const res = await fetch(`locales/${lang}.json?${LOCALE_CACHE_BUSTER}`);
         if (!res.ok) throw new Error('not found');
         return await res.json();
     } catch (_) {
@@ -51,20 +53,42 @@ function translate(langData, key, vars) {
     return value === undefined || value === null ? key : value;
 }
 
-/* Translate a key against the CURRENT language data (for runtime rendering). */
+/* Translate a key against the CURRENT language data (for runtime rendering).
+   Falls back to a minimal hardcoded English map when the key is unresolved
+   (stale/missing locale), so dynamic panels never show raw tokens. */
+const RENDER_FALLBACKS = {
+    'github.none': 'None',
+    'github.unavailable': 'GitHub data temporarily unavailable. View the latest information on GitHub.',
+    'github.lastUpdated': 'Data updated',
+    'releases.prerelease': 'Pre-release',
+    'releases.published': 'Published',
+    'issues.open': 'Open',
+    'issues.closed': 'Closed',
+    'issues.updated': 'Updated',
+    'ecosystem.browseRepo': 'Browse the repository',
+};
+
 function t(key, vars) {
-    return translate(activeLangData, key, vars);
+    const value = translate(activeLangData, key, vars);
+    if (value !== key) return value;
+    return RENDER_FALLBACKS[key] !== undefined ? RENDER_FALLBACKS[key] : key;
 }
 
 function applyTranslations(data) {
     document.querySelectorAll('[data-i18n]').forEach((el) => {
-        el.textContent = translate(data, el.dataset.i18n);
+        const key = el.dataset.i18n;
+        const value = translate(data, key);
+        // Never render a raw key: leave the hardcoded HTML text as fallback
+        // (e.g. stale cached locale or missing key).
+        if (value !== key) el.textContent = value;
     });
     document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
-        el.setAttribute('aria-label', translate(data, el.dataset.i18nAria));
+        const value = translate(data, el.dataset.i18nAria);
+        if (value !== el.dataset.i18nAria) el.setAttribute('aria-label', value);
     });
     document.querySelectorAll('[data-i18n-title]').forEach((el) => {
-        el.title = translate(data, el.dataset.i18nTitle);
+        const value = translate(data, el.dataset.i18nTitle);
+        if (value !== el.dataset.i18nTitle) el.title = value;
     });
     const meta = data && data.meta ? data.meta : {};
     if (meta.title) document.title = meta.title;
