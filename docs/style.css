@@ -567,10 +567,10 @@ code {
     justify-content: flex-start;
 }
 
-/* Hero logo + badges on the same row */
+/* Hero logo + badges on the same row (badges wrap in a bounded column) */
 .hero-brandline {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     gap: var(--space-5);
     flex-wrap: wrap;
@@ -589,18 +589,20 @@ code {
 
 .hero-logo {
     display: block;
-    width: 260px;
+    width: 200px;
     height: auto;
 }
 
 .hero-badges {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: flex-start;
+    align-content: flex-start;
     gap: var(--space-2);
     list-style: none;
     margin: 0;
     padding: 0;
+    max-width: 640px;
 }
 
 .hero-badges li {

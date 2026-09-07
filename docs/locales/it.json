@@ -30,7 +30,11 @@
     "badgeEmbedded": "Sistemi embedded",
     "badgeDeterministic": "Calcolo deterministico",
     "badgeTooling": "Strumenti per sviluppatori",
-    "badgeEcosystem": "Ecosistema aperto"
+    "badgeEcosystem": "Ecosistema aperto",
+    "badgeMicrocontrollers": "Microcontrollori",
+    "badgeBytecode": "Bytecode portabile",
+    "badgeFirmware": "Firmware longevo",
+    "badgePortability": "Portabilità hardware"
   },
   "installation": {
     "title": "Installa Caldeira VM",
