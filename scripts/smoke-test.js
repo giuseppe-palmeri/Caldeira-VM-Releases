@@ -59,7 +59,7 @@ const checks = [
     ['pricing section present', /id="pricing"/.test(dom) && /data-i18n="pricing\.core\.cta"/.test(dom)],
     ['vscode section present', /id="vscode"/.test(dom) && /vscode-extension\.png/.test(dom) && (dom.match(/vscode-feature/g) || []).length >= 3],
     ['footer rendered', /site-footer/.test(dom)],
-    ['official logo used', /images\/caldeira\.png/.test(dom) && (dom.match(/images\/caldeira\.png/g) || []).length >= 2],
+    ['official logo used', /images\/caldeira\.png/.test(dom) && (dom.match(/images\/caldeira\.png/g) || []).length >= 3],
     ['favicon png linked', /favicon-32\.png/.test(dom)],
     ['no JS errors', !hasJSErrors],
 ];
