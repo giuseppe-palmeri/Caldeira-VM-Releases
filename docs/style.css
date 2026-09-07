@@ -334,9 +334,20 @@ code {
     text-decoration: none;
 }
 
-.brand-mark {
+.brand-logo-chip {
     display: inline-flex;
-    color: var(--accent);
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: var(--radius-sm);
+    padding: 2px;
+    box-shadow: inset 0 0 0 1px var(--border);
+    flex-shrink: 0;
+}
+
+.brand-logo {
+    display: block;
+    height: auto;
 }
 
 .main-nav {
