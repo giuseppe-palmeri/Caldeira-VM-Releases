@@ -305,19 +305,16 @@ pre.code-block {
 pre.code-block:not(.code-frame pre) { background:var(--tok-bg); }
 .code-wrap { position:relative; }
 .code-wrap .code-frame { margin:5px; }
-.code-wrap .copy-btn, .code-wrap .theme-toggle {
-  position:absolute; z-index:2; top:8px;
+.code-frame .copy-btn, .code-frame .theme-toggle {
   width:28px; height:28px;
   display:inline-flex; align-items:center; justify-content:center;
   padding:0; border-radius:6px; cursor:pointer; line-height:1;
   background:rgba(127,127,127,.15); border:1px solid rgba(127,127,127,.25);
-  color:var(--text-2); opacity:.6; transition:all .15s;
+  color:var(--text-2); opacity:.85; transition:all .15s;
 }
-.code-wrap .copy-btn { right:8px; }
-.code-wrap .theme-toggle { right:44px; }
-.code-wrap .copy-btn .material-icons { font-size:.95rem; line-height:1; }
-.code-wrap:hover .copy-btn, .code-wrap:hover .theme-toggle { opacity:1; }
-.code-wrap .copy-btn:hover, .code-wrap .theme-toggle:hover { background:rgba(127,127,127,.25); color:var(--text); }
+.code-frame .copy-btn { margin-left:auto; }
+.code-frame .copy-btn .material-icons { font-size:.95rem; line-height:1; }
+.code-frame .copy-btn:hover, .code-frame .theme-toggle:hover { background:rgba(127,127,127,.3); color:var(--text); opacity:1; }
 pre.code-block code { font-family:inherit; background:none; padding:0; color:inherit; }
 
 /* ── SYNTAX HIGHLIGHTING (tokens from the site) ── */
@@ -367,6 +364,9 @@ code {
 </style>
 </head>
 <body>
+<script>/* bootstrap theme */
+(function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
+
 <script>/* bootstrap theme */
 (function(){var t=localStorage.getItem('caldeira-theme')||(window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;})();</script>
 
@@ -10109,6 +10109,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // ── Code blocks: wrap in a terminal frame like the website ──
 // Every pre.code-block gets a .code-frame with a top bar (three dots +
 // optional title) so clasto and bash blocks match the site's look.
+// Sibling copy/theme buttons are moved INTO the bar (right side) instead
+// of floating over the code.
 (function() {
   document.querySelectorAll('pre.code-block').forEach(function(pre) {
     if (pre.closest('.code-frame')) return;
@@ -10125,8 +10127,16 @@ document.addEventListener('DOMContentLoaded', function() {
       bar.appendChild(t);
     }
     frame.appendChild(bar);
-    pre.parentNode.insertBefore(frame, pre);
+    var owner = pre.parentNode;
+    owner.insertBefore(frame, pre);
     frame.appendChild(pre);
+    // Move the floating copy/theme buttons that were siblings of the pre
+    // into the bar (keeps DOM order: copy then theme, right-aligned).
+    [].slice.call(owner.children).forEach(function(child) {
+      if (child.classList && (child.classList.contains('copy-btn') || child.classList.contains('theme-toggle'))) {
+        bar.appendChild(child);
+      }
+    });
   });
 })();
 
