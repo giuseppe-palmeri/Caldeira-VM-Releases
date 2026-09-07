@@ -535,7 +535,7 @@ code {
 .hero {
     position: relative;
     overflow: hidden;
-    padding: var(--space-9) 0 var(--space-6);
+    padding: var(--space-9) 0 var(--space-4);
     text-align: center;
     background:
         linear-gradient(to bottom, transparent 0%, var(--bg) 100%),
@@ -1487,6 +1487,9 @@ code {
     border-color: var(--accent);
 }
 
+#documentation {
+    padding-top: 0;
+}
 .section-cta {
     text-align: center;
     margin-top: var(--space-6);
