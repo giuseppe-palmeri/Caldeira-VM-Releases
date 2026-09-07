@@ -1459,6 +1459,20 @@ code {
     margin: 0 auto var(--space-6);
 }
 
+/* Equal-height panels: keep the CTA anchored to the bottom */
+.community-layout .panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.community-layout [data-issue-list] {
+    flex: 1;
+}
+
+.community-layout [data-issue-list] .empty-state {
+    height: 100%;
+}
+
 .commercial-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
