@@ -622,7 +622,7 @@ code {
     border-radius: 50%;
     offset-path: path("M0,150 H90 V50 H180 V150 H270 V50 H360 V150 H450 V50 H540 V150 L555,25 L570,150 H630 V50 H720 V150 H810 V50 H900 V150 H990 V50 H1080 V150 L1110,10 L1140,150 H1200");
     offset-rotate: 0deg;
-    animation: hero-beam 4s linear infinite;
+    animation: hero-beam 8s linear infinite;
 }
 
 :root[data-theme="dark"] .hero-scope-beam {
@@ -641,8 +641,15 @@ code {
 }
 
 @keyframes hero-beam {
-    from { offset-distance: 0%; }
-    to   { offset-distance: 100%; }
+    /* Non-uniform speed: slow on the square wave (≈9s pace), fast on the
+       event pulses (≈4s pace). Percentages match the trace path geometry:
+       squares 0–41.5% / 50.6–87.4%, spikes 41.5–50.6% / 87.4–97.8%. */
+    0%    { offset-distance: 0%; }
+    47%   { offset-distance: 41.5%; }   /* end square wave part 1 */
+    51%   { offset-distance: 50.6%; }   /* end spike 1 (fast) */
+    93%   { offset-distance: 87.4%; }   /* end square wave part 2 */
+    98%   { offset-distance: 97.8%; }   /* end spike 2 (fast) */
+    100%  { offset-distance: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
