@@ -551,12 +551,12 @@ code {
     background: radial-gradient(ellipse 80% 50% at 50% -10%, var(--accent-soft), transparent 60%);
 }
 
-/* ── Oscilloscope device — fixed top-right, below the nav bar ── */
+/* ── Oscilloscope device — fixed bottom-right ── */
 .scope-device {
     position: fixed;
-    top: calc(var(--header-height) + 2rem);
-    /* Align the right edge with the hero grid's right edge (where the
-       clasto window sits), so the scope reads as sitting above it. */
+    bottom: 1.5rem;
+    /* Right edge aligned with the hero grid's right edge (where the
+       clasto window sits). */
     right: max(1.5rem, calc((100vw - 64rem) / 2));
     width: min(340px, 32vw);
     display: flex;
@@ -1977,7 +1977,7 @@ code {
     /* the fixed scope would cover content on small screens: compact it */
     .scope-device {
         width: 220px;
-        top: calc(var(--header-height) + 0.5rem);
+        bottom: 0.75rem;
         right: 0.75rem;
         padding: var(--space-2);
     }
