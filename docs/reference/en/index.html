@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="icon" href="../../images/favicon.ico" type="image/x-icon">
 <style>
 /* ═══════════════════════ RESET & BASE — site design system ═══════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -349,6 +350,10 @@ code {
 
 /* ── FOOTER ── */
 .doc-footer { margin-top:3rem; padding-top:1.5rem; border-top:1px solid var(--border); text-align:center; font-size:.8rem; color:var(--text-3); }
+.doc-footer p { margin:.25rem 0; }
+.doc-footer-brand { font-weight:700; color:var(--text-2); letter-spacing:.02em; }
+.doc-footer-copy { color:var(--text-3); }
+.doc-footer-note { max-width:46rem; margin-left:auto; margin-right:auto; color:var(--text-3); font-size:.75rem; line-height:1.5; }
 
 /* ── SCROLLBAR ── */
 .sidebar::-webkit-scrollbar { width:6px; }
@@ -9946,7 +9951,9 @@ RULE temperature &gt; 85:
 </section>
   
   <footer class="doc-footer">
-    <p>Caldeira VM &copy; 2026</p>
+    <p class="doc-footer-brand">Caldeira VM</p>
+    <p class="doc-footer-copy">© 2026 Sky Home Srl — All rights reserved.</p>
+    <p class="doc-footer-note">Caldeira VM — a lightweight, deterministic virtual machine for microcontrollers. The proprietary core is owned by Sky Home Srl; the open ecosystem is public.</p>
   </footer>
 </main>
 
