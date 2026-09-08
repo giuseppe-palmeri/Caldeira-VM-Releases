@@ -84,7 +84,7 @@
     "description": "Caldeira VM is composed of two layers: a public open ecosystem and a proprietary core.",
     "openTitle": "Open ecosystem",
     "openItems": {
-      "spec": "Bytecode specification",
+      "spec": "Integration API",
       "assembler": "Assembler",
       "sdk": "SDK",
       "docs": "Documentation",
@@ -103,8 +103,8 @@
     "description": "Public components are provided to encourage experimentation, learning, development, and ecosystem growth.",
     "items": {
       "spec": {
-        "name": "Bytecode specification",
-        "desc": "The public definition of the Caldeira VM bytecode format."
+        "name": "Integration API",
+        "desc": "The public API for integrating the Caldeira VM engine into your projects (embed, run, syscall)."
       },
       "assembler": {
         "name": "Assembler",

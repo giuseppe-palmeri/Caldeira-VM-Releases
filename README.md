@@ -32,7 +32,7 @@ Caldeira VM is composed of two layers:
 Caldeira VM
 │
 ├── Open Ecosystem
-│   ├── Bytecode specification
+│   ├── Integration API
 │   ├── Assembler
 │   ├── SDK
 │   ├── Documentation
@@ -51,7 +51,7 @@ Caldeira VM
 The following components are publicly available:
 
 * Caldeira VM documentation;
-* bytecode specification;
+* integration API;
 * assembler;
 * development tools;
 * examples;
