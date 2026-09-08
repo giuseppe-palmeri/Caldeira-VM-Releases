@@ -182,7 +182,7 @@ body {
 .nav-tree > li.expanded > a.nav-chapter.has-subs::after { transform:rotate(90deg); }
 
 /* ── MAIN CONTENT ── */
-.main-content { margin-left:0; flex:1; padding:4.5rem 3rem 4rem; max-width:1000px; min-width:0; }
+.main-content { margin:0 auto; flex:1; padding:4.5rem 3rem 4rem; width:100%; max-width:1000px; min-width:0; }
 
 /* ── PAGE NAV ── */
 .top-nav-wrap, .bot-nav-wrap { margin:0 0 1rem 0; }
@@ -360,11 +360,11 @@ code {
 .sidebar::-webkit-scrollbar-thumb { background:var(--border-strong); border-radius:3px; }
 
 /* ── RESPONSIVE ── */
-@media (max-width:900px) { .sidebar { width:240px; } .main-content { margin-left:240px; padding:4.5rem 1.5rem; } }
+@media (max-width:900px) { .sidebar { width:240px; } .main-content { margin:0 auto; padding:4.5rem 1.5rem; } }
 @media (max-width:700px) {
   body { flex-direction:column; }
   .sidebar { position:relative; width:100%; height:auto; max-height:50vh; top:auto; }
-  .main-content { margin-left:0; padding:1rem; }
+  .main-content { margin:0; padding:1rem; }
 }
 </style>
 </head>
