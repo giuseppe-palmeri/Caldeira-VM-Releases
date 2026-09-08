@@ -812,7 +812,7 @@ code {
 <section id="ch1-quickstart" class="doc-section"><section id="ch1-quickstart" class="doc-section">
   <h2 class="section-title"><span class="material-icons section-icon">rocket_launch</span> 1. Primo programma</h2>
 
-  <p>Caldeira VM e' una macchina virtuale deterministica per sistemi embedded. Scrivi il tuo programma in un file <code>.clasto</code>, lo compili con <code>clasto</code> in bytecode <code>.lava</code>, e lo esegui con <code>lava</code>.</p>
+  <p>Caldeira VM è una macchina virtuale deterministica per sistemi embedded. Scrivi il tuo programma in un file <code>.clasto</code>, lo compili con <code>clasto</code> in bytecode <code>.lava</code>, e lo esegui con <code>lava</code>.</p>
 
   <h3>1.1 Il tuo primo programma</h3>
   <p>Crea un file <code>primo.clasto</code>:</p>
@@ -823,14 +823,13 @@ code {
   <p>Salva, compila ed esegui:</p>
   <pre class="code-block bash"><code>clasto primo.clasto primo.lava
 lava primo.lava</code></pre>
-  <p>La VM parte, carica R1=42, poi si ferma (HALT) e torna in stato IDLE. Questo e' un programma Caldeira funzionante.</p>
-
+  <p>La VM parte, carica R1=42, poi si ferma (HALT) e torna in stato IDLE. Questo è un programma Caldeira funzionante.</p>
   <h3>1.2 Aggiungere dati: .CONST e .STATIC</h3>
   <p>Le costanti si definiscono a compile-time con <code>.CONST</code>. I dati inizializzati vanno in <code>.STATIC ... .END_STATIC</code>:</p>
   <pre class="code-block asm"><code><span class="hl-dir">.CONST</span> BUF_SIZE <span class="hl-num">64</span>
 
 <span class="hl-dir">.STATIC</span>
-<span class="hl-lbl">msg:</span>
+<span class="hl-lbl">msg</span>:
     <span class="hl-dir">.TEXT</span> <span class="hl-str">&quot;Ciao Mondo!&quot;</span>
 <span class="hl-dir">.END_STATIC</span>
 
@@ -839,7 +838,6 @@ lava primo.lava</code></pre>
     <span class="hl-op">LDA</span> <span class="hl-reg">R1</span>, msg        <span class="hl-cmt">; R1 = indirizzo RAM di msg (scrivibile)</span>
     <span class="hl-op">HALT</span></code></pre>
   <p><code>.STATIC</code> copia i dati dalla flash alla RAM all'avvio. <code>LDA</code> carica l'indirizzo in RAM (leggibile e scrivibile).</p>
-
   <h3>1.3 Ciclo di sviluppo</h3>
   <table class="doc-table">
     <thead><tr><th>Comando</th><th>Cosa fa</th></tr></thead>
@@ -853,7 +851,7 @@ lava primo.lava</code></pre>
 
   <h3>1.4 Esempio completo: Contatore con classe</h3>
   <p>Questo esempio dimostra classi, metodi, fault handling e stack. Copia in <code>demo.clasto</code>, compila ed esegui.</p>
-  <details class="example-block">
+<details class="example-block">
   <summary><strong>Esempio:</strong> <code>templates/examples/DEMO.clasto</code></summary>
   <div class="code-wrap">
     <button class="copy-btn" onclick="copyCode(this)" title="Copia"><span class="material-icons">content_copy</span></button>
@@ -2559,8 +2557,8 @@ lava primo.lava</code></pre>
     <span class="hl-op">MOV.S</span> <span class="hl-reg">R2</span>, -<span class="hl-num">1</span>              <span class="hl-cmt">; R2 = 0xFFFFFFFF</span>
 
     <span class="hl-cmt">; --- MOV.U: unsigned 16-bit immediate (no sign extension) ---</span>
-    MOV.U <span class="hl-reg">R3</span>, <span class="hl-num">0xFFFF</span>          <span class="hl-cmt">; R3 = 0x0000FFFF (65535, not -1)</span>
-    MOV.U <span class="hl-reg">R4</span>, <span class="hl-num">0x8000</span>          <span class="hl-cmt">; R4 = 0x00008000 (32768, not -32768)</span>
+    <span class="hl-op">MOV.U</span> <span class="hl-reg">R3</span>, <span class="hl-num">0xFFFF</span>          <span class="hl-cmt">; R3 = 0x0000FFFF (65535, not -1)</span>
+    <span class="hl-op">MOV.U</span> <span class="hl-reg">R4</span>, <span class="hl-num">0x8000</span>          <span class="hl-cmt">; R4 = 0x00008000 (32768, not -32768)</span>
 
     <span class="hl-cmt">; --- MOV.H: build a full 32-bit value in two steps ---</span>
     <span class="hl-op">MOV.S</span> <span class="hl-reg">R5</span>, -<span class="hl-num">21555</span>          <span class="hl-cmt">; R5 = 0x0000ABCD</span>
@@ -4099,7 +4097,7 @@ lava primo.lava</code></pre>
     <span class="hl-op">PUTC</span> <span class="hl-reg">R9</span>, <span class="hl-reg">R5</span>               <span class="hl-cmt">; writes 0x21 at 0(R9), R9 += 1</span>
 
     <span class="hl-cmt">; --- SYSCALL: print a static string (args in R1-R2) ---</span>
-    LDA <span class="hl-reg">R1</span>, text
+    <span class="hl-op">LDA</span> <span class="hl-reg">R1</span>, text
     <span class="hl-op">MOV.S</span> <span class="hl-reg">R2</span>, <span class="hl-num">0</span>
     <span class="hl-op">SYSCALL</span> S_PRINT
 
@@ -4153,7 +4151,7 @@ lava primo.lava</code></pre>
     <span class="hl-op">PUTC</span> <span class="hl-reg">R9</span>, <span class="hl-reg">R5</span>               <span class="hl-cmt">; writes 0x21 at 0(R9), R9 += 1</span>
 
     <span class="hl-cmt">; --- SYSCALL: print a static string (args in R1-R2) ---</span>
-    LDA <span class="hl-reg">R1</span>, text
+    <span class="hl-op">LDA</span> <span class="hl-reg">R1</span>, text
     <span class="hl-op">MOV.S</span> <span class="hl-reg">R2</span>, <span class="hl-num">0</span>
     <span class="hl-op">SYSCALL</span> S_PRINT
 
@@ -4207,7 +4205,7 @@ lava primo.lava</code></pre>
     <span class="hl-op">PUTC</span> <span class="hl-reg">R9</span>, <span class="hl-reg">R5</span>               <span class="hl-cmt">; writes 0x21 at 0(R9), R9 += 1</span>
 
     <span class="hl-cmt">; --- SYSCALL: print a static string (args in R1-R2) ---</span>
-    LDA <span class="hl-reg">R1</span>, text
+    <span class="hl-op">LDA</span> <span class="hl-reg">R1</span>, text
     <span class="hl-op">MOV.S</span> <span class="hl-reg">R2</span>, <span class="hl-num">0</span>
     <span class="hl-op">SYSCALL</span> S_PRINT
 
@@ -4540,8 +4538,8 @@ lava primo.lava</code></pre>
 <span class="hl-dir">.VECTOR</span> EVT_RESET(flags:FLG), main
 
 <span class="hl-lbl">main</span>:
-    NOP                 <span class="hl-cmt">; no-op: non tocca registri, memoria né PSR</span>
-    NOP
+    <span class="hl-op">NOP</span>                 <span class="hl-cmt">; no-op: non tocca registri, memoria né PSR</span>
+    <span class="hl-op">NOP</span>
     <span class="hl-op">MOV.S</span> <span class="hl-reg">R1</span>, <span class="hl-num">42</span>
     <span class="hl-op">HALT</span>
 </code></pre>
@@ -5189,8 +5187,8 @@ lava primo.lava</code></pre>
     <span class="hl-op">MOV.S</span> <span class="hl-reg">R2</span>, -<span class="hl-num">1</span>              <span class="hl-cmt">; R2 = 0xFFFFFFFF</span>
 
     <span class="hl-cmt">; --- MOV.U: unsigned 16-bit immediate (no sign extension) ---</span>
-    MOV.U <span class="hl-reg">R3</span>, <span class="hl-num">0xFFFF</span>          <span class="hl-cmt">; R3 = 0x0000FFFF (65535, not -1)</span>
-    MOV.U <span class="hl-reg">R4</span>, <span class="hl-num">0x8000</span>          <span class="hl-cmt">; R4 = 0x00008000 (32768, not -32768)</span>
+    <span class="hl-op">MOV.U</span> <span class="hl-reg">R3</span>, <span class="hl-num">0xFFFF</span>          <span class="hl-cmt">; R3 = 0x0000FFFF (65535, not -1)</span>
+    <span class="hl-op">MOV.U</span> <span class="hl-reg">R4</span>, <span class="hl-num">0x8000</span>          <span class="hl-cmt">; R4 = 0x00008000 (32768, not -32768)</span>
 
     <span class="hl-cmt">; --- MOV.H: build a full 32-bit value in two steps ---</span>
     <span class="hl-op">MOV.S</span> <span class="hl-reg">R5</span>, -<span class="hl-num">21555</span>          <span class="hl-cmt">; R5 = 0x0000ABCD</span>
@@ -5231,8 +5229,8 @@ lava primo.lava</code></pre>
     <span class="hl-op">MOV.S</span> <span class="hl-reg">R2</span>, -<span class="hl-num">1</span>              <span class="hl-cmt">; R2 = 0xFFFFFFFF</span>
 
     <span class="hl-cmt">; --- MOV.U: unsigned 16-bit immediate (no sign extension) ---</span>
-    MOV.U <span class="hl-reg">R3</span>, <span class="hl-num">0xFFFF</span>          <span class="hl-cmt">; R3 = 0x0000FFFF (65535, not -1)</span>
-    MOV.U <span class="hl-reg">R4</span>, <span class="hl-num">0x8000</span>          <span class="hl-cmt">; R4 = 0x00008000 (32768, not -32768)</span>
+    <span class="hl-op">MOV.U</span> <span class="hl-reg">R3</span>, <span class="hl-num">0xFFFF</span>          <span class="hl-cmt">; R3 = 0x0000FFFF (65535, not -1)</span>
+    <span class="hl-op">MOV.U</span> <span class="hl-reg">R4</span>, <span class="hl-num">0x8000</span>          <span class="hl-cmt">; R4 = 0x00008000 (32768, not -32768)</span>
 
     <span class="hl-cmt">; --- MOV.H: build a full 32-bit value in two steps ---</span>
     <span class="hl-op">MOV.S</span> <span class="hl-reg">R5</span>, -<span class="hl-num">21555</span>          <span class="hl-cmt">; R5 = 0x0000ABCD</span>
@@ -5274,7 +5272,7 @@ lava primo.lava</code></pre>
 <span class="hl-lbl">main</span>:
     <span class="hl-cmt">; LDA returns a pointer to the private RAM copy of the label,</span>
     <span class="hl-cmt">; unlike MOV.S + LD32 which would read the read-only bytecode.</span>
-    LDA <span class="hl-reg">R1</span>, counter           <span class="hl-cmt">; R1 = writable pointer to counter</span>
+    <span class="hl-op">LDA</span> <span class="hl-reg">R1</span>, counter           <span class="hl-cmt">; R1 = writable pointer to counter</span>
     <span class="hl-op">MOV.S</span> <span class="hl-reg">R2</span>, <span class="hl-num">7</span>
     <span class="hl-op">ST32</span> <span class="hl-reg">R2</span>, <span class="hl-num">0</span>(<span class="hl-reg">R1</span>)            <span class="hl-cmt">; counter = 7</span>
     <span class="hl-op">LD32</span> <span class="hl-reg">R3</span>, <span class="hl-num">0</span>(<span class="hl-reg">R1</span>)            <span class="hl-cmt">; R3 = 7</span>
@@ -5753,9 +5751,7 @@ lava primo.lava</code></pre>
 </section>
 <section id="ch4-faults" class="doc-section"><section id="ch4-faults" class="doc-section">
   <h2 class="section-title"><span class="material-icons section-icon">warning</span> 4. Codici di fault</h2>
-  <p>I fault sono errori software recuperabili tramite <code>GUARD</code> / <code>UNGUARD</code>.
-  Quando si verifica un fault all'interno di un blocco protetto, la VM
-  ripristina lo stato al checkpoint e scrive il codice in <strong>R14</strong>.</p>
+  <p>I fault sono errori software recuperabili tramite <code>GUARD</code> / <code>UNGUARD</code>. Quando si verifica un fault all'interno di un blocco protetto, la VM ripristina lo stato al checkpoint e scrive il codice in <strong>R14</strong>.</p>
   <div class="table-wrap">
   <table class="doc-table">
     <thead><tr><th>Codice</th><th>Costante</th><th>Descrizione</th></tr></thead>
@@ -6368,7 +6364,7 @@ lava primo.lava</code></pre>
   <p>Questo capitolo descrive tutto ciò che puoi scrivere in un file <code>.clasto</code> oltre alle istruzioni della VM. Le <b>direttive</b> (cominciano con <code>.</code>) controllano l'assemblatore a compile-time: definiscono costanti, includono file, dichiarano classi, configurano la memoria. Le <b>pseudo-istruzioni</b> (cominciano con <code>!</code>) sono scorciatoie per operazioni comuni come caricare un valore a 32-bit. Le <b>macro</b> (<code>.MACRO</code>) ti permettono di creare i tuoi comandi riutilizzabili.</p>
 
   <h3 style="padding-top:1.2em">7.1 Direttive</h3>
-  <p>Le direttive controllano l&#39;assemblatore e non generano direttamente codice macchina.</p>
+  <p>Le direttive controllano l'assemblatore e non generano direttamente codice macchina.</p>
   <div class="table-wrap">
   <table class="doc-table">
     <thead><tr><th>Direttiva</th><th>Sintassi</th><th>Descrizione</th></tr></thead>
@@ -6520,9 +6516,9 @@ lava primo.lava</code></pre>
 
 
   <h3 style="padding-top:1.2em">7.9 Codici di errore</h3>
-  <p>Tutti gli errori dell&#39;assemblatore hanno un codice univoco <code>EXXXX</code> o <code>WXXXX</code>.</p>
-  <p>Il formato &egrave;: <code>Error: file:line:col: EXXXX: messaggio</code></p>
-  <p>Quando la colonna è disponibile, l&#39;errore mostra anche la riga incriminata con una freccia (<code>^^^^</code>) che punta al token esatto:</p>
+  <p>Tutti gli errori dell'assemblatore hanno un codice univoco <code>EXXXX</code> o <code>WXXXX</code>.</p>
+  <p>Il formato è: <code>Error: file:line:col: EXXXX: messaggio</code></p>
+  <p>Quando la colonna è disponibile, l'errore mostra anche la riga incriminata con una freccia (<code>^^^^</code>) che punta al token esatto:</p>
   <pre class="code-block">   3 |     YIELD
       |     ^^^^^
 Error: file:3:4: E2000: YIELD not allowed inside MARK/FREE atomic section</pre>

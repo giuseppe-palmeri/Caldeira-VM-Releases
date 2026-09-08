@@ -1,620 +1,794 @@
 {
-  "registers": {
+ "it": {
+  "sections": {
+   "registers": {
+    "title": "2. Architettura registri",
+    "table_title": "Registri (R0–R15)",
+    "table_header": [
+     "Registro",
+     "Nome",
+     "Ruolo"
+    ],
     "table": [
-      [
-        "R0",
-        "Zero",
-        "Letto come 0, scritture scartate"
-      ],
-      [
-        "R1–R4",
-        "Argomenti syscall",
-        "R1–R3 = input, R1 = return value"
-      ],
-      [
-        "R5–R7",
-        "Temporanei",
-        "Operazioni brevi, non preservati tra chiamate"
-      ],
-      [
-        "R8–R12",
-        "Globali",
-        "Preservati tra chiamate (callee-saved)"
-      ],
-      [
-        "R13",
-        "Puntatore oggetto (this)",
-        "Usato da CALLM come puntatore all'oggetto"
-      ],
-      [
-        "R14",
-        "Fault code",
-        "Riceve il codice errore in un handler GUARD"
-      ],
-      [
-        "R15",
-        "Stack Pointer (SP)",
-        "Cresce verso il basso, inizializzato al top della memoria"
-      ]
+     [
+      "R0",
+      "Zero",
+      "Letto come 0, scritture scartate"
+     ],
+     [
+      "R1–R4",
+      "Argomenti syscall",
+      "R1–R3 = input, R1 = return value"
+     ],
+     [
+      "R5–R7",
+      "Temporanei",
+      "Operazioni brevi, non preservati tra chiamate"
+     ],
+     [
+      "R8–R12",
+      "Globali",
+      "Preservati tra chiamate (callee-saved)"
+     ],
+     [
+      "R13",
+      "Puntatore oggetto (this)",
+      "Usato da CALLM come puntatore all'oggetto"
+     ],
+     [
+      "R14",
+      "Fault code",
+      "Riceve il codice errore in un handler GUARD"
+     ],
+     [
+      "R15",
+      "Stack Pointer (SP)",
+      "Cresce verso il basso, inizializzato al top della memoria"
+     ]
+    ],
+    "flags_title": "Flags PSR (CMP / CMP.S / branch)",
+    "flags_header": [
+     "Flag",
+     "Nome",
+     "Descrizione"
     ],
     "flags": [
-      [
-        "N",
-        "Negative",
-        "MSB del risultato = 1"
-      ],
-      [
-        "Z",
-        "Zero",
-        "Risultato == 0"
-      ],
-      [
-        "V",
-        "Overflow",
-        "Overflow signed (a[31]==b[31] && a[31]!=r[31])"
-      ],
-      [
-        "C",
-        "Carry",
-        "Overflow aritmetico unsigned"
-      ]
+     [
+      "N",
+      "Negative",
+      "MSB del risultato = 1"
+     ],
+     [
+      "Z",
+      "Zero",
+      "Risultato == 0"
+     ],
+     [
+      "V",
+      "Overflow",
+      "Overflow signed (a[31]==b[31] && a[31]!=r[31])"
+     ],
+     [
+      "C",
+      "Carry",
+      "Overflow aritmetico unsigned"
+     ]
     ],
+    "flags_intro": "Impostati (tutti e quattro: N, Z, V, C) solo da <code>CMP</code> / <code>CMP.S</code>. Le ALU <em>non</em> aggiornano i flag.",
+    "branches_intro": "Usati dai branch condizionali:",
     "branches": [
-      [
-        "BEQ",
-        "Z = 1",
-        "Salta se uguale (risultato == 0)"
-      ],
-      [
-        "BNE",
-        "Z = 0",
-        "Salta se diverso (risultato != 0)"
-      ],
-      [
-        "BLT",
-        "N != V",
-        "Salta se minore (signed)"
-      ],
-      [
-        "BGE",
-        "N == V",
-        "Salta se maggiore o uguale (signed)"
-      ],
-      [
-        "BGT",
-        "Z = 0 e N == V",
-        "Salta se maggiore (signed)"
-      ],
-      [
-        "BLE",
-        "Z = 1 o N != V",
-        "Salta se minore o uguale (signed)"
-      ],
-      [
-        "BLO",
-        "C = 1",
-        "Salta se minore (unsigned, carry settato)"
-      ],
-      [
-        "BHS",
-        "C = 0",
-        "Salta se maggiore o uguale (unsigned, carry pulito)"
-      ],
-      [
-        "BHI",
-        "C = 0 e Z = 0",
-        "Salta se maggiore (unsigned, nessun carry e non zero)"
-      ],
-      [
-        "BLS",
-        "C = 1 o Z = 1",
-        "Salta se minore o uguale (unsigned, carry o zero)"
-      ]
+     [
+      "BEQ",
+      "Z = 1",
+      "Salta se uguale (risultato == 0)"
+     ],
+     [
+      "BNE",
+      "Z = 0",
+      "Salta se diverso (risultato != 0)"
+     ],
+     [
+      "BLT",
+      "N != V",
+      "Salta se minore (signed)"
+     ],
+     [
+      "BGE",
+      "N == V",
+      "Salta se maggiore o uguale (signed)"
+     ],
+     [
+      "BGT",
+      "Z = 0 e N == V",
+      "Salta se maggiore (signed)"
+     ],
+     [
+      "BLE",
+      "Z = 1 o N != V",
+      "Salta se minore o uguale (signed)"
+     ],
+     [
+      "BLO",
+      "C = 1",
+      "Salta se minore (unsigned, carry settato)"
+     ],
+     [
+      "BHS",
+      "C = 0",
+      "Salta se maggiore o uguale (unsigned, carry pulito)"
+     ],
+     [
+      "BHI",
+      "C = 0 e Z = 0",
+      "Salta se maggiore (unsigned, nessun carry e non zero)"
+     ],
+     [
+      "BLS",
+      "C = 1 o Z = 1",
+      "Salta se minore o uguale (unsigned, carry o zero)"
+     ]
     ]
-  },
-	  "assembler": {
-	    "directives": [
-	      [
-	        ".FILE",
-	        ".FILE \"nomefile\"",
-	        "Registra il nome del file sorgente corrente per debug (riga/colonna negli errori). Mettilo all'inizio di ogni file incluso per tracciare l'origine degli errori."
-	      ],
-	      [
-	        ".CLASS",
-	        ".CLASS NomeClasse",
-	        "Apre un blocco classe. Usa .FIELD per i campi e .METHOD per i metodi. Chiudi con .END_CLASS per generare il Class Descriptor (header + VTable)."
-	      ],
-	      [
-	        ".INTERFACE",
-	        ".INTERFACE Nome",
-	        "Dichiara un contratto: solo firme metodi (.METHOD), senza codice. Una classe implementa un'interfaccia con .CLASS Nome IMPLEMENTS Interfaccia."
-	      ],
-	      [
-	        ".END_INTERFACE",
-	        ".END_INTERFACE",
-	        "Chiude un blocco .INTERFACE. Dopo non puoi piu aggiungere metodi all'interfaccia."
-	      ],
-	      [
-	        ".END_CLASS",
-	        ".END_CLASS",
-	        "Chiude .CLASS. L'assembler scrive Class Descriptor (header + VTable) e verifica che ogni metodo termini con RET e che l'interfaccia sia completamente implementata."
-	      ],
-	      [
-	        ".FIELD",
-	        ".FIELD Nome:Tipo",
-	        "Dichiara un campo nella classe corrente. Tipi: U8, U16, U32, PTR, FLG. I campi vengono riordinati per dimensione e allineati. Il : e' convenzionale (es. .FIELD value:U16)."
-	      ],
-	      [
-	        ".METHOD",
-	        ".METHOD Nome(tipo:TIPO, ...)",
-	        "Dichiara un metodo con parametri tipizzati. Es. .METHOD Incrementa(amount:U16). I parametri sono accessibili su R13 con offset (il primo a offset 4)."
-	      ],
-	      [
-	        ".VECTOR",
-	        ".VECTOR Evento(ABI), Label",
-	        "Collega un evento (es. EVT_RESET, EVT_TICK_1MS) a un handler. .VECTOR NomeEvento(param:TIPO), label_handler. L'ABI valida i parametri dell'evento."
-	      ],
-	      [
-	        ".CONST",
-	        ".CONST Nome:Valore",
-	        "Definisce una costante numerica risolta a compile-time. Usala in .IF, .CONFIG o come immediato (MOV.S R1, MAX_BUF). Il : e' convenzionale."
-	      ],
-	      [
-	        ".ABI",
-	        ".ABI (nome:TIPO, ...) -> (out:TIPO) / .END_ABI",
-	        "Dentro un blocco .ABI ... .END_ABI, i registri R1-R15 vengono rinominati con nomi logici (es. .ABI EVT_TICK_1MS(tick:FLG) ... MOV R8, tick .END_ABI). L'ABI può riferirsi a eventi o syscall per validare i tipi automaticamente."
-	      ],
-	      [
-	        ".INCLUDE",
-	        ".INCLUDE \"file\"",
-	        "Incorpora il contenuto di un altro file .clasto come se fosse scritto li'. Usalo per condividere costanti e interfacce tra file. Il percorso e' relativo al file corrente o alla directory -I. Inclusioni multiple vengono ignorate."
-	      ],
-	      [
-	        ".DB",
-	        ".DB b1, b2, ... (dentro .STATIC)",
-	        "Emette byte costanti nel bytecode. Dentro .STATIC accumula dati (max 512 byte totali). Metti una label prima per accedere con LDA (RAM) o MOV.S (flash)."
-	      ],
-	      [
-	        ".DW",
-	        ".DW w1, w2, ... (dentro .STATIC)",
-	        "Emette halfword (16-bit) costanti. Dentro .STATIC per tabelle di lookup o valori a 2 byte con label prima per LDA."
-	      ],
-	      [
-	        ".DD",
-	        ".DD d1, d2, ... (dentro .STATIC)",
-	        "Emette word (32-bit) costanti in little-endian. Dentro .STATIC per puntatori, flag a 32-bit o tabelle numeriche."
-	      ],
-	      [
-	        ".TEXT",
-	        ".TEXT \"testo\" (dentro .STATIC)",
-	        "Emette una stringa con null terminator e padding a 4 byte. Supporta escape: \\n, \\r, \\t, \\0, \\\\. Metti una label prima per accedere con LDA."
-	      ],
-	      [
-	        ".IF",
-	        ".IF expr / .ELSE / .END_IF",
-	        "Assemblaggio condizionale: se l'espressione e' vera include il blocco, altrimenti lo salta. Supporta ==, !=, &lt;, &gt;, defined(), !, &&, ||. (<a href=\"#ch6-if\">vedi espressioni</a>)"
-	      ],
-	      [
-	        ".VM",
-	        ".VM nome / ... / .END_VM",
-	        "Delimita il codice di una VM in un sorgente multi-VM. Il CLI (clasto) elabora ogni blocco .VM ... .END_VM separatamente e produce un file .magma (container multi-VM). Serve solo per firmware con piu VM isolate."
-	      ],
-	      [
-	        ".PRINT",
-	        ".PRINT \"msg\"",
-	        "Scrive un messaggio su stderr durante l'assemblaggio. Non blocca la compilazione. Utile per debug di .IF e .MACRO."
-	      ],
-	      [
-	        ".ERROR",
-	        ".ERROR \"msg\"",
-	        "Scrive un errore su stderr e blocca la generazione del bytecode. Usalo per validazioni personalizzate (.IF ... .ELSE .ERROR \"msg\" .END_IF)."
-	      ],
-	      [
-	        ".LOC",
-	        ".LOC numero",
-	        "Forza il numero di riga interno dell'assemblatore. Utile per file preprocessati con mapping righe diverso."
-	      ],
-	      [
-	        ".ALIAS",
-	        ".ALIAS nome:Tipo, Rx",
-	        "Rinomina un registro (R0-R15) con un nome simbolico globale; il tipo (U8/U16/U32/S8/S16/S32/PTR/FLG, anche array Tipo[N]...) e' obbligatorio. Es. .ALIAS counter:U32, R8 -> puoi usare counter come registro. Senza tipo -> E1503, tipo invalido -> E1504; accessi indicizzati fuori range -> E3010/E3011/E3012, larghezza LD/ST diversa dall'elemento -> E3013, alias REG nudo come offset -> E3014, alias OFFSET nudo -> E3015."
-	      ],
-	      [
-	        ".MACRO",
-	        ".MACRO nome arg1, ... / .END_MACRO",
-	        "Definisce una macro richiamabile con !nome. I parametri si usano con #nome. Es. .MACRO ADD3 r1,r2,r3 ... ADD #r1, #r2, #r3 ... .END_MACRO."
-	      ],
-	      [
-	        ".SCOPE",
-	        ".SCOPE [nome] / .END_SCOPE",
-	        "Blocco di contesto: dentro .SCOPE le .CONST, gli .ALIAS, le label e i .PROTECT sono locali al blocco (shadowing legale). Il KEEP e' stato RIMOSSO: per la protezione per-call usare .KEEP Rx ... .END_KEEP."
-	      ],
-	      [
-	        ".SLOT",
-	        ".SLOT id ... .END_SLOT",
-	        "Blocco riscrivibile (stile slot template): il file incluso dichiara il default, la glue riapre lo stesso id con il corpo vincente. Semantica \"l'ultimo vince\" (come .VECTOR): alla prima occorrenza (ancora) viene emesso il contenuto dell'ultima definizione. Senza override il default resta (compatibilita' totale). Espansione testuale dopo le .INCLUDE."
-	      ],
-	      [
-	        ".PROTECT",
-	        ".PROTECT Rx | alias, ...",
-	        "Dichiara un registro \"prezioso\" che deve sopravvivere a ogni chiamata di routine. L'assembler verifica (post-pass) che nessuna routine chiamata clobberi un registro protetto letto dal chiamante dopo la CALL (E2100). R0 (zero) e R15 (SP) non sono proteggibili (E2102). Pattern riconosciuto: PUSH R13 ... CALL ... POP R13."
-	      ],
-	      [
-	        ".WHILE",
-	        ".WHILE Rd, Rs, COND / .END_WHILE",
-	        "Ciclo a compile-time: confronta Rd con Rs, se COND (EQ/NE/GT/GE/LT/LE) e' falsa salta a .END_WHILE. Attenzione: se la condizione e' sempre vera, il ciclo si ripete all'infinito e l'assemblatore non termina."
-	      ],
-	      [
-	        ".STATIC",
-	        ".STATIC ... .END_STATIC",
-	        "Blocco di dati copiati da flash a RAM all'avvio (leggibili/scrivibili). LDA da' indirizzo RAM; label in MOV.S da' indirizzo flash (sola lettura). Max 512 byte."
-	      ],
-	      [
-	        ".SHARED",
-	        ".SHARED n",
-	        "Imposta la memoria condivisa in KB (n >= 8). Se usato piu volte, prevale il valore massimo. Default: 64KB."
-	      ],
-	      [
-	        ".SWITCH",
-	        ".SWITCH expr ... .CASE val / .DEFAULT ... .END_SWITCH",
-	        "Selezione compile-time a N rami: valuta l'espressione costante UNA volta e attiva il ramo .CASE con valore uguale (o il .DEFAULT se nessun caso matcha); i rami non attivi non vengono assemblati. Max 8 livelli di annidamento."
-	      ],
-	      [
-	        ".ENUM",
-	        ".ENUM [Nome] ... .END_ENUM",
-	        "Costanti in serie: ogni voce diventa una .CONST (con prefisso Nome.Voce se l'enum ha un nome), valore ad auto-incremento con override esplicito (= val). Es. .ENUM Color / RED / GREEN / BLUE = 10 / ALPHA / .END_ENUM -> Color.RED=0, Color.GREEN=1, Color.BLUE=10, Color.ALPHA=11."
-	      ],
-	      [
-	        ".FOR",
-	        ".FOR var, start, limit [, step] ... .END_FOR",
-	        "Loop compile-time con variabile: replica il corpo per ogni valore di var da start a limit (limite esclusivo, stile C), step opzionale anche negativo; nel corpo la variabile si usa come #var. I bound accettano numeri, .CONST ed espressioni (N+2, CNT*2). .FOR e' annidabile (variabili distinte, anche referenze incrociate #i/#j). Max 10000 iterazioni."
-	      ],
-	      [
-	        ".ALIGN",
-	        ".ALIGN n",
-	        "Allinea l'indirizzo corrente al prossimo multiplo di n (potenza di due, 1-64): nei dati (.STATIC) padding a byte zero, nel codice no-op fino all'allineamento (arrotondato al multiplo di 4)."
-	      ],
-	      [
-	        ".ASSERT",
-	        ".ASSERT cond, \"msg\"",
-	        "Verifica compile-time: se la condizione costante e' falsa l'assemblaggio fallisce con il messaggio (E1438). Es. .ASSERT N < 8, \"N fuori range\"."
-	      ]
-	    ],
+   },
+   "assembler": {
+    "directives": [
+     [
+      ".FILE",
+      ".FILE \"nomefile\"",
+      "Registra il nome del file sorgente corrente per debug (riga/colonna negli errori). Mettilo all'inizio di ogni file incluso per tracciare l'origine degli errori."
+     ],
+     [
+      ".CLASS",
+      ".CLASS NomeClasse",
+      "Apre un blocco classe. Usa .FIELD per i campi e .METHOD per i metodi. Chiudi con .END_CLASS per generare il Class Descriptor (header + VTable)."
+     ],
+     [
+      ".INTERFACE",
+      ".INTERFACE Nome",
+      "Dichiara un contratto: solo firme metodi (.METHOD), senza codice. Una classe implementa un'interfaccia con .CLASS Nome IMPLEMENTS Interfaccia."
+     ],
+     [
+      ".END_INTERFACE",
+      ".END_INTERFACE",
+      "Chiude un blocco .INTERFACE. Dopo non puoi piu aggiungere metodi all'interfaccia."
+     ],
+     [
+      ".END_CLASS",
+      ".END_CLASS",
+      "Chiude .CLASS. L'assembler scrive Class Descriptor (header + VTable) e verifica che ogni metodo termini con RET e che l'interfaccia sia completamente implementata."
+     ],
+     [
+      ".FIELD",
+      ".FIELD Nome:Tipo",
+      "Dichiara un campo nella classe corrente. Tipi: U8, U16, U32, PTR, FLG. I campi vengono riordinati per dimensione e allineati. Il : e' convenzionale (es. .FIELD value:U16)."
+     ],
+     [
+      ".METHOD",
+      ".METHOD Nome(tipo:TIPO, ...)",
+      "Dichiara un metodo con parametri tipizzati. Es. .METHOD Incrementa(amount:U16). I parametri sono accessibili su R13 con offset (il primo a offset 4)."
+     ],
+     [
+      ".VECTOR",
+      ".VECTOR Evento(ABI), Label",
+      "Collega un evento (es. EVT_RESET, EVT_TICK_1MS) a un handler. .VECTOR NomeEvento(param:TIPO), label_handler. L'ABI valida i parametri dell'evento."
+     ],
+     [
+      ".CONST",
+      ".CONST Nome:Valore",
+      "Definisce una costante numerica risolta a compile-time. Usala in .IF, .CONFIG o come immediato (MOV.S R1, MAX_BUF). Il : e' convenzionale."
+     ],
+     [
+      ".ABI",
+      ".ABI (nome:TIPO, ...) -> (out:TIPO) / .END_ABI",
+      "Dentro un blocco .ABI ... .END_ABI, i registri R1-R15 vengono rinominati con nomi logici (es. .ABI EVT_TICK_1MS(tick:FLG) ... MOV R8, tick .END_ABI). L'ABI può riferirsi a eventi o syscall per validare i tipi automaticamente."
+     ],
+     [
+      ".INCLUDE",
+      ".INCLUDE \"file\"",
+      "Incorpora il contenuto di un altro file .clasto come se fosse scritto li'. Usalo per condividere costanti e interfacce tra file. Il percorso e' relativo al file corrente o alla directory -I. Inclusioni multiple vengono ignorate."
+     ],
+     [
+      ".DB",
+      ".DB b1, b2, ... (dentro .STATIC)",
+      "Emette byte costanti nel bytecode. Dentro .STATIC accumula dati (max 512 byte totali). Metti una label prima per accedere con LDA (RAM) o MOV.S (flash)."
+     ],
+     [
+      ".DW",
+      ".DW w1, w2, ... (dentro .STATIC)",
+      "Emette halfword (16-bit) costanti. Dentro .STATIC per tabelle di lookup o valori a 2 byte con label prima per LDA."
+     ],
+     [
+      ".DD",
+      ".DD d1, d2, ... (dentro .STATIC)",
+      "Emette word (32-bit) costanti in little-endian. Dentro .STATIC per puntatori, flag a 32-bit o tabelle numeriche."
+     ],
+     [
+      ".TEXT",
+      ".TEXT \"testo\" (dentro .STATIC)",
+      "Emette una stringa con null terminator e padding a 4 byte. Supporta escape: \\n, \\r, \\t, \\0, \\\\. Metti una label prima per accedere con LDA."
+     ],
+     [
+      ".IF",
+      ".IF expr / .ELSE / .END_IF",
+      "Assemblaggio condizionale: se l'espressione e' vera include il blocco, altrimenti lo salta. Supporta ==, !=, &lt;, &gt;, defined(), !, &&, ||. (<a href=\"#ch6-if\">vedi espressioni</a>)"
+     ],
+     [
+      ".VM",
+      ".VM nome / ... / .END_VM",
+      "Delimita il codice di una VM in un sorgente multi-VM. Il CLI (clasto) elabora ogni blocco .VM ... .END_VM separatamente e produce un file .magma (container multi-VM). Serve solo per firmware con piu VM isolate."
+     ],
+     [
+      ".PRINT",
+      ".PRINT \"msg\"",
+      "Scrive un messaggio su stderr durante l'assemblaggio. Non blocca la compilazione. Utile per debug di .IF e .MACRO."
+     ],
+     [
+      ".ERROR",
+      ".ERROR \"msg\"",
+      "Scrive un errore su stderr e blocca la generazione del bytecode. Usalo per validazioni personalizzate (.IF ... .ELSE .ERROR \"msg\" .END_IF)."
+     ],
+     [
+      ".LOC",
+      ".LOC numero",
+      "Forza il numero di riga interno dell'assemblatore. Utile per file preprocessati con mapping righe diverso."
+     ],
+     [
+      ".ALIAS",
+      ".ALIAS nome:Tipo, Rx",
+      "Rinomina un registro (R0-R15) con un nome simbolico globale; il tipo (U8/U16/U32/S8/S16/S32/PTR/FLG, anche array Tipo[N]...) e' obbligatorio. Es. .ALIAS counter:U32, R8 -> puoi usare counter come registro. Senza tipo -> E1503, tipo invalido -> E1504; accessi indicizzati fuori range -> E3010/E3011/E3012, larghezza LD/ST diversa dall'elemento -> E3013, alias REG nudo come offset -> E3014, alias OFFSET nudo -> E3015."
+     ],
+     [
+      ".MACRO",
+      ".MACRO nome arg1, ... / .END_MACRO",
+      "Definisce una macro richiamabile con !nome. I parametri si usano con #nome. Es. .MACRO ADD3 r1,r2,r3 ... ADD #r1, #r2, #r3 ... .END_MACRO."
+     ],
+     [
+      ".SCOPE",
+      ".SCOPE [nome] / .END_SCOPE",
+      "Blocco di contesto: dentro .SCOPE le .CONST, gli .ALIAS, le label e i .PROTECT sono locali al blocco (shadowing legale). Il KEEP e' stato RIMOSSO: per la protezione per-call usare .KEEP Rx ... .END_KEEP."
+     ],
+     [
+      ".SLOT",
+      ".SLOT id ... .END_SLOT",
+      "Blocco riscrivibile (stile slot template): il file incluso dichiara il default, la glue riapre lo stesso id con il corpo vincente. Semantica \"l'ultimo vince\" (come .VECTOR): alla prima occorrenza (ancora) viene emesso il contenuto dell'ultima definizione. Senza override il default resta (compatibilita' totale). Espansione testuale dopo le .INCLUDE."
+     ],
+     [
+      ".PROTECT",
+      ".PROTECT Rx | alias, ...",
+      "Dichiara un registro \"prezioso\" che deve sopravvivere a ogni chiamata di routine. L'assembler verifica (post-pass) che nessuna routine chiamata clobberi un registro protetto letto dal chiamante dopo la CALL (E2100). R0 (zero) e R15 (SP) non sono proteggibili (E2102). Pattern riconosciuto: PUSH R13 ... CALL ... POP R13."
+     ],
+     [
+      ".WHILE",
+      ".WHILE Rd, Rs, COND / .END_WHILE",
+      "Ciclo a compile-time: confronta Rd con Rs, se COND (EQ/NE/GT/GE/LT/LE) e' falsa salta a .END_WHILE. Attenzione: se la condizione e' sempre vera, il ciclo si ripete all'infinito e l'assemblatore non termina."
+     ],
+     [
+      ".STATIC",
+      ".STATIC ... .END_STATIC",
+      "Blocco di dati copiati da flash a RAM all'avvio (leggibili/scrivibili). LDA da' indirizzo RAM; label in MOV.S da' indirizzo flash (sola lettura). Max 512 byte."
+     ],
+     [
+      ".SHARED",
+      ".SHARED n",
+      "Imposta la memoria condivisa in KB (n >= 8). Se usato piu volte, prevale il valore massimo. Default: 64KB."
+     ],
+     [
+      ".SWITCH",
+      ".SWITCH expr ... .CASE val / .DEFAULT ... .END_SWITCH",
+      "Selezione compile-time a N rami: valuta l'espressione costante UNA volta e attiva il ramo .CASE con valore uguale (o il .DEFAULT se nessun caso matcha); i rami non attivi non vengono assemblati. Max 8 livelli di annidamento."
+     ],
+     [
+      ".ENUM",
+      ".ENUM [Nome] ... .END_ENUM",
+      "Costanti in serie: ogni voce diventa una .CONST (con prefisso Nome.Voce se l'enum ha un nome), valore ad auto-incremento con override esplicito (= val). Es. .ENUM Color / RED / GREEN / BLUE = 10 / ALPHA / .END_ENUM -> Color.RED=0, Color.GREEN=1, Color.BLUE=10, Color.ALPHA=11."
+     ],
+     [
+      ".FOR",
+      ".FOR var, start, limit [, step] ... .END_FOR",
+      "Loop compile-time con variabile: replica il corpo per ogni valore di var da start a limit (limite esclusivo, stile C), step opzionale anche negativo; nel corpo la variabile si usa come #var. I bound accettano numeri, .CONST ed espressioni (N+2, CNT*2). .FOR e' annidabile (variabili distinte, anche referenze incrociate #i/#j). Max 10000 iterazioni."
+     ],
+     [
+      ".ALIGN",
+      ".ALIGN n",
+      "Allinea l'indirizzo corrente al prossimo multiplo di n (potenza di due, 1-64): nei dati (.STATIC) padding a byte zero, nel codice no-op fino all'allineamento (arrotondato al multiplo di 4)."
+     ],
+     [
+      ".ASSERT",
+      ".ASSERT cond, \"msg\"",
+      "Verifica compile-time: se la condizione costante e' falsa l'assemblaggio fallisce con il messaggio (E1438). Es. .ASSERT N < 8, \"N fuori range\"."
+     ]
+    ],
     "pseudo_asm_lines": [
-      "!LI Rd, Imm    ; Carica immediato (numero o label)",
-      "!LI R1, 42     ; R1 = 42 (short form: MOV.S)",
-      "!LI R1, label  ; R1 = indirizzo di label (short form: MOV.S)",
-      "!LI R1, 70000  ; R1 = 70000 (long form: MOV.HIGH + OR.U)",
-      "!LU Rd, Imm    ; Carica unsigned 32-bit (numero o label)",
-      "!LU R1, 65535  ; R1 = 65535 (short form: MOV.U)",
-      "!LU R1, 70000  ; R1 = 70000 (long form: MOV.HIGH + OR.U)"
+     "!LI Rd, Imm    ; Carica immediato (numero o label)",
+     "!LI R1, 42     ; R1 = 42 (short form: MOV.S)",
+     "!LI R1, label  ; R1 = indirizzo di label (short form: MOV.S)",
+     "!LI R1, 70000  ; R1 = 70000 (long form: MOV.HIGH + OR.U)",
+     "!LU Rd, Imm    ; Carica unsigned 32-bit (numero o label)",
+     "!LU R1, 65535  ; R1 = 65535 (short form: MOV.U)",
+     "!LU R1, 70000  ; R1 = 70000 (long form: MOV.HIGH + OR.U)"
     ],
     "tables": {
-      "if_expr": [
-        [
-          "defined(<i>nome</i>)",
-          ".IF defined(DEBUG)",
-          "Vero se <i>nome</i> è definito come <code>.CONST</code>"
-        ],
-        [
-          "defined <i>nome</i>",
-          ".IF defined DEBUG",
-          "Stesso significato, senza parentesi"
-        ],
-        [
-          "<i>a</i> == <i>b</i>",
-          ".IF VM_FEATURE_GDB == 1",
-          "Uguale"
-        ],
-        [
-          "<i>a</i> != <i>b</i>",
-          ".IF VER_MAJ != 2",
-          "Diverso"
-        ],
-        [
-          "<i>a</i> &lt; <i>b</i>",
-          ".IF COUNT &lt; 10",
-          "Minore (signed)"
-        ],
-        [
-          "<i>a</i> &lt;= <i>b</i>",
-          ".IF X &lt;= Y",
-          "Minore o uguale"
-        ],
-        [
-          "<i>a</i> &gt; <i>b</i>",
-          ".IF SIZE &gt; 0",
-          "Maggiore"
-        ],
-        [
-          "<i>a</i> &gt;= <i>b</i>",
-          ".IF N &gt;= 3",
-          "Maggiore o uguale"
-        ],
-        [
-          "! <i>expr</i>",
-          ".IF !defined(DEBUG)",
-          "NOT logico"
-        ],
-        [
-          "<i>a</i> &amp;&amp; <i>b</i>",
-          ".IF (X &gt; 0) &amp;&amp; (X &lt; 10)",
-          "AND logico"
-        ],
-        [
-          "<i>a</i> || <i>b</i>",
-          ".IF (A == 1) || (B == 2)",
-          "OR logico"
-        ],
-        [
-          "(<i>expr</i>)",
-          ".IF (A &gt; 0) &amp;&amp; (B &lt; 5)",
-          "Raggruppamento parentesi"
-        ],
-        [
-          "numero",
-          ".IF 1",
-          "Qualsiasi valore diverso da zero è vero"
-        ]
+     "if_expr": [
+      [
+       "defined(<i>nome</i>)",
+       ".IF defined(DEBUG)",
+       "Vero se <i>nome</i> è definito come <code>.CONST</code>"
+      ],
+      [
+       "defined <i>nome</i>",
+       ".IF defined DEBUG",
+       "Stesso significato, senza parentesi"
+      ],
+      [
+       "<i>a</i> == <i>b</i>",
+       ".IF VM_FEATURE_GDB == 1",
+       "Uguale"
+      ],
+      [
+       "<i>a</i> != <i>b</i>",
+       ".IF VER_MAJ != 2",
+       "Diverso"
+      ],
+      [
+       "<i>a</i> &lt; <i>b</i>",
+       ".IF COUNT &lt; 10",
+       "Minore (signed)"
+      ],
+      [
+       "<i>a</i> &lt;= <i>b</i>",
+       ".IF X &lt;= Y",
+       "Minore o uguale"
+      ],
+      [
+       "<i>a</i> &gt; <i>b</i>",
+       ".IF SIZE &gt; 0",
+       "Maggiore"
+      ],
+      [
+       "<i>a</i> &gt;= <i>b</i>",
+       ".IF N &gt;= 3",
+       "Maggiore o uguale"
+      ],
+      [
+       "! <i>expr</i>",
+       ".IF !defined(DEBUG)",
+       "NOT logico"
+      ],
+      [
+       "<i>a</i> &amp;&amp; <i>b</i>",
+       ".IF (X &gt; 0) &amp;&amp; (X &lt; 10)",
+       "AND logico"
+      ],
+      [
+       "<i>a</i> || <i>b</i>",
+       ".IF (A == 1) || (B == 2)",
+       "OR logico"
+      ],
+      [
+       "(<i>expr</i>)",
+       ".IF (A &gt; 0) &amp;&amp; (B &lt; 5)",
+       "Raggruppamento parentesi"
+      ],
+      [
+       "numero",
+       ".IF 1",
+       "Qualsiasi valore diverso da zero è vero"
       ]
+     ]
     },
-	    "sections": [
-		      {
-		        "id": "ch6-intro",
-		        "title": "6.2 Struttura file e utilità",
-"body": "<p>Un file <code>.clasto</code> contiene una riga per ogni operazione. Ogni riga può avere:<br>- una <b>istruzione</b>: <code>ADD R1, R2, R3</code><br>- una <b>direttiva</b> (comincia con <code>.</code>): <code>.CONST MAX 100</code><br>- una <b>pseudo-istruzione</b> (comincia con <code>!</code>): <code>!LI R1, 42</code><br>- una <b>etichetta</b> (nome + <code>:</code>): <code>loop:</code><br>- un <b>commento</b> (<code>;</code>): tutto dopo <code>;</code> viene ignorato</p><p><b>Ciclo di sviluppo</b>: <code>clasto input.clasto output.lava</code> poi <code>lava output.lava</code>.</p><p><b>Direttive di utilitá</b>:<br><code>.FILE \"nome\"</code> registra il nome file per il debug.<br><code>.LOC n</code> forza il numero di riga.<br><code>.PRINT \"msg\"</code> scrive su stderr.<br><code>.ERROR \"msg\"</code> blocca la compilazione.</p>"
-		      },
-		      {
-		        "id": "ch6-data",
-		        "title": "6.3 Dati e costanti",
-		        "body": "<p><code>.CONST Nome:Valore</code> definisce costanti numeriche risolte a compile-time — usale in <code>.IF</code>, <code>.CONFIG</code> o come immediato nelle istruzioni (es. <code>MOV.S R1, MAX_BUF</code>). Il <code>:</code> e' convenzionale, puoi usare anche <code>.CONST Nome Valore</code>.</p><p><b>Letterali numerici</b>: i numeri si scrivono in decimale (<code>42</code>), esadecimale (<code>0x2A</code>), ottale (<code>0o52</code>) o binario (<code>0b101010</code>). Tutte le basi sono valide ovunque serva un numero (immediati, <code>.CONST</code>, espressioni, <code>.DB/.DW/.DD</code>) e si possono mescolare nelle espressioni. Limite: 32 bit; oltre -&gt; E0006.</p><p><code>.DB</code> (byte), <code>.DW</code> (halfword 16-bit), <code>.DD</code> (word 32-bit) e <code>.TEXT</code> (stringa) emettono dati costanti nel bytecode. Metti una label prima (es. <code>tabella:</code>) per poterli raggiungere.</p><p><code>.STATIC ... .END_STATIC</code> crea una sezione di dati che all'avvio della VM viene copiata dalla flash alla RAM privata, quindi sono leggibili e scrivibili. <code>LDA</code> carica l'indirizzo in RAM (per read/write con <code>ST</code>). Usare la label direttamente in <code>MOV.S</code> da' l'indirizzo flash (sola lettura, piu veloce). Max 512 byte totali.</p>",
-		        "examples": [
-		          "data_example"
-		        ]
-		      },
-		      {
-		        "id": "ch6-if",
-		        "title": "6.4 Condizionali e ripetizioni",
-		        "body": "<p><code>.IF expr ... .ELSE ... .END_IF</code> valuta un'espressione a compile-time: se il risultato e' diverso da zero, il blocco viene incluso nel bytecode, altrimenti viene saltato. Supporta <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>defined()</code>, <code>!</code>, <code>&&</code>, <code>||</code> e parentesi.</p><p><code>.FOR var, start, limit [, step] ... .END_FOR</code> replica il corpo per ogni valore di var da start a limit (limite esclusivo, stile C), step anche negativo; nel corpo la variabile si usa come <code>#var</code>. I bound accettano numeri, <code>.CONST</code> ed espressioni (<code>N+2</code>, <code>CNT*2</code>) e i <code>.FOR</code> sono annidabili (variabili distinte, anche referenze incrociate <code>#i</code>/<code>#j</code>).</p><p><code>.SWITCH expr ... .CASE val / .DEFAULT ... .END_SWITCH</code> e' la selezione compile-time a N rami: valuta l'espressione costante UNA volta e attiva il ramo .CASE con valore uguale (o il .DEFAULT se nessun caso matcha); i rami non attivi non vengono assemblati.</p><p><code>.ENUM [Nome] ... .END_ENUM</code> genera costanti in serie (auto-incremento, override con <code>= val</code>; con nome le voci diventano <code>Nome.Voce</code>). <code>.ALIGN n</code> allinea l'indirizzo al prossimo multiplo di n (potenza di due). <code>.ASSERT cond, \"msg\"</code> fa fallire l'assemblaggio se la condizione costante e' falsa.</p>",
-		        "examples": [
-		          "if_examples",
-		          "for_example"
-		        ],
-		        "table": "if_expr"
-		      },
-		      {
-		        "id": "ch6-modular",
-		        "title": "6.5 Modularizzazione",
-		        "body": "<p><code>.INCLUDE \"file\"</code> incorpora il contenuto di un altro file <code>.clasto</code> nel punto corrente, come se il testo fosse scritto li'. Usalo per condividere costanti, definizioni di interfacce o macro tra piu file.</p><p>Il percorso e' relativo alla directory del file corrente (o alla directory specificata con <code>-I</code>). Se lo stesso file viene incluso piu volte, le successive vengono ignorate automaticamente.</p>",
-		        "examples": [
-		          "include_example"
-		        ]
-		      },
-		      {
-		        "id": "ch6-pseudo",
-		        "title": "6.6 Pseudo-istruzioni e macro",
-		        "body": "<p><code>!LI Rd, valore</code> (Load Immediate, signed) carica un valore a 32-bit in un registro. Se il valore sta in 16 bit signed genera una <code>MOV.S</code> (1 word), altrimenti <code>MOV.S + MOV.H</code> (2 word). <code>!LU Rd, valore</code> (Load Unsigned) fa lo stesso ma con <code>MOV.U</code> invece di <code>MOV.S</code>. Entrambe accettano numeri e label.</p><p><code>.MACRO nome arg1, arg2 ... .END_MACRO</code> definisce una macro riutilizzabile. I parametri si riferiscono con <code>#nome</code> nel corpo. La macro si richiama con <code>!nome</code>.</p><p><code>.ALIAS nome:Tipo, Rx</code> associa un nome simbolico a un registro R0-R15 per tutto il file; il tipo (U8/U16/U32/S8/S16/S32/PTR/FLG, anche array) e' obbligatorio. Es. <code>.ALIAS counter:U32, R8</code> — poi puoi scrivere <code>MOV.S counter, 42</code>.</p>",
-		        "examples": [
-		          "pseudo_asm"
-		        ]
-		      },
-		      {
-		        "id": "ch6-classes",
-		        "title": "6.7 Classi, interfacce, eventi e ABI",
-		        "body": "<p><code>.CLASS Nome</code> definisce una struttura con campi (<code>.FIELD Nome:Tipo</code>) e metodi (<code>.METHOD Nome(param:TIPO)</code>). Ogni classe genera un <b>Class Descriptor</b> (header con taglia + VTable con indirizzi dei metodi) per le chiamate virtuali (<code>CALLM</code>).</p><p><code>.INTERFACE Nome</code> dichiara solo le firme dei metodi — un contratto che una classe può implementare con <code>.CLASS Nome IMPLEMENTS Interfaccia</code>. L'assembler verifica che tutti i metodi siano presenti.</p><p><code>.VECTOR Evento(ABI), Label</code> collega un evento di sistema (es. <code>EVT_RESET</code>, <code>EVT_TICK_1MS</code>) a un handler nel tuo codice. L'ABI tra parentesi serve a validare i tipi dei parametri.</p><p><code>.ABI (nome:TIPO, ...) ... .END_ABI</code> crea uno scope dove i registri vengono rinominati con nomi logici. Es. <code>.ABI EVT_TICK_1MS(tick:FLG) ... MOV R8, tick .END_ABI</code>.</p>",
-		        "examples": [
-		          "class_example",
-		          "vector_example",
-		          "const_abi_example"
-		        ]
-		      },
-		      {
-		        "id": "ch6-advanced",
-		        "title": "6.8 Avanzate",
-		        "body": "<p><code>.VM nome ... .END_VM</code> delimita il codice di una VM in un sorgente che ne contiene piu di una. Il CLI (<code>clasto</code>) elabora ogni sezione separatamente e produce un file <code>.magma</code> (container multi-VM). Serve solo per firmware che esegue piu VM isolate.</p><p><code>.KEEP Rx ... .END_KEEP</code> avvolge OGNI <code>CALL</code>/<code>CALLM</code> del corpo con <code>PUSH Rx</code> prima e <code>POP Rx</code> dopo (in ordine inverso, LIFO): preserva il valore corrente dei registri attraverso la singola chiamata (protezione per-call). Sostituisce il vecchio KEEP di .SCOPE (rimosso).</p><p><code>.WHILE Rd, Rs, COND ... .END_WHILE</code> crea un ciclo a compile-time: confronta <code>Rd</code> con <code>Rs</code>, se la condizione COND (EQ/NE/GT/GE/LT/LE) e' falsa salta alla fine. Se la condizione resta sempre vera, il ciclo non termina.</p><p><code>.SHARED n</code> imposta la memoria condivisa in KB (n >= 8). Se usato piu volte, prevale il valore massimo. .VM nome [n]</code> imposta la memoria privata per quella VM.</p>",
-		        "examples": [
-		          "multivm_example"
-		        ]
-		      }
-	    ],
+    "sections": [
+     {
+      "id": "ch6-intro",
+      "title": "6.2 Struttura file e utilità",
+      "body": "<p>Un file <code>.clasto</code> contiene una riga per ogni operazione. Ogni riga può avere:<br>- una <b>istruzione</b>: <code>ADD R1, R2, R3</code><br>- una <b>direttiva</b> (comincia con <code>.</code>): <code>.CONST MAX 100</code><br>- una <b>pseudo-istruzione</b> (comincia con <code>!</code>): <code>!LI R1, 42</code><br>- una <b>etichetta</b> (nome + <code>:</code>): <code>loop:</code><br>- un <b>commento</b> (<code>;</code>): tutto dopo <code>;</code> viene ignorato</p><p><b>Ciclo di sviluppo</b>: <code>clasto input.clasto output.lava</code> poi <code>lava output.lava</code>.</p><p><b>Direttive di utilitá</b>:<br><code>.FILE \"nome\"</code> registra il nome file per il debug.<br><code>.LOC n</code> forza il numero di riga.<br><code>.PRINT \"msg\"</code> scrive su stderr.<br><code>.ERROR \"msg\"</code> blocca la compilazione.</p>"
+     },
+     {
+      "id": "ch6-data",
+      "title": "6.3 Dati e costanti",
+      "body": "<p><code>.CONST Nome:Valore</code> definisce costanti numeriche risolte a compile-time — usale in <code>.IF</code>, <code>.CONFIG</code> o come immediato nelle istruzioni (es. <code>MOV.S R1, MAX_BUF</code>). Il <code>:</code> e' convenzionale, puoi usare anche <code>.CONST Nome Valore</code>.</p><p><b>Letterali numerici</b>: i numeri si scrivono in decimale (<code>42</code>), esadecimale (<code>0x2A</code>), ottale (<code>0o52</code>) o binario (<code>0b101010</code>). Tutte le basi sono valide ovunque serva un numero (immediati, <code>.CONST</code>, espressioni, <code>.DB/.DW/.DD</code>) e si possono mescolare nelle espressioni. Limite: 32 bit; oltre -&gt; E0006.</p><p><code>.DB</code> (byte), <code>.DW</code> (halfword 16-bit), <code>.DD</code> (word 32-bit) e <code>.TEXT</code> (stringa) emettono dati costanti nel bytecode. Metti una label prima (es. <code>tabella:</code>) per poterli raggiungere.</p><p><code>.STATIC ... .END_STATIC</code> crea una sezione di dati che all'avvio della VM viene copiata dalla flash alla RAM privata, quindi sono leggibili e scrivibili. <code>LDA</code> carica l'indirizzo in RAM (per read/write con <code>ST</code>). Usare la label direttamente in <code>MOV.S</code> da' l'indirizzo flash (sola lettura, piu veloce). Max 512 byte totali.</p>",
+      "examples": [
+       "data_example"
+      ]
+     },
+     {
+      "id": "ch6-if",
+      "title": "6.4 Condizionali e ripetizioni",
+      "body": "<p><code>.IF expr ... .ELSE ... .END_IF</code> valuta un'espressione a compile-time: se il risultato e' diverso da zero, il blocco viene incluso nel bytecode, altrimenti viene saltato. Supporta <code>==</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>defined()</code>, <code>!</code>, <code>&&</code>, <code>||</code> e parentesi.</p><p><code>.FOR var, start, limit [, step] ... .END_FOR</code> replica il corpo per ogni valore di var da start a limit (limite esclusivo, stile C), step anche negativo; nel corpo la variabile si usa come <code>#var</code>. I bound accettano numeri, <code>.CONST</code> ed espressioni (<code>N+2</code>, <code>CNT*2</code>) e i <code>.FOR</code> sono annidabili (variabili distinte, anche referenze incrociate <code>#i</code>/<code>#j</code>).</p><p><code>.SWITCH expr ... .CASE val / .DEFAULT ... .END_SWITCH</code> e' la selezione compile-time a N rami: valuta l'espressione costante UNA volta e attiva il ramo .CASE con valore uguale (o il .DEFAULT se nessun caso matcha); i rami non attivi non vengono assemblati.</p><p><code>.ENUM [Nome] ... .END_ENUM</code> genera costanti in serie (auto-incremento, override con <code>= val</code>; con nome le voci diventano <code>Nome.Voce</code>). <code>.ALIGN n</code> allinea l'indirizzo al prossimo multiplo di n (potenza di due). <code>.ASSERT cond, \"msg\"</code> fa fallire l'assemblaggio se la condizione costante e' falsa.</p>",
+      "examples": [
+       "if_examples",
+       "for_example"
+      ],
+      "table": "if_expr"
+     },
+     {
+      "id": "ch6-modular",
+      "title": "6.5 Modularizzazione",
+      "body": "<p><code>.INCLUDE \"file\"</code> incorpora il contenuto di un altro file <code>.clasto</code> nel punto corrente, come se il testo fosse scritto li'. Usalo per condividere costanti, definizioni di interfacce o macro tra piu file.</p><p>Il percorso e' relativo alla directory del file corrente (o alla directory specificata con <code>-I</code>). Se lo stesso file viene incluso piu volte, le successive vengono ignorate automaticamente.</p>",
+      "examples": [
+       "include_example"
+      ]
+     },
+     {
+      "id": "ch6-pseudo",
+      "title": "6.6 Pseudo-istruzioni e macro",
+      "body": "<p><code>!LI Rd, valore</code> (Load Immediate, signed) carica un valore a 32-bit in un registro. Se il valore sta in 16 bit signed genera una <code>MOV.S</code> (1 word), altrimenti <code>MOV.S + MOV.H</code> (2 word). <code>!LU Rd, valore</code> (Load Unsigned) fa lo stesso ma con <code>MOV.U</code> invece di <code>MOV.S</code>. Entrambe accettano numeri e label.</p><p><code>.MACRO nome arg1, arg2 ... .END_MACRO</code> definisce una macro riutilizzabile. I parametri si riferiscono con <code>#nome</code> nel corpo. La macro si richiama con <code>!nome</code>.</p><p><code>.ALIAS nome:Tipo, Rx</code> associa un nome simbolico a un registro R0-R15 per tutto il file; il tipo (U8/U16/U32/S8/S16/S32/PTR/FLG, anche array) e' obbligatorio. Es. <code>.ALIAS counter:U32, R8</code> — poi puoi scrivere <code>MOV.S counter, 42</code>.</p>",
+      "examples": [
+       "pseudo_asm"
+      ]
+     },
+     {
+      "id": "ch6-classes",
+      "title": "6.7 Classi, interfacce, eventi e ABI",
+      "body": "<p><code>.CLASS Nome</code> definisce una struttura con campi (<code>.FIELD Nome:Tipo</code>) e metodi (<code>.METHOD Nome(param:TIPO)</code>). Ogni classe genera un <b>Class Descriptor</b> (header con taglia + VTable con indirizzi dei metodi) per le chiamate virtuali (<code>CALLM</code>).</p><p><code>.INTERFACE Nome</code> dichiara solo le firme dei metodi — un contratto che una classe può implementare con <code>.CLASS Nome IMPLEMENTS Interfaccia</code>. L'assembler verifica che tutti i metodi siano presenti.</p><p><code>.VECTOR Evento(ABI), Label</code> collega un evento di sistema (es. <code>EVT_RESET</code>, <code>EVT_TICK_1MS</code>) a un handler nel tuo codice. L'ABI tra parentesi serve a validare i tipi dei parametri.</p><p><code>.ABI (nome:TIPO, ...) ... .END_ABI</code> crea uno scope dove i registri vengono rinominati con nomi logici. Es. <code>.ABI EVT_TICK_1MS(tick:FLG) ... MOV R8, tick .END_ABI</code>.</p>",
+      "examples": [
+       "class_example",
+       "vector_example",
+       "const_abi_example"
+      ]
+     },
+     {
+      "id": "ch6-advanced",
+      "title": "6.8 Avanzate",
+      "body": "<p><code>.VM nome ... .END_VM</code> delimita il codice di una VM in un sorgente che ne contiene piu di una. Il CLI (<code>clasto</code>) elabora ogni sezione separatamente e produce un file <code>.magma</code> (container multi-VM). Serve solo per firmware che esegue piu VM isolate.</p><p><code>.KEEP Rx ... .END_KEEP</code> avvolge OGNI <code>CALL</code>/<code>CALLM</code> del corpo con <code>PUSH Rx</code> prima e <code>POP Rx</code> dopo (in ordine inverso, LIFO): preserva il valore corrente dei registri attraverso la singola chiamata (protezione per-call). Sostituisce il vecchio KEEP di .SCOPE (rimosso).</p><p><code>.WHILE Rd, Rs, COND ... .END_WHILE</code> crea un ciclo a compile-time: confronta <code>Rd</code> con <code>Rs</code>, se la condizione COND (EQ/NE/GT/GE/LT/LE) e' falsa salta alla fine. Se la condizione resta sempre vera, il ciclo non termina.</p><p><code>.SHARED n</code> imposta la memoria condivisa in KB (n >= 8). Se usato piu volte, prevale il valore massimo. .VM nome [n]</code> imposta la memoria privata per quella VM.</p>",
+      "examples": [
+       "multivm_example"
+      ]
+     }
+    ],
     "if_examples": [
-      ".IF defined(MY_FLAG)          ; vero se MY_FLAG è definito",
-      "    MOV.S R1, 10",
-      ".ELSE",
-      "    MOV.S R1, 0",
-      ".END_IF",
-      "",
-      ".IF VM_FEATURE_GDB == 1   ; confronto con costante",
-      "    MOV.S R1, 100",
-      ".END_IF",
-      "",
-      ".IF (X > 0) && (Y < 10)  ; espressione composta",
-      "    HALT",
-      ".END_IF"
+     ".IF defined(MY_FLAG)          ; vero se MY_FLAG è definito",
+     "    MOV.S R1, 10",
+     ".ELSE",
+     "    MOV.S R1, 0",
+     ".END_IF",
+     "",
+     ".IF VM_FEATURE_GDB == 1   ; confronto con costante",
+     "    MOV.S R1, 100",
+     ".END_IF",
+     "",
+     ".IF (X > 0) && (Y < 10)  ; espressione composta",
+     "    HALT",
+     ".END_IF"
     ],
     "multivm_example": [
-      ".VM alpha",
-      ".FILE \"alpha.clasto\"",
-      ".VECTOR EVT_RESET(flags:FLG), main",
-      "main:",
-      "    MOV.S R1, 42",
-      "    HALT",
-      ".END_VM",
-      "",
-      ".VM beta",
-      ".FILE \"beta.clasto\"",
-      ".VECTOR EVT_RESET(flags:FLG), main",
-      "main:",
-      "    MOV.S R1, 99",
-      "    HALT",
-      ".END_VM"
+     ".VM alpha",
+     ".FILE \"alpha.clasto\"",
+     ".VECTOR EVT_RESET(flags:FLG), main",
+     "main:",
+     "    MOV.S R1, 42",
+     "    HALT",
+     ".END_VM",
+     "",
+     ".VM beta",
+     ".FILE \"beta.clasto\"",
+     ".VECTOR EVT_RESET(flags:FLG), main",
+     "main:",
+     "    MOV.S R1, 99",
+     "    HALT",
+     ".END_VM"
     ],
     "class_example": [
-      ".CLASS Contatore",
-      "    .FIELD value:U16",
-      "    .FIELD limit:U16",
-      "",
-      "    .METHOD Init(limite:U16)",
-      "        MOV.S R1, 0",
-      "        ST16 R1, 4(R13)",
-      "        ST16 R2, 6(R13)",
-      "        RET",
-      "    .METHOD Incrementa",
-      "        LD16 R1, 4(R13)",
-      "        ADD.S R1, R1, 1",
-      "        ST16 R1, 4(R13)",
-      "        RET",
-      ".END_CLASS"
+     ".CLASS Contatore",
+     "    .FIELD value:U16",
+     "    .FIELD limit:U16",
+     "",
+     "    .METHOD Init(limite:U16)",
+     "        MOV.S R1, 0",
+     "        ST16 R1, 4(R13)",
+     "        ST16 R2, 6(R13)",
+     "        RET",
+     "    .METHOD Incrementa",
+     "        LD16 R1, 4(R13)",
+     "        ADD.S R1, R1, 1",
+     "        ST16 R1, 4(R13)",
+     "        RET",
+     ".END_CLASS"
     ],
     "vector_example": [
-      ".VECTOR EVT_RESET(flags:FLG), main",
-      ".VECTOR EVT_TICK_1MS(tick:FLG), on_tick",
-      "",
-      "main:",
-      "    MOV.S R1, 0",
-      "    HALT",
-      "on_tick:",
-      "    ADD.S R1, R1, 1",
-      "    RET"
+     ".VECTOR EVT_RESET(flags:FLG), main",
+     ".VECTOR EVT_TICK_1MS(tick:FLG), on_tick",
+     "",
+     "main:",
+     "    MOV.S R1, 0",
+     "    HALT",
+     "on_tick:",
+     "    ADD.S R1, R1, 1",
+     "    RET"
     ],
     "const_abi_example": [
-      ".CONST MAX_SIZE, 256",
-      ".CONST TIMEOUT_MS, 5000",
-      "",
-      ".IF defined(MAX_SIZE)",
-      "    MOV.S R1, MAX_SIZE",
-      ".END_IF",
-      "",
-      ".ABI EVT_TICK_1MS(tick:FLG)",
-      "    MOV R8, tick          ; R8 = R1 (salva flag tick)",
-      ".END_ABI"
+     ".CONST MAX_SIZE, 256",
+     ".CONST TIMEOUT_MS, 5000",
+     "",
+     ".IF defined(MAX_SIZE)",
+     "    MOV.S R1, MAX_SIZE",
+     ".END_IF",
+     "",
+     ".ABI EVT_TICK_1MS(tick:FLG)",
+     "    MOV R8, tick          ; R8 = R1 (salva flag tick)",
+     ".END_ABI"
     ],
     "data_example": [
-      ".DB 0x01, 0x02, 0xFF              ; 3 byte",
-      ".DW 0x1234, 0x5678                 ; 2 halfword",
-      ".DD 0xDEADBEEF, 0xCAFEBABE        ; 2 word",
-      ".TEXT \"Hello, World!\"              ; stringa + null"
+     ".DB 0x01, 0x02, 0xFF              ; 3 byte",
+     ".DW 0x1234, 0x5678                 ; 2 halfword",
+     ".DD 0xDEADBEEF, 0xCAFEBABE        ; 2 word",
+     ".TEXT \"Hello, World!\"              ; stringa + null"
     ],
     "include_example": [
-      ".INCLUDE \"vm_consts.inc.clasto\"     ; costanti VM",
-      ".INCLUDE \"platform/io.clasto\"       ; driver I/O"
+     ".INCLUDE \"vm_consts.inc.clasto\"     ; costanti VM",
+     ".INCLUDE \"platform/io.clasto\"       ; driver I/O"
     ],
     "for_example": [
-      ".FOR i, 0, 4",
-      "    ADD R1, R1, R1             ; R1 = R1 * 2 (4 volte)",
-      ".END_FOR"
+     ".FOR i, 0, 4",
+     "    ADD R1, R1, R1             ; R1 = R1 * 2 (4 volte)",
+     ".END_FOR"
+    ],
+    "title": "7. Direttive e macro assembler",
+    "intro": "Questo capitolo descrive tutto ciò che puoi scrivere in un file <code>.clasto</code> oltre alle istruzioni della VM. Le <b>direttive</b> (cominciano con <code>.</code>) controllano l'assemblatore a compile-time: definiscono costanti, includono file, dichiarano classi, configurano la memoria. Le <b>pseudo-istruzioni</b> (cominciano con <code>!</code>) sono scorciatoie per operazioni comuni come caricare un valore a 32-bit. Le <b>macro</b> (<code>.MACRO</code>) ti permettono di creare i tuoi comandi riutilizzabili.",
+    "directives_title": "7.1 Direttive",
+    "directives_intro": "Le direttive controllano l'assemblatore e non generano direttamente codice macchina.",
+    "directives_header": [
+     "Direttiva",
+     "Sintassi",
+     "Descrizione"
+    ],
+    "errors_title": "7.9 Codici di errore",
+    "errors_intro": "Tutti gli errori dell'assemblatore hanno un codice univoco <code>EXXXX</code> o <code>WXXXX</code>.",
+    "errors_format": "Il formato è: <code>Error: file:line:col: EXXXX: messaggio</code>",
+    "errors_caret": "Quando la colonna è disponibile, l'errore mostra anche la riga incriminata con una freccia (<code>^^^^</code>) che punta al token esatto:",
+    "errors_example": "   3 |     YIELD\n      |     ^^^^^\nError: file:3:4: E2000: YIELD not allowed inside MARK/FREE atomic section",
+    "errors_header": [
+     "Codice",
+     "Messaggio"
+    ],
+    "table_intro_header": [
+     "Sintassi",
+     "Esempio",
+     "Descrizione"
     ]
-  },
-  "appendix": {
+   },
+   "appendix": {
     "sections": [
-      {
-        "id": "quick-start",
-        "title": "Quick Start",
-        "body": "Compila e installa la toolchain Caldeira VM."
-      },
-      {
-        "id": "syscall-guide",
-        "title": "Scrivere una Syscall",
-        "body": "<p>Una syscall è una funzione C chiamabile dal bytecode tramite l'istruzione <code>SYSCALL imm16</code>. La firma è: <code>void mia_syscall(VMContext* vm)</code>. Riceve il contesto VM opaco e usa le funzioni <code>caldeira_*</code> per leggere argomenti, accedere memoria e restituire risultati. Il risultato va in <strong>R1</strong> tramite <code>CALDEIRA_RETURN(vm, valore)</code>.</p><h4>Convenzione passaggio argomenti</h4><div class=\"table-wrap\"><table class=\"doc-table\"><thead><tr><th>Registro</th><th>Ruolo</th><th>Macro SDK</th></tr></thead><tbody><tr><td>R1</td><td>Primo argomento (o risultato)</td><td><code>CALDEIRA_ARG_1(vm)</code> / <code>CALDEIRA_RETURN(vm, v)</code></td></tr><tr><td>R2</td><td>Secondo argomento</td><td><code>CALDEIRA_ARG_2(vm)</code></td></tr><tr><td>R3</td><td>Terzo argomento</td><td><code>CALDEIRA_ARG_3(vm)</code></td></tr><tr><td>R4</td><td>Quarto argomento</td><td><code>CALDEIRA_ARG_4(vm)</code></td></tr><tr><td>R5-R7</td><td>Argomenti extra</td><td><code>caldeira_get_reg(vm, n)</code></td></tr></tbody></table></div><h4>Puntatori</h4><p>Usa <code>CALDEIRA_ARG_PTR(vm)</code> per tradurre un indirizzo VM in puntatore host. Restituisce NULL se non valido.</p><h4>Stringhe</h4><p><code>CALDEIRA_ARG_STR(vm)</code> fa lo stesso ma restituisce <code>const char*</code>.</p><h4>Interi con segno</h4><p><code>CALDEIRA_ARG_INT(vm)</code> interpreta R1 come <code>int32_t</code>.</p>",
-        "examples": [
-          "sync_syscall"
-        ]
-      },
-      {
-        "id": "syscall-register",
-        "title": "Registrazione syscall",
-        "body": "<h4>Via syscalls.def (dichiarativa)</h4><p>In <code>targets/&lt;piattaforma&gt;/src/syscalls.def</code> (o <code>core/src/syscalls.def</code> per built-in): <code>SYSCALL_MACRO(0x80, sys_led_on, hal_led_on, \"(U32)->(U32)\", \"Accendi LED\")</code>. Poi implementa la funzione C in un file che include <code>caldeira.h</code>. Il core registra automaticamente tutte le syscall definite con <code>SYSCALL_MACRO</code>.</p><h4>Via funzione weak (senza toccare il core)</h4><p>Sovrascrivi <code>vm_user_syscalls_register(VMSyscallTable* st)</code> e chiama <code>vm_syscall_register(st, id, fn)</code> per ogni syscall custom, senza modificare i file del core.</p>",
-        "examples": [
-          "weak_syscall_example"
-        ]
-      },
-      {
-        "id": "syscall-memory",
-        "title": "Accesso alla memoria",
-        "body": "<p>Le funzioni <code>caldeira_get_u32ptr</code>, <code>caldeira_get_u16ptr</code>, <code>caldeira_get_u8ptr</code> restituiscono un puntatore host con allineamento garantito. <code>caldeira_get_buffer</code> è per buffer bulk (es. DMA). Tutte restituiscono NULL se l'indirizzo non è accessibile, e con lo stesso puntatore si legge e si scrive.</p><h4>Tabella riassuntiva</h4><div class=\"table-wrap\"><table class=\"doc-table\"><thead><tr><th>Funzione</th><th>Allineamento</th><th>Descrizione</th></tr></thead><tbody><tr><td><code>caldeira_get_buffer(vm, addr, len)</code></td><td>nessuno</td><td>Puntatore raw per DMA/bulk</td></tr><tr><td><code>caldeira_get_u32ptr(vm, addr)</code></td><td>4 byte</td><td>Puntatore a uint32_t</td></tr><tr><td><code>caldeira_get_u16ptr(vm, addr)</code></td><td>2 byte</td><td>Puntatore a uint16_t</td></tr><tr><td><code>caldeira_get_u8ptr(vm, addr)</code></td><td>nessuno</td><td>Puntatore a uint8_t</td></tr></tbody></table></div>",
-        "examples": [
-          "ptr_example"
-        ]
-      },
-      {
-        "id": "syscall-async",
-        "title": "Syscall asincrona con yield/ripresa",
-        "body": "<p>Per operazioni che richiedono attesa (DMA, UART): blocca il buffer nel frame arena con <code>caldeira_pin_frame</code>, avvia l'operazione asincrona, chiama <code>caldeira_yield(vm, resume_id)</code>. Alla ripresa, la SYSCALL viene rieseguita e l'handler distingue il caso tramite <code>caldeira_get_resume_id(vm)</code>: 0 = prima chiamata, >0 = ripresa. Un callback host-side notifica il completamento con <code>caldeira_fire_event</code>.</p><p><strong>Nota</strong>: in un ISR/callback devi avere accesso al <code>VMContext*</code> della VM giusta.</p>",
-        "examples": [
-          "async_syscall"
-        ]
-      },
-      {
-        "id": "syscall-faults",
-        "title": "Gestione errori",
-        "body": "<p>Due modalità:</p><ol><li><strong>R1 = 0xFFFFFFFF</strong>: errore recuperabile, la VM continua, il bytecode controlla con <code>if (R1 == -1)</code></li><li><strong><code>caldeira_set_fault(vm, code)</code></strong>: errore irrecoverabile, VM in stato FAULT, evento terminato con pulizia scratch</li></ol><div class=\"table-wrap\"><table class=\"doc-table\"><thead><tr><th></th><th>R1 = 0xFFFFFFFF</th><th>caldeira_set_fault</th></tr></thead><tbody><tr><td>La VM continua</td><td>✅</td><td>❌ (FAULT)</td></tr><tr><td>Evento termina</td><td>✅ normale</td><td>✅ con pulizia scratch</td></tr><tr><td>Bytecode gestisce</td><td><code>if (R1 == -1)</code></td><td>solo via GUARD</td></tr></tbody></table></div><p>I codici fault sono disponibili come costanti <code>CALDEIRA_FAULT_*</code> (es. <code>CALDEIRA_FAULT_INVALID_READ</code>, <code>CALDEIRA_FAULT_NULL_POINTER</code>).</p>",
-        "examples": [
-          "fault_example"
-        ]
-      },
-      {
-        "id": "sdk-ref",
-        "title": "Riferimento SDK (caldeira_*)",
-        "body": ""
-      },
-      {
-        "id": "syscall-checklist",
-        "title": "Checklist",
-        "body": "<ul><li>La syscall è registrata in un <code>syscalls.def</code> (core o target)?</li><li>Usa solo funzioni <code>caldeira_*</code> per accedere registri e memoria?</li><li>Controlla sempre il ritorno di <code>get_u32ptr</code> / <code>get_buffer</code>?</li><li>Se async: ha <code>pin_frame</code>, <code>yield</code>, e il resume gestisce <code>resume_id != 0</code>?</li><li>Se async: chi chiama <code>unpin_frame</code> al completamento?</li><li>Il risultato è scritto in R1 (con <code>set_reg</code> o <code>CALDEIRA_RETURN</code>)?</li><li>I fault code usano le costanti <code>CALDEIRA_FAULT_*</code>?</li><li>La syscall yielda solo fuori da un blocco <code>MARK</code>?</li></ul>"
-      }
+     {
+      "id": "quick-start",
+      "title": "Quick Start",
+      "body": "Compila e installa la toolchain Caldeira VM."
+     },
+     {
+      "id": "syscall-guide",
+      "title": "Scrivere una Syscall",
+      "body": "<p>Una syscall è una funzione C chiamabile dal bytecode tramite l'istruzione <code>SYSCALL imm16</code>. La firma è: <code>void mia_syscall(VMContext* vm)</code>. Riceve il contesto VM opaco e usa le funzioni <code>caldeira_*</code> per leggere argomenti, accedere memoria e restituire risultati. Il risultato va in <strong>R1</strong> tramite <code>CALDEIRA_RETURN(vm, valore)</code>.</p><h4>Convenzione passaggio argomenti</h4><div class=\"table-wrap\"><table class=\"doc-table\"><thead><tr><th>Registro</th><th>Ruolo</th><th>Macro SDK</th></tr></thead><tbody><tr><td>R1</td><td>Primo argomento (o risultato)</td><td><code>CALDEIRA_ARG_1(vm)</code> / <code>CALDEIRA_RETURN(vm, v)</code></td></tr><tr><td>R2</td><td>Secondo argomento</td><td><code>CALDEIRA_ARG_2(vm)</code></td></tr><tr><td>R3</td><td>Terzo argomento</td><td><code>CALDEIRA_ARG_3(vm)</code></td></tr><tr><td>R4</td><td>Quarto argomento</td><td><code>CALDEIRA_ARG_4(vm)</code></td></tr><tr><td>R5-R7</td><td>Argomenti extra</td><td><code>caldeira_get_reg(vm, n)</code></td></tr></tbody></table></div><h4>Puntatori</h4><p>Usa <code>CALDEIRA_ARG_PTR(vm)</code> per tradurre un indirizzo VM in puntatore host. Restituisce NULL se non valido.</p><h4>Stringhe</h4><p><code>CALDEIRA_ARG_STR(vm)</code> fa lo stesso ma restituisce <code>const char*</code>.</p><h4>Interi con segno</h4><p><code>CALDEIRA_ARG_INT(vm)</code> interpreta R1 come <code>int32_t</code>.</p>",
+      "examples": [
+       "sync_syscall"
+      ]
+     },
+     {
+      "id": "syscall-register",
+      "title": "Registrazione syscall",
+      "body": "<h4>Via syscalls.def (dichiarativa)</h4><p>In <code>targets/&lt;piattaforma&gt;/src/syscalls.def</code> (o <code>core/src/syscalls.def</code> per built-in): <code>SYSCALL_MACRO(0x80, sys_led_on, hal_led_on, \"(U32)->(U32)\", \"Accendi LED\")</code>. Poi implementa la funzione C in un file che include <code>caldeira.h</code>. Il core registra automaticamente tutte le syscall definite con <code>SYSCALL_MACRO</code>.</p><h4>Via funzione weak (senza toccare il core)</h4><p>Sovrascrivi <code>vm_user_syscalls_register(VMSyscallTable* st)</code> e chiama <code>vm_syscall_register(st, id, fn)</code> per ogni syscall custom, senza modificare i file del core.</p>",
+      "examples": [
+       "weak_syscall_example"
+      ]
+     },
+     {
+      "id": "syscall-memory",
+      "title": "Accesso alla memoria",
+      "body": "<p>Le funzioni <code>caldeira_get_u32ptr</code>, <code>caldeira_get_u16ptr</code>, <code>caldeira_get_u8ptr</code> restituiscono un puntatore host con allineamento garantito. <code>caldeira_get_buffer</code> è per buffer bulk (es. DMA). Tutte restituiscono NULL se l'indirizzo non è accessibile, e con lo stesso puntatore si legge e si scrive.</p><h4>Tabella riassuntiva</h4><div class=\"table-wrap\"><table class=\"doc-table\"><thead><tr><th>Funzione</th><th>Allineamento</th><th>Descrizione</th></tr></thead><tbody><tr><td><code>caldeira_get_buffer(vm, addr, len)</code></td><td>nessuno</td><td>Puntatore raw per DMA/bulk</td></tr><tr><td><code>caldeira_get_u32ptr(vm, addr)</code></td><td>4 byte</td><td>Puntatore a uint32_t</td></tr><tr><td><code>caldeira_get_u16ptr(vm, addr)</code></td><td>2 byte</td><td>Puntatore a uint16_t</td></tr><tr><td><code>caldeira_get_u8ptr(vm, addr)</code></td><td>nessuno</td><td>Puntatore a uint8_t</td></tr></tbody></table></div>",
+      "examples": [
+       "ptr_example"
+      ]
+     },
+     {
+      "id": "syscall-async",
+      "title": "Syscall asincrona con yield/ripresa",
+      "body": "<p>Per operazioni che richiedono attesa (DMA, UART): blocca il buffer nel frame arena con <code>caldeira_pin_frame</code>, avvia l'operazione asincrona, chiama <code>caldeira_yield(vm, resume_id)</code>. Alla ripresa, la SYSCALL viene rieseguita e l'handler distingue il caso tramite <code>caldeira_get_resume_id(vm)</code>: 0 = prima chiamata, >0 = ripresa. Un callback host-side notifica il completamento con <code>caldeira_fire_event</code>.</p><p><strong>Nota</strong>: in un ISR/callback devi avere accesso al <code>VMContext*</code> della VM giusta.</p>",
+      "examples": [
+       "async_syscall"
+      ]
+     },
+     {
+      "id": "syscall-faults",
+      "title": "Gestione errori",
+      "body": "<p>Due modalità:</p><ol><li><strong>R1 = 0xFFFFFFFF</strong>: errore recuperabile, la VM continua, il bytecode controlla con <code>if (R1 == -1)</code></li><li><strong><code>caldeira_set_fault(vm, code)</code></strong>: errore irrecoverabile, VM in stato FAULT, evento terminato con pulizia scratch</li></ol><div class=\"table-wrap\"><table class=\"doc-table\"><thead><tr><th></th><th>R1 = 0xFFFFFFFF</th><th>caldeira_set_fault</th></tr></thead><tbody><tr><td>La VM continua</td><td>✅</td><td>❌ (FAULT)</td></tr><tr><td>Evento termina</td><td>✅ normale</td><td>✅ con pulizia scratch</td></tr><tr><td>Bytecode gestisce</td><td><code>if (R1 == -1)</code></td><td>solo via GUARD</td></tr></tbody></table></div><p>I codici fault sono disponibili come costanti <code>CALDEIRA_FAULT_*</code> (es. <code>CALDEIRA_FAULT_INVALID_READ</code>, <code>CALDEIRA_FAULT_NULL_POINTER</code>).</p>",
+      "examples": [
+       "fault_example"
+      ]
+     },
+     {
+      "id": "sdk-ref",
+      "title": "Riferimento SDK (caldeira_*)",
+      "body": ""
+     },
+     {
+      "id": "syscall-checklist",
+      "title": "Checklist",
+      "body": "<ul><li>La syscall è registrata in un <code>syscalls.def</code> (core o target)?</li><li>Usa solo funzioni <code>caldeira_*</code> per accedere registri e memoria?</li><li>Controlla sempre il ritorno di <code>get_u32ptr</code> / <code>get_buffer</code>?</li><li>Se async: ha <code>pin_frame</code>, <code>yield</code>, e il resume gestisce <code>resume_id != 0</code>?</li><li>Se async: chi chiama <code>unpin_frame</code> al completamento?</li><li>Il risultato è scritto in R1 (con <code>set_reg</code> o <code>CALDEIRA_RETURN</code>)?</li><li>I fault code usano le costanti <code>CALDEIRA_FAULT_*</code>?</li><li>La syscall yielda solo fuori da un blocco <code>MARK</code>?</li></ul>"
+     }
     ],
     "sync_syscall": [
-      "; Dal bytecode:",
-      "MOV.S R1, 10",
-      "MOV.S R2, 20",
-      "SYSCALL 0x83        ; sys_sum(10, 20)",
-      "; R1 = 30 (risultato)"
+     "; Dal bytecode:",
+     "MOV.S R1, 10",
+     "MOV.S R2, 20",
+     "SYSCALL 0x83        ; sys_sum(10, 20)",
+     "; R1 = 30 (risultato)"
     ],
     "async_syscall": [
-      "static void sys_async_read(VMContext* vm) {",
-      "    switch (caldeira_get_resume_id(vm)) {",
-      "    case 0:",
-      "        uint32_t buf_addr = CALDEIRA_ARG_1(vm);",
-      "        if (!caldeira_pin_frame(vm, buf_addr, 1024)) {",
-      "            CALDEIRA_RETURN(vm, 0xFFFFFFFF); return;",
-      "        }",
-      "        hal_uart_read_async(buf_addr, 1024);",
-      "        caldeira_yield(vm, 1);",
-      "        return;",
-      "    case 1:",
-      "        caldeira_unpin_frame(vm, CALDEIRA_ARG_1(vm), 1024);",
-      "        CALDEIRA_RETURN(vm, 0);",
-      "    }",
-      "}"
+     "static void sys_async_read(VMContext* vm) {",
+     "    switch (caldeira_get_resume_id(vm)) {",
+     "    case 0:",
+     "        uint32_t buf_addr = CALDEIRA_ARG_1(vm);",
+     "        if (!caldeira_pin_frame(vm, buf_addr, 1024)) {",
+     "            CALDEIRA_RETURN(vm, 0xFFFFFFFF); return;",
+     "        }",
+     "        hal_uart_read_async(buf_addr, 1024);",
+     "        caldeira_yield(vm, 1);",
+     "        return;",
+     "    case 1:",
+     "        caldeira_unpin_frame(vm, CALDEIRA_ARG_1(vm), 1024);",
+     "        CALDEIRA_RETURN(vm, 0);",
+     "    }",
+     "}"
     ],
     "ptr_example": [
-      "uint32_t* p = caldeira_get_u32ptr(vm, addr);",
-      "if (!p) { CALDEIRA_RETURN(vm, 0xFFFFFFFF); return; }",
-      "uint32_t val = *p;    // legge",
-      "*p = val + 1;          // scrive"
+     "uint32_t* p = caldeira_get_u32ptr(vm, addr);",
+     "if (!p) { CALDEIRA_RETURN(vm, 0xFFFFFFFF); return; }",
+     "uint32_t val = *p;    // legge",
+     "*p = val + 1;          // scrive"
     ],
     "fault_example": [
-      "static void sys_open(VMContext* vm) {",
-      "    uint32_t* p = CALDEIRA_ARG_PTR(vm);",
-      "    if (!p) {",
-      "        caldeira_set_fault(vm, CALDEIRA_FAULT_NULL_POINTER);",
-      "        return;",
-      "    }",
-      "    *p = 42;",
-      "    CALDEIRA_RETURN(vm, 0);",
-      "}"
+     "static void sys_open(VMContext* vm) {",
+     "    uint32_t* p = CALDEIRA_ARG_PTR(vm);",
+     "    if (!p) {",
+     "        caldeira_set_fault(vm, CALDEIRA_FAULT_NULL_POINTER);",
+     "        return;",
+     "    }",
+     "    *p = 42;",
+     "    CALDEIRA_RETURN(vm, 0);",
+     "}"
     ],
     "weak_syscall_example": [
-      "// Sovrascrive il simbolo weak di syscalls.c",
-      "#include \"caldeira.h\"",
-      "",
-      "static void sys_my_custom(VMContext* vm) {",
-      "    CALDEIRA_RETURN(vm, caldeira_millis());",
-      "}",
-      "",
-      "void vm_user_syscalls_register(VMSyscallTable* st) {",
-      "    vm_syscall_register(st, 0x80, sys_my_custom);",
-      "}"
+     "// Sovrascrive il simbolo weak di syscalls.c",
+     "#include \"caldeira.h\"",
+     "",
+     "static void sys_my_custom(VMContext* vm) {",
+     "    CALDEIRA_RETURN(vm, caldeira_millis());",
+     "}",
+     "",
+     "void vm_user_syscalls_register(VMSyscallTable* st) {",
+     "    vm_syscall_register(st, 0x80, sys_my_custom);",
+     "}"
     ]
+   },
+   "quickstart": {
+    "title": "1. Primo programma",
+    "intro": "Caldeira VM è una macchina virtuale deterministica per sistemi embedded. Scrivi il tuo programma in un file <code>.clasto</code>, lo compili con <code>clasto</code> in bytecode <code>.lava</code>, e lo esegui con <code>lava</code>.",
+    "blocks": [
+     {
+      "type": "h3",
+      "text": "1.1 Il tuo primo programma"
+     },
+     {
+      "type": "p",
+      "text": "Crea un file <code>primo.clasto</code>:"
+     },
+     {
+      "type": "code",
+      "lang": "asm",
+      "text": ".VECTOR EVT_RESET(flags:FLG), main\nmain:\n    MOV.S R1, 42\n    HALT"
+     },
+     {
+      "type": "p",
+      "text": "Salva, compila ed esegui:"
+     },
+     {
+      "type": "code",
+      "lang": "bash",
+      "text": "clasto primo.clasto primo.lava\nlava primo.lava"
+     },
+     {
+      "type": "p",
+      "text": "La VM parte, carica R1=42, poi si ferma (HALT) e torna in stato IDLE. Questo è un programma Caldeira funzionante."
+     },
+     {
+      "type": "h3",
+      "text": "1.2 Aggiungere dati: .CONST e .STATIC"
+     },
+     {
+      "type": "p",
+      "text": "Le costanti si definiscono a compile-time con <code>.CONST</code>. I dati inizializzati vanno in <code>.STATIC ... .END_STATIC</code>:"
+     },
+     {
+      "type": "code",
+      "lang": "asm",
+      "text": ".CONST BUF_SIZE 64\n\n.STATIC\nmsg:\n    .TEXT \"Ciao Mondo!\"\n.END_STATIC\n\n.VECTOR EVT_RESET(flags:FLG), main\nmain:\n    LDA R1, msg        ; R1 = indirizzo RAM di msg (scrivibile)\n    HALT"
+     },
+     {
+      "type": "p",
+      "text": "<code>.STATIC</code> copia i dati dalla flash alla RAM all'avvio. <code>LDA</code> carica l'indirizzo in RAM (leggibile e scrivibile)."
+     },
+     {
+      "type": "h3",
+      "text": "1.3 Ciclo di sviluppo"
+     },
+     {
+      "type": "table",
+      "header": [
+       "Comando",
+       "Cosa fa"
+      ],
+      "rows": [
+       [
+        "<code>clasto sorgente.clasto output.lava</code>",
+        "Compila in bytecode"
+       ],
+       [
+        "<code>lava output.lava</code>",
+        "Esegue il bytecode"
+       ],
+       [
+        "<code>lava -v1 output.lava</code>",
+        "Esegue con output verboso (stato finale)"
+       ],
+       [
+        "<code>clasto -l sorgente.clasto</code>",
+        "Elenca le VM in un sorgente multi-VM"
+       ]
+      ]
+     },
+     {
+      "type": "h3",
+      "text": "1.4 Esempio completo: Contatore con classe"
+     },
+     {
+      "type": "p",
+      "text": "Questo esempio dimostra classi, metodi, fault handling e stack. Copia in <code>demo.clasto</code>, compila ed esegui."
+     },
+     {
+      "type": "example",
+      "file": "templates/examples/DEMO.clasto"
+     }
+    ]
+   },
+   "isa": {
+    "title": "3. Set di istruzioni (ISA)",
+    "subtitle": "Reference completo delle istruzioni Caldeira VM, organizzate per categoria.",
+    "footer": "Tutti gli errori dell'assemblatore hanno un codice univoco <code>EXXXX</code> o <code>WXXXX</code>."
+   },
+   "faults": {
+    "title": "4. Codici di fault",
+    "intro": "I fault sono errori software recuperabili tramite <code>GUARD</code> / <code>UNGUARD</code>. Quando si verifica un fault all'interno di un blocco protetto, la VM ripristina lo stato al checkpoint e scrive il codice in <strong>R14</strong>.",
+    "table_header": [
+     "Codice",
+     "Costante",
+     "Descrizione"
+    ]
+   },
+   "events": {
+    "title": "5. Eventi",
+    "subtitle": "Notifica e gestione eventi nella VM."
+   },
+   "syscalls": {
+    "title": "6. Syscall",
+    "subtitle": "Chiamate di sistema."
+   },
+   "sdk": {
+    "intro": "Tutte le funzioni <code>caldeira_*</code> disponibili per scrivere handler di syscall. Ricevono <code>VMContext* vm</code> come primo argomento (handle opaco).",
+    "table_header": [
+     "Funzione",
+     "Descrizione"
+    ]
+   }
   }
+ },
+ "en": {
+  "sections": {
+   "registers": {},
+   "assembler": {},
+   "appendix": {},
+   "quickstart": {},
+   "isa": {},
+   "faults": {},
+   "events": {},
+   "syscalls": {},
+   "sdk": {}
+  }
+ }
 }
