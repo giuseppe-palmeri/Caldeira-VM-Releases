@@ -551,23 +551,12 @@ code {
     background: radial-gradient(ellipse 80% 50% at 50% -10%, var(--accent-soft), transparent 60%);
 }
 
-/* ── Lab bench: code window + oscilloscope device ── */
-.lab-bench {
-    display: flex;
-    gap: var(--space-4);
-    align-items: stretch;
-}
-
-.lab-bench .code-window {
-    max-width: none;
-    flex: 1 1 55%;
-    min-width: 0;
-}
-
-/* Oscilloscope device */
+/* ── Oscilloscope device — fixed top-right, below the nav bar ── */
 .scope-device {
-    flex: 1 1 45%;
-    min-width: 0;
+    position: fixed;
+    top: calc(var(--header-height) + 1rem);
+    right: 1.5rem;
+    width: 320px;
     display: flex;
     flex-direction: column;
     background: var(--bg-elevated);
@@ -575,7 +564,7 @@ code {
     border-radius: var(--radius-lg);
     box-shadow: var(--panel-shadow);
     padding: var(--space-3);
-    align-self: stretch;
+    z-index: 90;
 }
 
 .scope-screen {
@@ -1983,18 +1972,15 @@ code {
         margin-right: auto;
     }
 
-    .lab-bench {
-        flex-direction: column;
-        align-items: center;
-        max-width: 26rem;
-        margin: 0 auto;
-        width: 100%;
+    /* the fixed scope would cover content on small screens: compact it */
+    .scope-device {
+        width: 220px;
+        top: calc(var(--header-height) + 0.5rem);
+        right: 0.75rem;
+        padding: var(--space-2);
     }
-
-    .lab-bench .code-window,
-    .lab-bench .scope-device {
-        width: 100%;
-        max-width: none;
+    .scope-screen {
+        min-height: 56px;
     }
 
     .github-layout,

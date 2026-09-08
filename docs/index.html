@@ -97,6 +97,30 @@
         </div>
     </header>
 
+    <!-- Oscilloscope device — fixed top-right, just below the nav bar -->
+    <div class="scope-device" aria-hidden="true">
+        <div class="scope-screen">
+            <svg class="scope-svg" viewBox="0 0 1200 200" preserveAspectRatio="none">
+                <path class="scope-trace" d="M0,150 H90 V50 H180 V150 H270 V50 H360 V150 H450 V50 H540 V150
+                    L555,25 L570,150
+                    H630 V50 H720 V150 H810 V50 H900 V150 H990 V50 H1080 V150
+                    L1110,10 L1140,150
+                    H1200"/>
+            </svg>
+            <span class="scope-beam"></span>
+            <span class="scope-ro scope-ro-tl">V/div 5V</span>
+            <span class="scope-ro scope-ro-bl">µs/div 10</span>
+            <span class="scope-ro scope-ro-tr">TRIG ▲</span>
+        </div>
+        <div class="scope-controls">
+            <span class="scope-led"></span>
+            <span class="scope-knob"></span>
+            <span class="scope-knob"></span>
+            <span class="scope-btn"></span>
+            <span class="scope-brand">CALDEIRA SCOPE</span>
+        </div>
+    </div>
+
     <main id="main">
 
         <!-- ============ HERO ============ -->
@@ -114,15 +138,14 @@
                     </div>
 
                     <div class="hero-visual" aria-hidden="true">
-                        <div class="lab-bench">
-                            <div class="code-window">
-                                <div class="code-window-bar">
-                                    <span class="code-dot code-dot-r"></span>
-                                    <span class="code-dot code-dot-y"></span>
-                                    <span class="code-dot code-dot-g"></span>
-                                    <span class="code-window-title">main.clasto</span>
-                                </div>
-                                <pre class="code-window-body"><code><span class="tok-c">; Hello World — Clasto assembly</span>
+                        <div class="code-window">
+                            <div class="code-window-bar">
+                                <span class="code-dot code-dot-r"></span>
+                                <span class="code-dot code-dot-y"></span>
+                                <span class="code-dot code-dot-g"></span>
+                                <span class="code-window-title">main.clasto</span>
+                            </div>
+                            <pre class="code-window-body"><code><span class="tok-c">; Hello World — Clasto assembly</span>
 <span class="tok-k">.CONST</span> <span class="tok-n">S_PRINT</span> <span class="tok-v">0x10</span>
 <span class="tok-k">.VECTOR</span> <span class="tok-t">EVT_RESET</span><span class="tok-o">(</span><span class="tok-t">flags:FLG</span><span class="tok-o">),</span> <span class="tok-f">main</span>
 
@@ -135,30 +158,6 @@
     <span class="tok-k">MOV.S</span> <span class="tok-r">R2</span><span class="tok-o">,</span> <span class="tok-v">0</span>
     <span class="tok-k">SYSCALL</span> <span class="tok-n">S_PRINT</span>
     <span class="tok-k">EXIT</span> <span class="tok-v">0</span><span class="tok-cursor"></span></code></pre>
-                            </div>
-
-                            <div class="scope-device">
-                                <div class="scope-screen">
-                                    <svg class="scope-svg" viewBox="0 0 1200 200" preserveAspectRatio="none">
-                                        <path class="scope-trace" d="M0,150 H90 V50 H180 V150 H270 V50 H360 V150 H450 V50 H540 V150
-                                            L555,25 L570,150
-                                            H630 V50 H720 V150 H810 V50 H900 V150 H990 V50 H1080 V150
-                                            L1110,10 L1140,150
-                                            H1200"/>
-                                    </svg>
-                                    <span class="scope-beam"></span>
-                                    <span class="scope-ro scope-ro-tl">V/div 5V</span>
-                                    <span class="scope-ro scope-ro-bl">µs/div 10</span>
-                                    <span class="scope-ro scope-ro-tr">TRIG ▲</span>
-                                </div>
-                                <div class="scope-controls">
-                                    <span class="scope-led"></span>
-                                    <span class="scope-knob"></span>
-                                    <span class="scope-knob"></span>
-                                    <span class="scope-btn"></span>
-                                    <span class="scope-brand">CALDEIRA SCOPE</span>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
