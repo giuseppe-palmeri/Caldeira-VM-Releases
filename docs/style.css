@@ -551,29 +551,49 @@ code {
     background: radial-gradient(ellipse 80% 50% at 50% -10%, var(--accent-soft), transparent 60%);
 }
 
-/* ── Oscilloscope: deterministic clock + event pulses (hero) ── */
-.hero-scope {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 6.5rem;
-    margin: 0 auto;
-    max-width: 1200px;
-    aspect-ratio: 1200 / 200;
-    pointer-events: none;
-    opacity: .55;
-    z-index: 0;
+/* ── Lab bench: code window + oscilloscope device ── */
+.lab-bench {
+    display: flex;
+    gap: var(--space-4);
+    align-items: stretch;
 }
 
-.hero-scope-svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+.lab-bench .code-window {
+    max-width: none;
+    flex: 1 1 55%;
+    min-width: 0;
 }
+
+/* Oscilloscope device */
+.scope-device {
+    flex: 1 1 45%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--panel-shadow);
+    padding: var(--space-3);
+    align-self: stretch;
+}
+
+.scope-screen {
+    position: relative;
+    flex: 1;
+    min-height: 88px;
+    aspect-ratio: 1200 / 200;
+    background: var(--scope-screen-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+:root[data-theme="dark"]  { --scope-screen-bg: #0a0d12; }
+:root[data-theme="light"] { --scope-screen-bg: #0d1117; }
 
 /* graticule — the instrument display grid (fainter than the trace) */
-.hero-scope::before {
+.scope-screen::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -582,7 +602,6 @@ code {
         repeating-linear-gradient(90deg, var(--scope-g) 0 1px, transparent 1px 10%),
         repeating-linear-gradient(0deg, var(--scope-g-major) 0 1px, transparent 1px 50%),
         repeating-linear-gradient(90deg, var(--scope-g-major) 0 1px, transparent 1px 25%);
-    border-radius: 10px;
 }
 
 :root[data-theme="dark"] {
@@ -595,84 +614,146 @@ code {
     --scope-g-major: rgba(26, 127, 55, .10);
 }
 
-.hero-scope-trace {
+.scope-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.scope-trace {
     fill: none;
     stroke-width: 2;
     stroke-linejoin: round;
     stroke-linecap: round;
+    stroke: var(--accent-text);   /* phosphor green — the screen stays dark in both themes */
 }
 
-:root[data-theme="dark"] .hero-scope-trace {
-    stroke: var(--accent);
-}
-
-:root[data-theme="light"] .hero-scope-trace {
-    stroke: var(--accent);
-}
-
-/* beam — a dot travelling along the trace (slow loop) */
-.hero-scope-beam {
+/* beam — a dot travelling along the trace (non-uniform speed).
+   Uses left/top percentages (x/1200, y/200) so it stays on the trace
+   whatever the real screen aspect ratio is. */
+.scope-beam {
     position: absolute;
     left: 0;
-    top: 0;
+    top: 75%;
     width: 8px;
     height: 8px;
     margin-left: -4px;
     margin-top: -4px;
     border-radius: 50%;
-    offset-path: path("M0,150 H90 V50 H180 V150 H270 V50 H360 V150 H450 V50 H540 V150 L555,25 L570,150 H630 V50 H720 V150 H810 V50 H900 V150 H990 V50 H1080 V150 L1110,10 L1140,150 H1200");
-    offset-rotate: 0deg;
-    animation: hero-beam 8s linear infinite;
-}
-
-:root[data-theme="dark"] .hero-scope-beam {
     background: var(--accent-text);
     box-shadow:
         0 0 10px 2px var(--accent),
         0 0 26px 9px var(--accent-soft),
         0 0 48px 16px rgba(63, 185, 80, .25);
-}
-
-:root[data-theme="light"] .hero-scope-beam {
-    background: var(--accent-strong);
-    box-shadow:
-        0 0 10px 2px var(--accent),
-        0 0 22px 8px var(--accent-soft);
+    animation: hero-beam 8s linear infinite;
 }
 
 @keyframes hero-beam {
-    /* Non-uniform speed: slow on the square wave (≈9s pace), fast on the
-       event pulses (≈4s pace). Percentages match the trace path geometry:
-       squares 0–41.5% / 50.6–87.4%, spikes 41.5–50.6% / 87.4–97.8%. */
-    0%    { offset-distance: 0%; }
-    47%   { offset-distance: 41.5%; }   /* end square wave part 1 */
-    51%   { offset-distance: 50.6%; }   /* end spike 1 (fast) */
-    93%   { offset-distance: 87.4%; }   /* end square wave part 2 */
-    98%   { offset-distance: 97.8%; }   /* end spike 2 (fast) */
-    100%  { offset-distance: 100%; }
+    /* Waypoints as % of the 1200×200 trace box, with non-uniform timing:
+       slow on the square wave (≈9s pace), fast on the event pulses (≈4s).
+       Square corners: y jumps 75%↔25%; spikes peak at 12.5% / 5%. */
+    0%    { left: 0%;    top: 75%; }   /* (0,150)      */
+    6.9%  { left: 7.5%;  top: 75%; }   /* (90,150)  */
+    8.2%  { left: 7.5%;  top: 25%; }   /* (90,50)   */
+    15.1% { left: 15%;   top: 25%; }   /* (180,50)  */
+    16.4% { left: 15%;   top: 75%; }   /* (180,150) */
+    23.3% { left: 22.5%; top: 75%; }
+    24.6% { left: 22.5%; top: 25%; }
+    31.5% { left: 30%;   top: 25%; }
+    32.8% { left: 30%;   top: 75%; }
+    39.7% { left: 37.5%; top: 75%; }
+    41.0% { left: 37.5%; top: 25%; }
+    47.9% { left: 45%;   top: 25%; }   /* (540,50)  */
+    49.3% { left: 45%;   top: 75%; }   /* (540,150) — spike base */
+    51.0% { left: 46.25%; top: 12.5%; } /* spike 1 peak (555,25) */
+    52.7% { left: 47.5%; top: 75%; }   /* spike 1 end (570,150) */
+    57.4% { left: 52.5%; top: 75%; }
+    58.7% { left: 52.5%; top: 25%; }
+    65.6% { left: 60%;   top: 25%; }
+    66.9% { left: 60%;   top: 75%; }
+    73.8% { left: 67.5%; top: 75%; }
+    75.1% { left: 67.5%; top: 25%; }
+    82.0% { left: 75%;   top: 25%; }
+    83.3% { left: 75%;   top: 75%; }
+    90.2% { left: 82.5%; top: 75%; }
+    91.5% { left: 82.5%; top: 25%; }
+    94.0% { left: 90%;   top: 25%; }   /* (1080,50) */
+    95.2% { left: 90%;   top: 75%; }   /* (1080,150) — spike base */
+    96.7% { left: 92.5%; top: 5%; }    /* spike 2 peak (1110,10) */
+    98.2% { left: 95%;   top: 75%; }   /* spike 2 end (1140,150) */
+    100%  { left: 100%;  top: 75%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .hero-scope-beam {
+    .scope-beam {
         animation: none;
-        offset-distance: 42%;
+        left: 42%;
+        top: 75%;
     }
 }
 
 /* instrument readouts */
-.hero-scope-ro {
+.scope-ro {
     position: absolute;
     font-family: var(--font-mono);
     font-size: 0.62rem;
     letter-spacing: 0.08em;
-    opacity: .75;
+    opacity: .85;
+    color: var(--accent-text);
 }
 
-:root[data-theme="dark"] .hero-scope-ro { color: var(--accent-text); }
-:root[data-theme="light"] .hero-scope-ro { color: var(--accent-strong); }
+.scope-ro-tl { top: 0.35rem; left: 0.7rem; }
+.scope-ro-tr { top: 0.35rem; right: 0.7rem; }
+.scope-ro-bl { bottom: 0.3rem; left: 0.7rem; }
 
-.hero-scope-ro-tl { top: 0.35rem; left: 0.7rem; }
-.hero-scope-ro-bl { bottom: 0.3rem; left: 0.7rem; }
+/* device controls */
+.scope-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-2) var(--space-2);
+}
+
+.scope-led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px 2px var(--accent-soft);
+    flex-shrink: 0;
+}
+
+.scope-knob {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--bg-inset);
+    border: 1px solid var(--border-strong);
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.25);
+    flex-shrink: 0;
+}
+
+:root[data-theme="light"] .scope-knob {
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.12);
+}
+
+.scope-btn {
+    width: 24px;
+    height: 12px;
+    border-radius: 3px;
+    background: var(--bg-inset);
+    border: 1px solid var(--border-strong);
+    flex-shrink: 0;
+}
+
+.scope-brand {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    color: var(--text-tertiary);
+}
 
 .hero-inner {
     position: relative;
@@ -1900,6 +1981,20 @@ code {
     .hero-description {
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .lab-bench {
+        flex-direction: column;
+        align-items: center;
+        max-width: 26rem;
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    .lab-bench .code-window,
+    .lab-bench .scope-device {
+        width: 100%;
+        max-width: none;
     }
 
     .github-layout,
