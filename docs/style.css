@@ -554,9 +554,11 @@ code {
 /* ── Oscilloscope device — fixed top-right, below the nav bar ── */
 .scope-device {
     position: fixed;
-    top: calc(var(--header-height) + 1rem);
-    right: 1.5rem;
-    width: 320px;
+    top: calc(var(--header-height) + 2rem);
+    /* Align the right edge with the hero grid's right edge (where the
+       clasto window sits), so the scope reads as sitting above it. */
+    right: max(1.5rem, calc((100vw - 64rem) / 2));
+    width: min(340px, 32vw);
     display: flex;
     flex-direction: column;
     background: var(--bg-elevated);
@@ -570,7 +572,7 @@ code {
 .scope-screen {
     position: relative;
     flex: 1;
-    min-height: 88px;
+    min-height: 64px;
     aspect-ratio: 1200 / 200;
     background: var(--scope-screen-bg);
     border: 1px solid var(--border);
