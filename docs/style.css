@@ -551,22 +551,29 @@ code {
     background: radial-gradient(ellipse 80% 50% at 50% -10%, var(--accent-soft), transparent 60%);
 }
 
-/* ── Oscilloscope device — fixed bottom-right ── */
+/* ── Oscilloscope device — fixed bottom-right, only on wide screens ──
+   Hidden below 1800px: there is no uncovered right margin to host it on
+   narrower viewports. At 1800px+ the 300px device fits entirely in the
+   empty space right of the 72rem content container. */
 .scope-device {
-    position: fixed;
-    bottom: 1.5rem;
-    /* Right edge aligned with the hero grid's right edge (where the
-       clasto window sits). */
-    right: max(1.5rem, calc((100vw - 64rem) / 2));
-    width: min(340px, 32vw);
-    display: flex;
-    flex-direction: column;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border-strong);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--panel-shadow);
-    padding: var(--space-3);
-    z-index: 90;
+    display: none;
+}
+
+@media (min-width: 1800px) {
+    .scope-device {
+        display: flex;
+        position: fixed;
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 300px;
+        flex-direction: column;
+        background: var(--bg-elevated);
+        border: 1px solid var(--border-strong);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--panel-shadow);
+        padding: var(--space-3);
+        z-index: 90;
+    }
 }
 
 .scope-screen {
@@ -1972,17 +1979,6 @@ code {
     .hero-description {
         margin-left: auto;
         margin-right: auto;
-    }
-
-    /* the fixed scope would cover content on small screens: compact it */
-    .scope-device {
-        width: 220px;
-        bottom: 0.75rem;
-        right: 0.75rem;
-        padding: var(--space-2);
-    }
-    .scope-screen {
-        min-height: 56px;
     }
 
     .github-layout,
