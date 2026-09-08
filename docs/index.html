@@ -102,6 +102,19 @@
         <!-- ============ HERO ============ -->
         <section class="hero section" id="top">
             <div class="hero-bg" aria-hidden="true"></div>
+            <!-- Oscilloscope: deterministic clock + event pulses (decorative) -->
+            <div class="hero-scope" aria-hidden="true">
+                <svg class="hero-scope-svg" viewBox="0 0 1200 200" preserveAspectRatio="none">
+                    <path class="hero-scope-trace" d="M0,150 H90 V50 H180 V150 H270 V50 H360 V150 H450 V50 H540 V150
+                        L555,25 L570,150
+                        H630 V50 H720 V150 H810 V50 H900 V150 H990 V50 H1080 V150
+                        L1110,10 L1140,150
+                        H1200"/>
+                </svg>
+                <span class="hero-scope-beam" aria-hidden="true"></span>
+                <span class="hero-scope-ro hero-scope-ro-tl">V/div 5V</span>
+                <span class="hero-scope-ro hero-scope-ro-bl">µs/div 10</span>
+            </div>
             <div class="container hero-inner">
                 <div class="hero-grid">
                     <div class="hero-copy">
