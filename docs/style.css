@@ -622,7 +622,7 @@ code {
     border-radius: 50%;
     offset-path: path("M0,150 H90 V50 H180 V150 H270 V50 H360 V150 H450 V50 H540 V150 L555,25 L570,150 H630 V50 H720 V150 H810 V50 H900 V150 H990 V50 H1080 V150 L1110,10 L1140,150 H1200");
     offset-rotate: 0deg;
-    animation: hero-beam 9s linear infinite;
+    animation: hero-beam 4s linear infinite;
 }
 
 :root[data-theme="dark"] .hero-scope-beam {
