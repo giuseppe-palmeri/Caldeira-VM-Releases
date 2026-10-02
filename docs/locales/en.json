@@ -303,6 +303,23 @@
     "openInNewTab": "Opens in a new tab",
     "loading": "Loading…"
   },
+  "auth": {
+    "modalTitle": "Sign in to your account",
+    "intro": "Customer, reseller or operator: sign in to view licenses, orders and billing data.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "name@company.it",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "your password",
+    "submit": "Sign in",
+    "forgot": "Forgot password?",
+    "register": "No account? Register with your license email",
+    "userArea": "Your account area",
+    "dashboard": "Dashboard",
+    "certificates": "Certificates",
+    "settings": "Settings",
+    "portalHome": "Customer portal home",
+    "close": "Close dialog"
+  },
   "pricing": {
     "title": "Pricing",
     "description": "The open ecosystem is publicly available; the proprietary core is commercially licensed.",

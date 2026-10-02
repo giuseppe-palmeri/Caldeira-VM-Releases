@@ -1,0 +1,49 @@
+<!DOCTYPE html><html><body><pre id="o"></pre><script>
+const o=document.getElementById('o');
+const f=document.createElement('iframe');f.style.width='1440px';f.style.height='900px';document.body.appendChild(f);
+f.onload=async()=>{const d=f.contentDocument;await d.fonts.ready;await new Promise(r=>setTimeout(r,400));
+const lines=[];
+const overlay=d.querySelector('[data-login-modal-panel]');
+const headerLogin=d.querySelector('.header-tools [data-login-modal]');
+lines.push('overlay.hidden='+overlay.hidden+' display='+getComputedStyle(overlay).display);
+
+// 1) open via header ACCEDI
+headerLogin.click();
+await new Promise(r=>setTimeout(r,50));
+lines.push('afterClick.hidden='+overlay.hidden+' bodyMenuOpen='+d.body.classList.contains('menu-open'));
+const active=d.activeElement.tagName+'.'+d.activeElement.name;
+lines.push('focused='+active);
+
+// 2) Escape closes + focus returns to trigger
+d.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+await new Promise(r=>setTimeout(r,50));
+lines.push('afterEsc.hidden='+overlay.hidden+' focused='+(d.activeElement===headerLogin?'headerLogin':'other'));
+
+// 3) overlay click (backdrop) closes
+headerLogin.click();
+await new Promise(r=>setTimeout(r,30));
+overlay.dispatchEvent(new MouseEvent('click',{bubbles:true}));
+await new Promise(r=>setTimeout(r,30));
+lines.push('afterBackdropClick.hidden='+overlay.hidden);
+
+// 4) form action + fields
+const form=overlay.querySelector('form');
+lines.push('form.action='+form.getAttribute('action')+' method='+form.getAttribute('method'));
+lines.push('fields='+[...form.querySelectorAll('input')].map(i=>i.name+':'+i.type).join(' | '));
+
+// 5) mobile login opens too
+f.style.width='390px';
+await new Promise(r=>setTimeout(r,250));
+const mobLogin=d.querySelector('.mobile-menu [data-login-modal]');
+mobLogin.click();
+await new Promise(r=>setTimeout(r,50));
+lines.push('mobileOpen.hidden='+overlay.hidden);
+
+// 6) user area links present
+const area=[...overlay.querySelectorAll('.auth-user-area a')].map(a=>a.getAttribute('href'));
+lines.push('userArea='+area.join(' | '));
+
+o.textContent=lines.join('\n');
+document.title='done';
+};f.src='/docs/index.html';
+</script></body></html>

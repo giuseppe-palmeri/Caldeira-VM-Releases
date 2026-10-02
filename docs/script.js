@@ -90,6 +90,10 @@ function applyTranslations(data) {
         const value = translate(data, el.dataset.i18nTitle);
         if (value !== el.dataset.i18nTitle) el.title = value;
     });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+        const value = translate(data, el.dataset.i18nPlaceholder);
+        if (value !== el.dataset.i18nPlaceholder) el.placeholder = value;
+    });
     const meta = data && data.meta ? data.meta : {};
     if (meta.title) document.title = meta.title;
     if (meta.description) {
@@ -309,6 +313,69 @@ function initNavDropdowns() {
         const t = e.target;
         if (!(t instanceof Element) || !t.closest('.nav-has-sub')) {
             items.forEach(closeItem);
+        }
+    });
+}
+
+/* ── Login modal (auth card copied from the licensing portal) ──────────── */
+function initLoginModal() {
+    const triggers = document.querySelectorAll('[data-login-modal]');
+    const overlay = document.querySelector('[data-login-modal-panel]');
+    if (!triggers.length || !overlay) return;
+
+    const card = overlay.querySelector('.auth-card');
+    const closeBtn = overlay.querySelector('[data-modal-close]');
+    const emailInput = overlay.querySelector('input[name="login_email"]');
+    let returnFocusTo = null;
+
+    const open = (trigger) => {
+        overlay.hidden = false;
+        document.body.classList.add('menu-open');
+        returnFocusTo = trigger;
+        if (emailInput) emailInput.focus();
+    };
+    const close = () => {
+        overlay.hidden = true;
+        document.body.classList.remove('menu-open');
+        if (returnFocusTo && returnFocusTo instanceof HTMLElement) returnFocusTo.focus();
+    };
+
+    triggers.forEach((trigger) => {
+        trigger.addEventListener('click', (e) => {
+            // JS mode: open the in-page modal (auth happens on the portal via
+            // the form POST). No-JS fallback: the anchor navigates to the portal.
+            e.preventDefault();
+            open(trigger);
+        });
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', close);
+
+    // Click on the backdrop (outside the card) closes the modal
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) close();
+    });
+
+    // Escape closes; Tab is trapped inside the dialog
+    document.addEventListener('keydown', (e) => {
+        if (overlay.hidden) return;
+        if (e.key === 'Escape') {
+            close();
+            return;
+        }
+        if (e.key === 'Tab') {
+            const focusables = [...card.querySelectorAll('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+                .filter((el) => !el.disabled && el.offsetParent !== null);
+            if (!focusables.length) return;
+            const first = focusables[0];
+            const last = focusables[focusables.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
         }
     });
 }
@@ -722,6 +789,7 @@ async function init() {
     initTheme();
     initMobileMenu();
     initNavDropdowns();
+    initLoginModal();
     initCopyButton();
     initFluidNav();
     initHeaderScroll();

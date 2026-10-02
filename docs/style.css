@@ -2349,6 +2349,167 @@ code {
     font-size: 0.85rem;
 }
 
+/* ── Login modal (auth card copied from the licensing portal) ──────────── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-5);
+    background: rgba(7, 9, 13, 0.66);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    overflow-y: auto;
+}
+
+.modal-overlay[hidden] {
+    display: none;
+}
+
+.auth-card {
+    position: relative;
+    width: 100%;
+    max-width: 26rem;
+    max-height: calc(100vh - var(--space-8));
+    overflow-y: auto;
+    background: var(--bg-elevated);
+    background-image: var(--surface-gradient);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-6);
+    animation: modal-in var(--transition-med);
+}
+
+@keyframes modal-in {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to   { opacity: 1; transform: none; }
+}
+
+.auth-card h2 {
+    font-size: var(--text-xl);
+    margin-bottom: var(--space-2);
+    padding-right: var(--space-6);
+}
+
+.auth-intro {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    margin-bottom: var(--space-5);
+}
+
+.modal-close {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    padding: 0;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.modal-close:hover {
+    color: var(--text);
+    border-color: var(--accent);
+    background: var(--bg-hover);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.auth-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.auth-field span {
+    font-size: 0.85rem;
+    font-weight: var(--weight-semibold);
+    color: var(--text-secondary);
+}
+
+.auth-field input {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    padding: 0.6rem 0.8rem;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.auth-field input::placeholder {
+    color: var(--text-tertiary);
+}
+
+.auth-field input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-softer);
+}
+
+.auth-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4) 0;
+    border-top: 1px solid var(--border);
+    font-size: 0.85rem;
+}
+
+.auth-user-area {
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+}
+
+.auth-user-area-title {
+    font-size: 0.78rem;
+    font-weight: var(--weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-tertiary);
+    margin-bottom: var(--space-2);
+}
+
+.auth-user-area nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+}
+
+.auth-user-area nav a {
+    font-size: 0.85rem;
+    font-weight: var(--weight-medium);
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.auth-user-area nav a:hover {
+    color: var(--text);
+    background: var(--bg-hover);
+    text-decoration: none;
+}
+
 /* ── Reveal (subtle animation, respects reduced motion) ────────────────── */
 .reveal {
     opacity: 0;

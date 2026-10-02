@@ -303,6 +303,23 @@
     "openInNewTab": "Si apre in una nuova scheda",
     "loading": "Caricamento…"
   },
+  "auth": {
+    "modalTitle": "Accedi al tuo account",
+    "intro": "Cliente, reseller o operatore: accedi per vedere licenze, ordini e dati di fatturazione.",
+    "emailLabel": "Email",
+    "emailPlaceholder": "nome@azienda.it",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "la tua password",
+    "submit": "Accedi",
+    "forgot": "Password dimenticata?",
+    "register": "Non hai un account? Registrati con l'email della tua licenza",
+    "userArea": "La tua area utente",
+    "dashboard": "Dashboard",
+    "certificates": "Certificati",
+    "settings": "Impostazioni",
+    "portalHome": "Home del portale clienti",
+    "close": "Chiudi la finestra di dialogo"
+  },
   "pricing": {
     "title": "Prezzi",
     "description": "L'ecosistema aperto è pubblicamente disponibile; il core proprietario è concesso con licenza commerciale.",
