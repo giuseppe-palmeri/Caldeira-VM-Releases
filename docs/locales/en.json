@@ -20,7 +20,12 @@
     "documentation": "Documentation",
     "github": "GitHub",
     "pricing": "Pricing",
-    "vscode": "VS Code"
+    "vscode": "VS Code",
+    "learn": "Learn",
+    "platform": "Platform",
+    "company": "Company",
+    "login": "Login",
+    "portal": "Customer portal"
   },
   "hero": {
     "title": "A lightweight, deterministic virtual machine for microcontrollers.",

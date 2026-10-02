@@ -259,6 +259,60 @@ function initMobileMenu() {
     });
 }
 
+/* ── Desktop dropdown menus (click, keyboard, ARIA) ────────────────────── */
+function initNavDropdowns() {
+    const items = document.querySelectorAll('.nav-has-sub');
+    if (!items.length) return;
+
+    const closeItem = (item) => {
+        item.classList.remove('open');
+        const btn = item.querySelector('.nav-toggle');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+    };
+
+    items.forEach((item) => {
+        const btn = item.querySelector('.nav-toggle');
+        if (!btn) return;
+
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const shouldOpen = !item.classList.contains('open');
+            // one open dropdown at a time keeps the header tidy
+            items.forEach(closeItem);
+            if (shouldOpen) {
+                item.classList.add('open');
+                btn.setAttribute('aria-expanded', 'true');
+            }
+        });
+
+        // Closing on Escape returns focus to the trigger
+        item.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && item.classList.contains('open')) {
+                closeItem(item);
+                btn.focus();
+            }
+        });
+
+        // A selected link closes its own panel
+        item.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => closeItem(item)));
+    });
+
+    // Escape anywhere also closes open dropdowns
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            items.forEach(closeItem);
+        }
+    });
+
+    // Click outside any dropdown closes them all
+    document.addEventListener('click', (e) => {
+        const t = e.target;
+        if (!(t instanceof Element) || !t.closest('.nav-has-sub')) {
+            items.forEach(closeItem);
+        }
+    });
+}
+
 /* ── Copy button ───────────────────────────────────────────────────────── */
 function initCopyButton() {
     const btn = document.querySelector('[data-copy-button]');
@@ -667,6 +721,7 @@ function initHeaderScroll() {
 async function init() {
     initTheme();
     initMobileMenu();
+    initNavDropdowns();
     initCopyButton();
     initFluidNav();
     initHeaderScroll();

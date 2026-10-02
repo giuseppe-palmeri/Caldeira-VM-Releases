@@ -20,7 +20,12 @@
     "documentation": "Documentazione",
     "github": "GitHub",
     "pricing": "Prezzi",
-    "vscode": "VS Code"
+    "vscode": "VS Code",
+    "learn": "Impara",
+    "platform": "Piattaforma",
+    "company": "Azienda",
+    "login": "Accedi",
+    "portal": "Portale clienti"
   },
   "hero": {
     "title": "Una macchina virtuale leggera e deterministica per microcontrollori.",

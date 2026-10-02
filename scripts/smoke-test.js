@@ -65,6 +65,9 @@ const checks = [
     ['official logo used (hero)', (dom.match(/images\/caldeira\.png/g) || []).length >= 1],
     ['chip symbol in header/footer', (dom.match(/images\/caldeira-symbol\.png/g) || []).length >= 2],
     ['favicon png linked', /favicon-32\.png/.test(dom)],
+    ['nav dropdowns present (4)', (dom.match(/nav-has-sub/g) || []).length >= 4 && (dom.match(/nav-sub/g) || []).length >= 4],
+    ['login CTA links to customer portal', /href="https:\/\/licensing\.skyhome\.it\/portal\/login"/.test(dom)],
+    ['customer portal link present', /licensing\.skyhome\.it\/portal\//.test(dom) && /data-i18n="nav\.portal"/.test(dom)],
     ['no JS errors', !hasJSErrors],
 ];
 

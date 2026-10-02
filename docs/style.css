@@ -411,6 +411,24 @@ code {
     background-color: transparent;
 }
 
+/* Login — compact accent button linking to the customer portal */
+.btn-login {
+    padding: 0.45rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 0.88rem;
+    background: var(--accent-soft);
+    color: var(--accent-text);
+    border: 1px solid var(--accent);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.btn-login:hover {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    border-color: var(--accent-strong);
+    box-shadow: 0 4px 14px -6px var(--glow-accent);
+}
+
 /* ── Header ────────────────────────────────────────────────────────────── */
 .site-header {
     position: sticky;
@@ -513,6 +531,143 @@ code {
     text-decoration: none;
 }
 
+/* ── Dropdown menus (hover + focus + click, ARIA) ──────────────────────── */
+.nav-has-sub {
+    position: relative;
+}
+
+.nav-toggle {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin: 0;
+    padding: 0.45rem 0.7rem;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: var(--weight-medium);
+    color: var(--text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.nav-toggle:hover {
+    color: var(--text);
+    background-color: var(--bg-hover);
+}
+
+.nav-toggle[aria-expanded="true"] {
+    color: var(--text);
+    background-color: var(--bg-hover);
+}
+
+.nav-toggle::after {
+    content: "";
+    width: 7px;
+    height: 7px;
+    margin-left: 2px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform var(--transition-fast);
+}
+
+.nav-has-sub:hover .nav-toggle::after,
+.nav-has-sub:focus-within .nav-toggle::after,
+.nav-has-sub.open .nav-toggle::after {
+    transform: rotate(225deg) translateY(-1px);
+}
+
+.nav-sub {
+    display: none;
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 15.5rem;
+    margin: 0;
+    padding: 0.35rem;
+    list-style: none;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 120;
+}
+
+.nav-has-sub:hover .nav-sub,
+.nav-has-sub:focus-within .nav-sub,
+.nav-has-sub.open .nav-sub {
+    display: block;
+    animation: nav-sub-in var(--transition-med);
+}
+
+@keyframes nav-sub-in {
+    from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Right-align the last column's panel so it never leaves the viewport */
+.nav-list > .nav-has-sub:last-child .nav-sub {
+    left: auto;
+    right: -0.5rem;
+    transform: none;
+}
+
+.nav-list > .nav-has-sub:last-child .nav-sub {
+    animation-name: nav-sub-in-right;
+}
+
+@keyframes nav-sub-in-right {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.nav-sub a {
+    display: block;
+    padding: 0.55rem 0.85rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+    font-weight: var(--weight-medium);
+    color: var(--text-secondary);
+    white-space: nowrap;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.nav-sub a:hover {
+    color: var(--text);
+    background: var(--bg-hover);
+    text-decoration: none;
+}
+
+.nav-sub a:focus-visible {
+    outline-offset: -2px;
+}
+
+/* Subtle top accent line on the dropdown */
+.nav-sub::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2.25rem;
+    height: 4px;
+    border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+}
+
+.nav-list > .nav-has-sub:last-child .nav-sub::before {
+    left: auto;
+    right: 1rem;
+    transform: none;
+}
+
 .header-tools {
     display: flex;
     align-items: center;
@@ -598,7 +753,8 @@ code {
    and the GitHub button becomes icon-only: the fixed header cannot fit
    brand + both labelled buttons + theme + language + hamburger at 320px. */
 @media (max-width: 720px) {
-    .btn-docs {
+    .btn-docs,
+    .btn-login {
         display: none;
     }
 
@@ -688,6 +844,23 @@ code {
     color: var(--accent-text);
     text-decoration: none;
     background: var(--bg-hover);
+}
+
+/* Login CTA in the mobile menu: keep it a real button, not a list item */
+.mobile-menu .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: var(--space-4);
+    padding: 0.6rem 1.2rem;
+    border-bottom: none;
+    color: var(--accent-contrast);
+    font-weight: var(--weight-semibold);
+}
+
+.mobile-menu .btn:hover {
+    color: var(--accent-contrast);
+    background: linear-gradient(180deg, var(--accent-strong), var(--accent-strong));
 }
 
 /* ── Hero ──────────────────────────────────────────────────────────────── */
@@ -2181,7 +2354,8 @@ code {
         gap: 0;
     }
 
-    .nav-list a {
+    .nav-list a,
+    .nav-toggle {
         padding: 0.45rem 0.35rem;
         font-size: 0.82rem;
         white-space: nowrap;

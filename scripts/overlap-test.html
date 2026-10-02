@@ -49,8 +49,8 @@ function measure(w) {
           const navRect = navList.getBoundingClientRect();
           const brandRect = brand.getBoundingClientRect();
           const toolsRect = headerTools.getBoundingClientRect();
-          const firstItemRect = navList.querySelector('a').getBoundingClientRect();
-          const lastItemRect = navList.querySelector('a:last-child').getBoundingClientRect();
+          const firstItemRect = navList.firstElementChild.getBoundingClientRect();
+          const lastItemRect = navList.lastElementChild.getBoundingClientRect();
           // Nav items must not collide with the brand (left) or the tools (right).
           overlapBrand = lastItemRect.left < brandRect.right - 4 || firstItemRect.left < brandRect.right;
           overlapTools = lastItemRect.right > toolsRect.left + 4;
