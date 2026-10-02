@@ -68,8 +68,9 @@ const checks = [
     ['nav dropdowns present (4)', (dom.match(/nav-has-sub/g) || []).length >= 4 && (dom.match(/nav-sub/g) || []).length >= 4],
     ['login CTA links to customer portal', /href="https:\/\/licensing\.skyhome\.it\/portal\/login"/.test(dom)],
     ['customer portal link present', /licensing\.skyhome\.it\/portal\//.test(dom) && /data-i18n="nav\.portal"/.test(dom)],
-    ['login modal present with portal form', /id="login-modal"/.test(dom) && /action="https:\/\/licensing\.skyhome\.it\/portal\/login"/.test(dom) && /name="login_email"/.test(dom) && /name="password"/.test(dom)],
+    ['login modal present with auth steps', /id="login-modal"/.test(dom) && (dom.match(/data-auth-step/g) || []).length >= 6 && /data-auth-form="login"/.test(dom) && /data-auth-form="register"/.test(dom) && /data-auth-form="forgot"/.test(dom)],
     ['login buttons open modal', (dom.match(/data-login-modal/g) || []).length >= 2],
+    ['register + reset fields present', /name="license_id"/.test(dom) && /name="code"/.test(dom) && /name="new_password"/.test(dom)],
     ['no JS errors', !hasJSErrors],
 ];
 

@@ -1,0 +1,45 @@
+<!DOCTYPE html><html><body><pre id="o"></pre><script>
+const o=document.getElementById('o');
+const f=document.createElement('iframe');f.style.width='1440px';f.style.height='900px';document.body.appendChild(f);
+f.onload=async()=>{const d=f.contentDocument;await d.fonts.ready;await new Promise(r=>setTimeout(r,400));
+const lines=[];
+const overlay=d.querySelector('[data-login-modal-panel]');
+const headerLogin=d.querySelector('.header-tools [data-login-modal]');
+headerLogin.click();
+await new Promise(r=>setTimeout(r,60));
+lines.push('open.hidden='+overlay.hidden+' stepLogin='+overlay.querySelector('[data-auth-step="login"]').hidden);
+
+// --- real fetch: login with bogus credentials (server must answer LOGIN_FAILED via CORS) ---
+const loginForm=overlay.querySelector('[data-auth-form="login"]');
+loginForm.email.value='modal-e2e@test.it';
+loginForm.password.value='bad-password';
+loginForm.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));
+await new Promise(r=>setTimeout(r,1200));
+const msg=overlay.querySelector('[data-auth-msg]');
+lines.push('loginErr.hidden='+msg.hidden+' text='+(msg.textContent||'').slice(0,60)+' class='+msg.className);
+
+// --- goto register step ---
+overlay.querySelector('[data-auth-goto="register"]').click();
+await new Promise(r=>setTimeout(r,40));
+lines.push('registerStepVisible='+!overlay.querySelector('[data-auth-step="register"]').hidden);
+
+// --- real fetch: forgot reset request (always ok, anti-enum) ---
+overlay.querySelector('[data-auth-goto="login"]').click();
+await new Promise(r=>setTimeout(r,30));
+overlay.querySelector('[data-auth-goto="forgot"]').click();
+await new Promise(r=>setTimeout(r,30));
+const forgotForm=overlay.querySelector('[data-auth-form="forgot"]');
+forgotForm.email.value='modal-e2e@test.it';
+forgotForm.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));
+await new Promise(r=>setTimeout(r,1200));
+lines.push('forgotMsg='+(msg.textContent||'').slice(0,60)+' resetStepVisible='+!overlay.querySelector('[data-auth-step="reset"]').hidden);
+
+// --- back to login via reset step button ---
+overlay.querySelector('[data-auth-step="reset"] [data-auth-goto="login"]').click();
+await new Promise(r=>setTimeout(r,30));
+lines.push('backToLogin='+!overlay.querySelector('[data-auth-step="login"]').hidden);
+
+o.textContent=lines.join('\n');
+document.title='done';
+};f.src='/docs/index.html';
+</script></body></html>

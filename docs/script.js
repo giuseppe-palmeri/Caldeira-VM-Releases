@@ -317,7 +317,7 @@ function initNavDropdowns() {
     });
 }
 
-/* ── Login modal (auth card copied from the licensing portal) ──────────── */
+/* ── Auth modal (login / register / password recovery via the API) ─────── */
 function initLoginModal() {
     const triggers = document.querySelectorAll('[data-login-modal]');
     const overlay = document.querySelector('[data-login-modal-panel]');
@@ -325,14 +325,58 @@ function initLoginModal() {
 
     const card = overlay.querySelector('.auth-card');
     const closeBtn = overlay.querySelector('[data-modal-close]');
-    const emailInput = overlay.querySelector('input[name="login_email"]');
+    const msg = overlay.querySelector('[data-auth-msg]');
+    const steps = [...overlay.querySelectorAll('[data-auth-step]')];
+    const gotoButtons = overlay.querySelectorAll('[data-auth-goto]');
+    const verifyEmailInput = overlay.querySelector('[data-auth-verify-email]');
+    const resetEmailInput = overlay.querySelector('[data-auth-reset-email]');
     let returnFocusTo = null;
+    let authEmail = '';
+    let authToken = null;
+
+    // Local dev talks to the Docker test server on 127.0.0.1:8310;
+    // the published site talks to the production licensing server.
+    const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const AUTH_API_BASE = isLocal ? 'http://127.0.0.1:8310' : 'https://licensing.skyhome.it';
+
+    const showMsg = (text, kind = 'info') => {
+        if (!msg) return;
+        msg.textContent = text;
+        msg.className = 'auth-msg is-' + kind;
+        msg.hidden = false;
+    };
+    const hideMsg = () => {
+        if (msg) msg.hidden = true;
+    };
+
+    const goto = (name, { focus } = {}) => {
+        steps.forEach((s) => { s.hidden = s.dataset.authStep !== name; });
+        hideMsg();
+        const step = overlay.querySelector(`[data-auth-step="${name}"]`);
+        if (focus !== false) {
+            const firstInput = step ? step.querySelector('input, button') : null;
+            if (firstInput) firstInput.focus();
+        }
+    };
+
+    const api = async (path, body) => {
+        const res = await fetch(AUTH_API_BASE + path, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+        let data = null;
+        try { data = await res.json(); } catch (_) { /* non-JSON */ }
+        return { status: res.status, data };
+    };
+
+    const serverMessage = (data) => (data && data.message) ? data.message : t('auth.genericError');
 
     const open = (trigger) => {
         overlay.hidden = false;
         document.body.classList.add('menu-open');
         returnFocusTo = trigger;
-        if (emailInput) emailInput.focus();
+        goto('login');
     };
     const close = () => {
         overlay.hidden = true;
@@ -342,11 +386,155 @@ function initLoginModal() {
 
     triggers.forEach((trigger) => {
         trigger.addEventListener('click', (e) => {
-            // JS mode: open the in-page modal (auth happens on the portal via
-            // the form POST). No-JS fallback: the anchor navigates to the portal.
+            // JS mode: in-page modal with fetch against the licensing API.
+            // No-JS fallback: the anchor navigates to the portal login.
             e.preventDefault();
             open(trigger);
         });
+    });
+
+    gotoButtons.forEach((btn) => {
+        btn.addEventListener('click', () => goto(btn.dataset.authGoto));
+    });
+
+    /* -- login --------------------------------------------------------- */
+    overlay.querySelector('[data-auth-form="login"]').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const email = String(form.email.value || '').trim().toLowerCase();
+        const password = form.password.value;
+        hideMsg();
+        const btn = form.querySelector('[type="submit"]');
+        btn.disabled = true;
+        try {
+            const { status, data } = await api('/v1/account/login', { email, password });
+            if (status === 403 && data && data.code === 'EMAIL_UNVERIFIED') {
+                // Registered but never verified: jump to the code step
+                authEmail = email;
+                verifyEmailInput.value = email;
+                goto('verify');
+                showMsg(data.message || t('auth.verificationSent'), 'info');
+                return;
+            }
+            if (!(status >= 200 && status < 300) || !data || !data.ok) {
+                showMsg(serverMessage(data), 'error');
+                return;
+            }
+            authToken = data.token || null;
+            if (authToken) {
+                try { sessionStorage.setItem('caldeira_sess_api', authToken); } catch (_) { /* ignore */ }
+            }
+            goto('success');
+        } catch (_) {
+            showMsg(t('auth.genericError'), 'error');
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+    /* -- register (claim) ---------------------------------------------- */
+    overlay.querySelector('[data-auth-form="register"]').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const email = String(form.email.value || '').trim().toLowerCase();
+        const password = form.password.value;
+        const license_id = String(form.license_id.value || '').trim() || undefined;
+        hideMsg();
+        const btn = form.querySelector('[type="submit"]');
+        btn.disabled = true;
+        try {
+            const { status, data } = await api('/v1/account/claim', { email, password, license_id });
+            if (!(status >= 200 && status < 300) || !data || !data.ok) {
+                showMsg(serverMessage(data), 'error');
+                return;
+            }
+            authEmail = email;
+            verifyEmailInput.value = email;
+            goto('verify');
+            showMsg(t('auth.verificationSent'), 'info');
+        } catch (_) {
+            showMsg(t('auth.genericError'), 'error');
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+    /* -- verify (claim code) ------------------------------------------- */
+    overlay.querySelector('[data-auth-form="verify"]').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const email = String(form.email.value || authEmail || '').trim().toLowerCase();
+        const code = String(form.code.value || '').trim();
+        hideMsg();
+        const btn = form.querySelector('[type="submit"]');
+        btn.disabled = true;
+        try {
+            const { status, data } = await api('/v1/account/claim/verify', { email, code });
+            if (!(status >= 200 && status < 300) || !data || !data.ok) {
+                showMsg(serverMessage(data), 'error');
+                return;
+            }
+            authToken = data.token || null;
+            if (authToken) {
+                try { sessionStorage.setItem('caldeira_sess_api', authToken); } catch (_) { /* ignore */ }
+            }
+            goto('success');
+        } catch (_) {
+            showMsg(t('auth.genericError'), 'error');
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+    /* -- forgot (reset request) ---------------------------------------- */
+    overlay.querySelector('[data-auth-form="forgot"]').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const email = String(form.email.value || '').trim().toLowerCase();
+        hideMsg();
+        const btn = form.querySelector('[type="submit"]');
+        btn.disabled = true;
+        try {
+            const { status, data } = await api('/v1/account/password-reset/request', { email });
+            if (!(status >= 200 && status < 300)) {
+                showMsg(serverMessage(data), 'error');
+                return;
+            }
+            authEmail = email;
+            resetEmailInput.value = email;
+            goto('reset');
+            showMsg(t('auth.checkEmail'), 'info');
+        } catch (_) {
+            showMsg(t('auth.genericError'), 'error');
+        } finally {
+            btn.disabled = false;
+        }
+    });
+
+    /* -- reset (code + new password) ----------------------------------- */
+    overlay.querySelector('[data-auth-form="reset"]').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const email = String(form.email.value || authEmail || '').trim().toLowerCase();
+        const code = String(form.code.value || '').trim();
+        const new_password = form.new_password.value;
+        hideMsg();
+        const btn = form.querySelector('[type="submit"]');
+        btn.disabled = true;
+        try {
+            const { status, data } = await api('/v1/account/password-reset/confirm', { email, code, new_password });
+            if (!(status >= 200 && status < 300) || !data || !data.ok) {
+                showMsg(serverMessage(data), 'error');
+                return;
+            }
+            // Password updated → back to login with a confirmation
+            goto('login');
+            showMsg(t('auth.resetDone'), 'ok');
+        } catch (_) {
+            showMsg(t('auth.genericError'), 'error');
+        } finally {
+            btn.disabled = false;
+        }
     });
 
     if (closeBtn) closeBtn.addEventListener('click', close);

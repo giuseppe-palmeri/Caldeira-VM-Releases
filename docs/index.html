@@ -619,41 +619,126 @@
         </div>
     </footer>
 
-    <!-- ============ LOGIN MODAL (copied from the licensing portal) ============ -->
+    <!-- ============ AUTH MODAL (login / register / password recovery) ============ -->
     <div class="modal-overlay" id="login-modal" data-login-modal-panel hidden>
         <div class="auth-card" role="dialog" aria-modal="true" aria-labelledby="login-modal-title" aria-describedby="login-modal-intro">
             <button type="button" class="modal-close" data-modal-close aria-label="Close dialog" data-i18n-aria="auth.close">
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
             </button>
 
-            <h2 id="login-modal-title" data-i18n="auth.modalTitle">Sign in to your account</h2>
-            <p class="auth-intro" id="login-modal-intro" data-i18n="auth.intro">Customer, reseller or operator: sign in to view licenses, orders and billing data.</p>
+            <h2 id="login-modal-title" data-i18n="auth.modalTitle">Caldeira Licensing account</h2>
+            <p class="auth-intro" id="login-modal-intro" data-i18n="auth.intro">Customer, reseller or operator account for licenses, orders and billing.</p>
 
-            <form class="auth-form" action="https://licensing.skyhome.it/portal/login" method="post" autocomplete="on">
-                <label class="auth-field">
-                    <span data-i18n="auth.emailLabel">Email</span>
-                    <input name="login_email" type="email" autocomplete="email" placeholder="name@company.it" required data-i18n-placeholder="auth.emailPlaceholder">
-                </label>
-                <label class="auth-field">
-                    <span data-i18n="auth.passwordLabel">Password</span>
-                    <input name="password" type="password" autocomplete="current-password" placeholder="your password" required data-i18n-placeholder="auth.passwordPlaceholder">
-                </label>
-                <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.submit">Sign in</button>
-            </form>
+            <p class="auth-msg" role="status" data-auth-msg hidden></p>
 
-            <div class="auth-links">
-                <a href="https://licensing.skyhome.it/portal/forgot" target="_blank" rel="noopener noreferrer" data-i18n="auth.forgot">Forgot password?</a>
-                <a href="https://licensing.skyhome.it/portal/register" target="_blank" rel="noopener noreferrer" data-i18n="auth.register">No account? Register with your license email</a>
+            <!-- STEP: login -->
+            <div class="auth-step" data-auth-step="login">
+                <form class="auth-form" data-auth-form="login" autocomplete="on">
+                    <label class="auth-field">
+                        <span data-i18n="auth.emailLabel">Email</span>
+                        <input name="email" type="email" autocomplete="email" placeholder="name@company.it" required data-i18n-placeholder="auth.emailPlaceholder">
+                    </label>
+                    <label class="auth-field">
+                        <span data-i18n="auth.passwordLabel">Password</span>
+                        <input name="password" type="password" autocomplete="current-password" placeholder="your password" required data-i18n-placeholder="auth.passwordPlaceholder">
+                    </label>
+                    <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.submit">Sign in</button>
+                </form>
+                <div class="auth-links">
+                    <button type="button" class="auth-link" data-auth-goto="forgot" data-i18n="auth.forgot">Forgot password?</button>
+                    <button type="button" class="auth-link" data-auth-goto="register" data-i18n="auth.register">No account? Register with your license email</button>
+                </div>
             </div>
 
-            <div class="auth-user-area">
-                <p class="auth-user-area-title" data-i18n="auth.userArea">Your account area</p>
-                <nav aria-label="Account area">
-                    <a href="https://licensing.skyhome.it/portal/account" target="_blank" rel="noopener noreferrer" data-i18n="auth.dashboard">Dashboard</a>
-                    <a href="https://licensing.skyhome.it/portal/account/certificates" target="_blank" rel="noopener noreferrer" data-i18n="auth.certificates">Certificates</a>
-                    <a href="https://licensing.skyhome.it/portal/account/settings" target="_blank" rel="noopener noreferrer" data-i18n="auth.settings">Settings</a>
-                    <a href="https://licensing.skyhome.it/portal/" target="_blank" rel="noopener noreferrer" data-i18n="auth.portalHome">Customer portal home</a>
-                </nav>
+            <!-- STEP: register (claim) -->
+            <div class="auth-step" data-auth-step="register" hidden>
+                <h3 class="auth-step-title" data-i18n="auth.registerTitle">Register with your license</h3>
+                <form class="auth-form" data-auth-form="register" autocomplete="on">
+                    <label class="auth-field">
+                        <span data-i18n="auth.emailLabel">Email</span>
+                        <input name="email" type="email" autocomplete="email" placeholder="name@company.it" required data-i18n-placeholder="auth.emailPlaceholder">
+                    </label>
+                    <label class="auth-field">
+                        <span data-i18n="auth.passwordLabel">Password</span>
+                        <input name="password" type="password" autocomplete="new-password" minlength="8" placeholder="min 8 characters" required data-i18n-placeholder="auth.passwordPlaceholderNew">
+                    </label>
+                    <label class="auth-field">
+                        <span data-i18n="auth.licenseIdLabel">License ID (optional)</span>
+                        <input name="license_id" autocomplete="off" placeholder="e.g. seen with caldeira status">
+                    </label>
+                    <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.registerSubmit">Request verification code</button>
+                </form>
+                <div class="auth-links">
+                    <button type="button" class="auth-link" data-auth-goto="login" data-i18n="auth.backToLogin">Back to sign in</button>
+                </div>
+            </div>
+
+            <!-- STEP: verify (claim code) -->
+            <div class="auth-step" data-auth-step="verify" hidden>
+                <h3 class="auth-step-title" data-i18n="auth.verifyTitle">Verify your email</h3>
+                <form class="auth-form" data-auth-form="verify" autocomplete="off">
+                    <label class="auth-field">
+                        <span data-i18n="auth.emailLabel">Email</span>
+                        <input name="email" type="email" autocomplete="email" readonly required data-auth-verify-email>
+                    </label>
+                    <label class="auth-field">
+                        <span data-i18n="auth.codeLabel">Verification code</span>
+                        <input name="code" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" required>
+                    </label>
+                    <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.verifySubmit">Verify</button>
+                </form>
+                <div class="auth-links">
+                    <button type="button" class="auth-link" data-auth-goto="login" data-i18n="auth.backToLogin">Back to sign in</button>
+                </div>
+            </div>
+
+            <!-- STEP: forgot (reset request) -->
+            <div class="auth-step" data-auth-step="forgot" hidden>
+                <h3 class="auth-step-title" data-i18n="auth.forgotTitle">Reset your password</h3>
+                <form class="auth-form" data-auth-form="forgot" autocomplete="on">
+                    <label class="auth-field">
+                        <span data-i18n="auth.emailLabel">Email</span>
+                        <input name="email" type="email" autocomplete="email" placeholder="name@company.it" required data-i18n-placeholder="auth.emailPlaceholder">
+                    </label>
+                    <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.forgotSubmit">Send reset code</button>
+                </form>
+                <div class="auth-links">
+                    <button type="button" class="auth-link" data-auth-goto="login" data-i18n="auth.backToLogin">Back to sign in</button>
+                </div>
+            </div>
+
+            <!-- STEP: reset (code + new password) -->
+            <div class="auth-step" data-auth-step="reset" hidden>
+                <h3 class="auth-step-title" data-i18n="auth.resetTitle">Choose a new password</h3>
+                <form class="auth-form" data-auth-form="reset" autocomplete="off">
+                    <label class="auth-field">
+                        <span data-i18n="auth.emailLabel">Email</span>
+                        <input name="email" type="email" autocomplete="off" readonly required data-auth-reset-email>
+                    </label>
+                    <label class="auth-field">
+                        <span data-i18n="auth.codeLabel">Verification code</span>
+                        <input name="code" inputmode="numeric" autocomplete="one-time-code" placeholder="000000" required>
+                    </label>
+                    <label class="auth-field">
+                        <span data-i18n="auth.passwordNewLabel">New password</span>
+                        <input name="new_password" type="password" autocomplete="new-password" minlength="8" placeholder="min 8 characters" required data-i18n-placeholder="auth.passwordPlaceholderNew">
+                    </label>
+                    <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.resetSubmit">Set new password</button>
+                </form>
+                <div class="auth-links">
+                    <button type="button" class="auth-link" data-auth-goto="login" data-i18n="auth.backToLogin">Back to sign in</button>
+                </div>
+            </div>
+
+            <!-- STEP: success -->
+            <div class="auth-step" data-auth-step="success" hidden>
+                <div class="auth-success">
+                    <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    <h3 data-i18n="auth.successTitle">You are signed in</h3>
+                    <p data-i18n="auth.successDesc">Your credentials are valid. Continue to the customer area.</p>
+                    <a class="btn btn-primary btn-block" href="https://licensing.skyhome.it/portal/account" target="_blank" rel="noopener noreferrer" data-i18n="auth.openAccount">Open your account area</a>
+                    <button type="button" class="btn btn-secondary btn-block" data-auth-goto="login" data-i18n="auth.done">Done</button>
+                </div>
             </div>
         </div>
     </div>
