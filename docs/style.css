@@ -514,18 +514,21 @@ code {
     flex-wrap: nowrap;
 }
 
-.nav-list a {
+.nav-list a,
+.nav-toggle {
     display: block;
     padding: 0.45rem 0.7rem;
     font-size: 0.9rem;
     font-weight: var(--weight-medium);
+    line-height: 1.65;
     color: var(--text-secondary);
     border-radius: var(--radius-sm);
     white-space: nowrap;
     transition: color var(--transition-fast), background-color var(--transition-fast);
 }
 
-.nav-list a:hover {
+.nav-list a:hover,
+.nav-toggle:hover {
     color: var(--text);
     background-color: var(--bg-hover);
     text-decoration: none;
@@ -543,22 +546,10 @@ code {
     align-items: center;
     gap: 0.3rem;
     margin: 0;
-    padding: 0.45rem 0.7rem;
     background: transparent;
     border: none;
-    border-radius: var(--radius-sm);
     font-family: var(--font-sans);
-    font-size: 0.9rem;
-    font-weight: var(--weight-medium);
-    color: var(--text-secondary);
     cursor: pointer;
-    white-space: nowrap;
-    transition: color var(--transition-fast), background-color var(--transition-fast);
-}
-
-.nav-toggle:hover {
-    color: var(--text);
-    background-color: var(--bg-hover);
 }
 
 .nav-toggle[aria-expanded="true"] {

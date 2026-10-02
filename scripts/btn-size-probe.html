@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><body><pre id="o"></pre><script>
+const o=document.getElementById('o');
+const f=document.createElement('iframe');f.style.width='1440px';f.style.height='600px';document.body.appendChild(f);
+f.onload=async()=>{const d=f.contentDocument;await d.fonts.ready;await new Promise(r=>setTimeout(r,300));
+const items=[...d.querySelectorAll('.nav-list > li')];
+const rows=[];
+for (const li of items) {
+  const toggleBtn = li.querySelector('.nav-toggle');
+  const link = li.querySelector(':scope > a');
+  const el = toggleBtn || link;
+  const tag = toggleBtn ? 'TOGGLE' : 'LINK';
+  const r = el.getBoundingClientRect();
+  const textNode = [...el.childNodes].find(n=>n.nodeType===3 && n.textContent.trim());
+  let textLeft = 'n/a';
+  if (textNode) {
+    const range = document.createRange();
+    range.setStart(textNode, 0); range.setEnd(textNode, 0);
+    textLeft = range.getBoundingClientRect().left.toFixed(1);
+  }
+  rows.push(tag.padEnd(6)+' label="'+el.textContent.trim().padEnd(16)+'" left='+r.left.toFixed(1)+' textX='+textLeft+' w='+r.width.toFixed(1)+' h='+r.height.toFixed(1));
+}
+o.textContent = rows.join('\n');
+};f.src='/docs/index.html';
+</script></body></html>
