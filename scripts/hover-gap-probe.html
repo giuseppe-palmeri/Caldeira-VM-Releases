@@ -1,0 +1,30 @@
+<!DOCTYPE html><html><body><pre id="o"></pre><script>
+const o=document.getElementById('o');
+const f=document.createElement('iframe');f.style.width='1440px';f.style.height='700px';document.body.appendChild(f);
+f.onload=async()=>{const d=f.contentDocument;await d.fonts.ready;await new Promise(r=>setTimeout(r,300));
+const learn=d.querySelector('.nav-has-sub .nav-toggle');
+const li=learn.closest('.nav-has-sub');
+const header=d.querySelector('.site-header');
+const hb=header.getBoundingClientRect();
+const rt=()=>{const t=li.querySelector('.nav-toggle');const r=t.getBoundingClientRect();return r;};
+const rp=()=>li.querySelector('.nav-sub').getBoundingClientRect();
+const rb=()=>{const s=getComputedStyle(li,'::after');const t=li.querySelector('.nav-toggle').getBoundingClientRect();const p=li.querySelector('.nav-sub').getBoundingClientRect();const w=parseFloat(s.width);const h=parseFloat(s.height);const rightAligned=s.right!=='auto';const left=rightAligned?p.right-w:(t.left+t.width/2)-w/2;return {left,right:left+w,top:t.bottom,bottom:t.bottom+h,w,h,rightAligned};};
+
+learn.click();
+const rows=['--- mid-animation (t+120ms) ---'];
+await new Promise(r=>setTimeout(r,120));
+let r=rb(), p=rp();
+rows.push('panel.top='+p.top.toFixed(1)+' toggle.bottom='+rt().bottom.toFixed(1)+' gap='+(p.top-rt().bottom).toFixed(1));
+rows.push('bridge '+r.left.toFixed(1)+'..'+r.right.toFixed(1)+' y:'+r.top.toFixed(1)+'..'+r.bottom.toFixed(1)+' (w='+r.w+' h='+r.h+')');
+rows.push('covered='+((r.top<=rt().bottom+0.5&&r.bottom>=p.top-0.5&&r.left<=p.left+1&&r.right>=p.right-1)?'YES':'NO'));
+rows.push('inHeader='+(r.bottom<=hb.bottom+0.5?'YES':'NO'));
+rows.push('--- rest (t+400ms) ---');
+await new Promise(r=>setTimeout(r,280));
+p=rp();
+r=rb();
+rows.push('panel.top='+p.top.toFixed(1)+' toggle.bottom='+rt().bottom.toFixed(1)+' gap='+(p.top-rt().bottom).toFixed(1));
+rows.push('covered='+((r.top<=rt().bottom+0.5&&r.bottom>=p.top-0.5&&r.left<=p.left+1&&r.right>=p.right-1)?'YES':'NO'));
+rows.push('inHeader='+(r.bottom<=hb.bottom+0.5?'YES':'NO'));
+o.textContent=rows.join('\n');
+};f.src='/docs/index.html';
+</script></body></html>

@@ -539,6 +539,28 @@ code {
     position: relative;
 }
 
+/* Hover bridge: the panel opens just below the toggle; the cursor
+   crosses that gap (straight or diagonal — the panel is wider than the
+   toggle), so an invisible strip matching the panel span keeps :hover
+   on the item until the pointer reaches the panel. Sized to stay inside
+   the sticky header so it never swallows clicks on page content. */
+.nav-has-sub::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15.5rem;              /* same min-width as .nav-sub */
+    height: 0.6rem;              /* covers the small gap, stays in the header */
+    z-index: 119;                /* under the panel (120), above content */
+}
+
+.nav-list > .nav-has-sub:last-child::after {
+    left: auto;
+    right: -0.5rem;              /* match the right-aligned last panel */
+    transform: none;
+}
+
 .nav-toggle {
     appearance: none;
     -webkit-appearance: none;
@@ -577,7 +599,7 @@ code {
 .nav-sub {
     display: none;
     position: absolute;
-    top: calc(100% + 0.4rem);
+    top: calc(100% + 0.3rem);
     left: 50%;
     transform: translateX(-50%);
     min-width: 15.5rem;
@@ -599,7 +621,7 @@ code {
 }
 
 @keyframes nav-sub-in {
-    from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+    from { opacity: 0; transform: translateX(-50%) translateY(4px); }
     to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
@@ -615,7 +637,7 @@ code {
 }
 
 @keyframes nav-sub-in-right {
-    from { opacity: 0; transform: translateY(6px); }
+    from { opacity: 0; transform: translateY(4px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
