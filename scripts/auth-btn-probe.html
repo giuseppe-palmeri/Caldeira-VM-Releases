@@ -1,0 +1,45 @@
+<!DOCTYPE html><html><body><pre id="o"></pre><script>
+const o=document.getElementById('o');
+const f=document.createElement('iframe');f.style.width='1440px';f.style.height='900px';document.body.appendChild(f);
+f.onload=async()=>{const d=f.contentDocument;await d.fonts.ready;await new Promise(r=>setTimeout(r,400));
+const lines=[];
+const overlay=d.querySelector('[data-login-modal-panel]');
+const card=overlay.querySelector('.auth-card');
+d.querySelector('.header-tools [data-login-modal]').click();
+await new Promise(r=>setTimeout(r,60));
+
+// 1) auth-link buttons: computed style = real buttons (border, bg, size)
+const linkBtn=overlay.querySelector('[data-auth-goto="forgot"]');
+const s=getComputedStyle(linkBtn);
+lines.push('forgotBtn style: display='+s.display+' border='+s.borderWidth+' '+s.borderStyle+' bg='+s.backgroundImage.slice(0,20)+' pad='+s.padding+' h='+linkBtn.getBoundingClientRect().height.toFixed(1));
+
+// 2) click forgot → step switches
+linkBtn.click();
+await new Promise(r=>setTimeout(r,40));
+lines.push('forgotStepVisible='+!overlay.querySelector('[data-auth-step="forgot"]').hidden);
+
+// 3) back → register click
+overlay.querySelector('[data-auth-step="forgot"] [data-auth-goto="login"]').click();
+await new Promise(r=>setTimeout(r,30));
+overlay.querySelector('[data-auth-step="login"] [data-auth-goto="register"]').click();
+await new Promise(r=>setTimeout(r,40));
+lines.push('registerStepVisible='+!overlay.querySelector('[data-auth-step="register"]').hidden);
+
+// 4) register submit against Docker (no license email → CLAIM_NO_LICENSE message)
+const regForm=overlay.querySelector('[data-auth-form="register"]');
+regForm.email.value='prova-fallback@test.it';
+regForm.password.value='password-123';
+regForm.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));
+await new Promise(r=>setTimeout(r,1200));
+const msg=overlay.querySelector('[data-auth-msg]');
+lines.push('registerMsg='+(msg.textContent||'').slice(0,50)+' cls='+msg.className);
+lines.push('fallbackHidden='+overlay.querySelector('[data-auth-fallback]').hidden);
+
+// 5) fallback block is present in DOM with link
+const fb=overlay.querySelector('[data-auth-fallback]');
+lines.push('fallbackLink='+fb.querySelector('a').getAttribute('href'));
+
+o.textContent=lines.join('\n');
+document.title='done';
+};f.src='/docs/index.html';
+</script></body></html>

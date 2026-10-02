@@ -334,6 +334,9 @@
     "checkEmail": "If the email is registered, a verification code has been sent.",
     "verificationSent": "A verification code was sent to your email. Enter it below to complete the registration.",
     "genericError": "Something went wrong. Try again.",
+    "unreachable": "Cannot reach the licensing server.",
+    "openPortal": "Open the customer portal",
+    "portalFallback": "Complete this step on the licensing portal website",
     "close": "Close dialog"
   },
   "pricing": {

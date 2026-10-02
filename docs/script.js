@@ -326,6 +326,8 @@ function initLoginModal() {
     const card = overlay.querySelector('.auth-card');
     const closeBtn = overlay.querySelector('[data-modal-close]');
     const msg = overlay.querySelector('[data-auth-msg]');
+    const fallback = overlay.querySelector('[data-auth-fallback]');
+    const fallbackLink = overlay.querySelector('[data-auth-fallback-link]');
     const steps = [...overlay.querySelectorAll('[data-auth-step]')];
     const gotoButtons = overlay.querySelectorAll('[data-auth-goto]');
     const verifyEmailInput = overlay.querySelector('[data-auth-verify-email]');
@@ -338,6 +340,7 @@ function initLoginModal() {
     // the published site talks to the production licensing server.
     const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
     const AUTH_API_BASE = isLocal ? 'http://127.0.0.1:8310' : 'https://licensing.skyhome.it';
+    const PORTAL_BASE = 'https://licensing.skyhome.it';
 
     const showMsg = (text, kind = 'info') => {
         if (!msg) return;
@@ -348,10 +351,21 @@ function initLoginModal() {
     const hideMsg = () => {
         if (msg) msg.hidden = true;
     };
+    const hideFallback = () => {
+        if (fallback) fallback.hidden = true;
+    };
+    // Network/TLS failures (server unresponsive) → visible notice with a
+    // working path to the portal page for the current step.
+    const showUnreachable = (portalPath) => {
+        if (msg) { msg.hidden = true; }
+        if (fallbackLink) fallbackLink.setAttribute('href', PORTAL_BASE + portalPath);
+        if (fallback) fallback.hidden = false;
+    };
 
     const goto = (name, { focus } = {}) => {
         steps.forEach((s) => { s.hidden = s.dataset.authStep !== name; });
         hideMsg();
+        hideFallback();
         const step = overlay.querySelector(`[data-auth-step="${name}"]`);
         if (focus !== false) {
             const firstInput = step ? step.querySelector('input, button') : null;
@@ -404,6 +418,7 @@ function initLoginModal() {
         const email = String(form.email.value || '').trim().toLowerCase();
         const password = form.password.value;
         hideMsg();
+        hideFallback();
         const btn = form.querySelector('[type="submit"]');
         btn.disabled = true;
         try {
@@ -426,7 +441,7 @@ function initLoginModal() {
             }
             goto('success');
         } catch (_) {
-            showMsg(t('auth.genericError'), 'error');
+            showUnreachable('/portal/login');
         } finally {
             btn.disabled = false;
         }
@@ -440,6 +455,7 @@ function initLoginModal() {
         const password = form.password.value;
         const license_id = String(form.license_id.value || '').trim() || undefined;
         hideMsg();
+        hideFallback();
         const btn = form.querySelector('[type="submit"]');
         btn.disabled = true;
         try {
@@ -453,7 +469,7 @@ function initLoginModal() {
             goto('verify');
             showMsg(t('auth.verificationSent'), 'info');
         } catch (_) {
-            showMsg(t('auth.genericError'), 'error');
+            showUnreachable('/portal/register');
         } finally {
             btn.disabled = false;
         }
@@ -466,6 +482,7 @@ function initLoginModal() {
         const email = String(form.email.value || authEmail || '').trim().toLowerCase();
         const code = String(form.code.value || '').trim();
         hideMsg();
+        hideFallback();
         const btn = form.querySelector('[type="submit"]');
         btn.disabled = true;
         try {
@@ -480,7 +497,7 @@ function initLoginModal() {
             }
             goto('success');
         } catch (_) {
-            showMsg(t('auth.genericError'), 'error');
+            showUnreachable(`/portal/verify?email=${encodeURIComponent(email)}`);
         } finally {
             btn.disabled = false;
         }
@@ -492,6 +509,7 @@ function initLoginModal() {
         const form = e.target;
         const email = String(form.email.value || '').trim().toLowerCase();
         hideMsg();
+        hideFallback();
         const btn = form.querySelector('[type="submit"]');
         btn.disabled = true;
         try {
@@ -505,7 +523,7 @@ function initLoginModal() {
             goto('reset');
             showMsg(t('auth.checkEmail'), 'info');
         } catch (_) {
-            showMsg(t('auth.genericError'), 'error');
+            showUnreachable('/portal/forgot');
         } finally {
             btn.disabled = false;
         }
@@ -519,6 +537,7 @@ function initLoginModal() {
         const code = String(form.code.value || '').trim();
         const new_password = form.new_password.value;
         hideMsg();
+        hideFallback();
         const btn = form.querySelector('[type="submit"]');
         btn.disabled = true;
         try {
@@ -531,7 +550,7 @@ function initLoginModal() {
             goto('login');
             showMsg(t('auth.resetDone'), 'ok');
         } catch (_) {
-            showMsg(t('auth.genericError'), 'error');
+            showUnreachable(`/portal/forgot/verify?email=${encodeURIComponent(email)}`);
         } finally {
             btn.disabled = false;
         }
