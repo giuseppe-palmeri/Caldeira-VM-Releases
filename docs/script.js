@@ -424,8 +424,8 @@ function renderDynamicCards() {
     // Update the CTA too
     const cta = document.querySelector('[data-docs-cta]');
     if (cta) cta.setAttribute('href', `reference/${currentLang}/`);
-    const docsHeader = document.querySelector('[data-docs-header]');
-    if (docsHeader) docsHeader.setAttribute('href', `reference/${currentLang}/`);
+    const docsHeader = document.querySelectorAll('[data-docs-header]');
+    docsHeader.forEach((el) => el.setAttribute('href', `reference/${currentLang}/`));
     const docsGrid = document.querySelector('[data-docs-grid]');
     if (docsGrid) {
         docsGrid.innerHTML = docsKeys.map(({ key, anchor }) => `
@@ -654,12 +654,22 @@ function initFluidNav() {
     }
 }
 
+/* ── Header scroll elevation (subtle shadow once the page scrolls) ─────── */
+function initHeaderScroll() {
+    const header = document.querySelector('.site-header');
+    if (!header) return;
+    const update = () => header.classList.toggle('scrolled', window.scrollY > 8);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+}
+
 /* ── Init ──────────────────────────────────────────────────────────────── */
 async function init() {
     initTheme();
     initMobileMenu();
     initCopyButton();
     initFluidNav();
+    initHeaderScroll();
     await setLanguage(detectBrowserLanguage(), { persist: true });
 
     // Pending: language from localStorage if present (setLanguage handles save).

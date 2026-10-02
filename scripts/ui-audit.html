@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>UI layout audit</title>
+<style>
+  body { font-family: monospace; margin: 1rem; background: #fff; color: #111; }
+  .row { margin-bottom: 0.5rem; }
+  .ok { color: #1a7f37; }
+  .bad { color: #cf222e; font-weight: bold; }
+  h3 { margin: 1.2rem 0 0.4rem; }
+</style>
+</head>
+<body>
+<h1>UI layout audit</h1>
+<div id="out"></div>
+<script>
+const out = document.getElementById('out');
+const widths = [320, 360, 390, 560, 768, 860, 1024, 1280, 1440, 1920];
+
+function measure(w) {
+  return new Promise((resolve) => {
+    const iframe = document.createElement('iframe');
+    iframe.style.width = w + 'px';
+    iframe.style.height = '900px';
+    iframe.style.border = '1px solid #ccc';
+    document.body.appendChild(iframe);
+    iframe.onload = async () => {
+      try {
+        const doc = iframe.contentDocument;
+        if (doc.fonts && doc.fonts.ready) await doc.fonts.ready;
+        await new Promise((r) => setTimeout(r, 150));
+        const de = doc.documentElement;
+        const body = doc.body;
+
+        // 1) Horizontal overflow
+        const docOverflow = de.scrollWidth > de.clientWidth + 1;
+        const offenders = [];
+        if (docOverflow) {
+          const all = doc.querySelectorAll('*');
+          for (const el of all) {
+            const r = el.getBoundingClientRect();
+            if (r.right > de.clientWidth + 1 && getComputedStyle(el).position !== 'fixed') {
+              const cls = (el.className && typeof el.className === 'string') ? el.className.split(' ').slice(0, 2).join('.') : el.tagName;
+              offenders.push(`${el.tagName}.${cls} right=${Math.round(r.right)}`);
+              if (offenders.length >= 8) break;
+            }
+          }
+        }
+
+        // 2) Cards grid columns
+        const gridCols = () => {
+          const g = doc.querySelector('.cards-grid');
+          if (!g) return null;
+          return getComputedStyle(g).gridTemplateColumns.split(' ').length;
+        };
+
+        // 3) Hero metrics
+        const heroTitle = doc.querySelector('.hero-title');
+        const heroFs = heroTitle ? parseFloat(getComputedStyle(heroTitle).fontSize).toFixed(1) : null;
+        const heroGridCols = (() => {
+          const g = doc.querySelector('.hero-grid');
+          if (!g) return null;
+          return getComputedStyle(g).gridTemplateColumns.split(' ').length;
+        })();
+
+        // 4) Nav state
+        const crowded = body.classList.contains('nav-crowded');
+        const nav = doc.querySelector('.main-nav');
+        const navVisible = nav && getComputedStyle(nav).display !== 'none';
+
+        // 5) Section padding (first section after hero)
+        const sec = doc.querySelector('#why');
+        const secPad = sec ? getComputedStyle(sec).paddingTop : null;
+
+        // 6) Header brand/tools/page overflow check already above
+
+        resolve({
+          w,
+          docOverflow,
+          offenders,
+          cardsCols: gridCols(),
+          heroFs,
+          heroCols: heroGridCols,
+          hamburger: crowded || !navVisible,
+          secPad,
+        });
+      } catch (e) {
+        resolve({ w, error: e.message });
+      } finally {
+        iframe.remove();
+      }
+    };
+    iframe.src = '/docs/index.html';
+  });
+}
+
+(async () => {
+  let html = '';
+  for (const w of widths) {
+    const r = await measure(w);
+    const parts = [`w=${r.w}`];
+    if (r.error) { parts.push(`<span class="bad">ERROR ${r.error}</span>`); }
+    else {
+      parts.push(`overflow=${r.docOverflow ? '<span class="bad">YES</span>' : 'no'}`);
+      if (r.docOverflow) parts.push(`offenders=${r.offenders.join(' | ')}`);
+      parts.push(`cards=${r.cardsCols}col`);
+      parts.push(`hero=${r.heroFs}px/${r.heroCols}col`);
+      parts.push(r.hamburger ? 'hamburger' : 'nav');
+      if (r.secPad) parts.push(`secPad=${r.secPad}`);
+    }
+    html += `<div class="row">${parts.join(' &middot; ')}</div>`;
+  }
+  out.innerHTML = html;
+  document.title = 'UI audit done';
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Style audit</title>
+</head>
+<body>
+<pre id="out"></pre>
+<script>
+const out = document.getElementById('out');
+const lines = [];
+const iframe = document.createElement('iframe');
+iframe.style.width = '1440px';
+iframe.style.height = '2400px';
+iframe.style.border = '0';
+document.body.appendChild(iframe);
+iframe.onload = async () => {
+  try {
+    const doc = iframe.contentDocument;
+    if (doc.fonts && doc.fonts.ready) await doc.fonts.ready;
+    await new Promise((r) => setTimeout(r, 200));
+    const cs = (el, pseudo) => el ? getComputedStyle(el, pseudo || null) : null;
+
+    const grab = (sel, props) => {
+      const el = doc.querySelector(sel);
+      if (!el) { lines.push(`${sel}: NOT FOUND`); return; }
+      const s = cs(el);
+      lines.push(`${sel}: ${props.map((p) => `${p}=${s[p]}`).join(' ')}`);
+    };
+
+    // Dark theme — force explicitly (headless chrome prefers light)
+    doc.documentElement.setAttribute('data-theme', 'dark');
+    await new Promise((r) => setTimeout(r, 450));
+    lines.push('── dark (forced) ──');
+    grab('body', ['backgroundColor']);
+    grab('.site-header', ['backgroundColor', 'backdropFilter']);
+    grab('.hero-title', ['fontSize', 'fontWeight', 'backgroundImage']);
+    grab('.btn-primary', ['backgroundImage', 'boxShadow']);
+    grab('.card', ['backgroundColor', 'borderRadius', 'boxShadow']);
+    grab('.card-icon', ['backgroundImage', 'boxShadow']);
+    grab('.section-title', ['fontSize', 'backgroundImage']);
+    lines.push(`.section-title::before: ${((pr) => pr ? `${pr.width} ${pr.backgroundImage}` : 'NO')(cs(doc.querySelector('.section-title'), '::before'))}`);
+    grab('.code-window', ['boxShadow', 'borderRadius']);
+    grab('.install-widget', ['borderRadius', 'backgroundImage']);
+    grab('.badge-available', ['color', 'backgroundColor']);
+
+    // Toggle to light theme
+    doc.documentElement.setAttribute('data-theme', 'light');
+    await new Promise((r) => setTimeout(r, 150));
+    lines.push('── light ──');
+    grab('body', ['backgroundColor']);
+    grab('.site-header', ['backgroundColor']);
+    grab('.btn-primary', ['backgroundImage', 'color']);
+    grab('.card', ['backgroundColor', 'boxShadow']);
+    grab('.section-title', ['backgroundImage']);
+    grab('.code-window', ['boxShadow']);
+    grab('.badge-available', ['color', 'backgroundColor']);
+
+    // Mobile header check: brand-name hidden at 320
+    iframe.style.width = '320px';
+    await new Promise((r) => setTimeout(r, 200));
+    lines.push('── 320px header ──');
+    grab('.brand-name', ['display']);
+    grab('.btn-docs', ['display']);
+    grab('.btn-github span', ['display']);
+    grab('.lang-select', ['fontSize', 'padding']);
+
+    out.textContent = lines.join('\n');
+    document.title = 'style audit done';
+  } catch (e) {
+    out.textContent = 'ERROR: ' + e.message;
+  }
+};
+iframe.src = '/docs/index.html';
+</script>
+</body>
+</html>
