@@ -335,6 +335,7 @@
     "verificationSent": "È stato inviato un codice di verifica alla tua email. Inseriscilo qui sotto per completare la registrazione.",
     "genericError": "Qualcosa è andato storto. Riprova.",
     "unreachable": "Impossibile raggiungere il server di licenze.",
+    "unreachableHint": "Se il problema persiste prova un altro browser, disattiva gli ad-blocker, oppure usa direttamente il portale qui sotto.",
     "openPortal": "Apri il portale clienti",
     "portalFallback": "Completa questa procedura sul sito del portale licenze",
     "close": "Chiudi la finestra di dialogo"

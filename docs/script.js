@@ -328,6 +328,7 @@ function initLoginModal() {
     const msg = overlay.querySelector('[data-auth-msg]');
     const fallback = overlay.querySelector('[data-auth-fallback]');
     const fallbackLink = overlay.querySelector('[data-auth-fallback-link]');
+    const fallbackDetail = overlay.querySelector('[data-auth-fallback-detail]');
     const steps = [...overlay.querySelectorAll('[data-auth-step]')];
     const gotoButtons = overlay.querySelectorAll('[data-auth-goto]');
     const verifyEmailInput = overlay.querySelector('[data-auth-verify-email]');
@@ -355,11 +356,18 @@ function initLoginModal() {
         if (fallback) fallback.hidden = true;
     };
     // Network/TLS failures (server unresponsive) → visible notice with a
-    // working path to the portal page for the current step.
-    const showUnreachable = (portalPath) => {
+    // working path to the portal page for the current step. The raw browser
+    // error is kept visible so ad-blocking, DNS and TLS failures can be told
+    // apart ("Failed to fetch", net::ERR_NAME_NOT_RESOLVED, …).
+    const showUnreachable = (portalPath, err) => {
         if (msg) { msg.hidden = true; }
         if (fallbackLink) fallbackLink.setAttribute('href', PORTAL_BASE + portalPath);
+        if (fallbackDetail) {
+            const reason = (err && (err.message || String(err))) || t('auth.genericError');
+            fallbackDetail.textContent = reason;
+        }
         if (fallback) fallback.hidden = false;
+        if (err) console.warn('[auth] licensing API unreachable:', err);
     };
 
     const goto = (name, { focus } = {}) => {
@@ -440,8 +448,8 @@ function initLoginModal() {
                 try { sessionStorage.setItem('caldeira_sess_api', authToken); } catch (_) { /* ignore */ }
             }
             goto('success');
-        } catch (_) {
-            showUnreachable('/portal/login');
+        } catch (err) {
+            showUnreachable('/portal/login', err);
         } finally {
             btn.disabled = false;
         }
@@ -468,8 +476,8 @@ function initLoginModal() {
             verifyEmailInput.value = email;
             goto('verify');
             showMsg(t('auth.verificationSent'), 'info');
-        } catch (_) {
-            showUnreachable('/portal/register');
+        } catch (err) {
+            showUnreachable('/portal/register', err);
         } finally {
             btn.disabled = false;
         }
@@ -496,8 +504,8 @@ function initLoginModal() {
                 try { sessionStorage.setItem('caldeira_sess_api', authToken); } catch (_) { /* ignore */ }
             }
             goto('success');
-        } catch (_) {
-            showUnreachable(`/portal/verify?email=${encodeURIComponent(email)}`);
+        } catch (err) {
+            showUnreachable(`/portal/verify?email=${encodeURIComponent(email)}`, err);
         } finally {
             btn.disabled = false;
         }
@@ -522,8 +530,8 @@ function initLoginModal() {
             resetEmailInput.value = email;
             goto('reset');
             showMsg(t('auth.checkEmail'), 'info');
-        } catch (_) {
-            showUnreachable('/portal/forgot');
+        } catch (err) {
+            showUnreachable('/portal/forgot', err);
         } finally {
             btn.disabled = false;
         }
@@ -549,8 +557,8 @@ function initLoginModal() {
             // Password updated → back to login with a confirmation
             goto('login');
             showMsg(t('auth.resetDone'), 'ok');
-        } catch (_) {
-            showUnreachable(`/portal/forgot/verify?email=${encodeURIComponent(email)}`);
+        } catch (err) {
+            showUnreachable(`/portal/forgot/verify?email=${encodeURIComponent(email)}`, err);
         } finally {
             btn.disabled = false;
         }

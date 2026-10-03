@@ -2533,6 +2533,17 @@ code {
     font-weight: var(--weight-semibold);
 }
 
+.auth-fallback-detail {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    word-break: break-all;
+}
+
+.auth-fallback-hint {
+    font-size: 0.8rem;
+}
+
 /* Form feedback line (server errors / info) */
 .auth-msg {
     margin: 0 0 var(--space-3);

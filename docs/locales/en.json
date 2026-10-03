@@ -335,6 +335,7 @@
     "verificationSent": "A verification code was sent to your email. Enter it below to complete the registration.",
     "genericError": "Something went wrong. Try again.",
     "unreachable": "Cannot reach the licensing server.",
+    "unreachableHint": "If the problem persists, try another browser, disable ad blockers, or use the portal directly below.",
     "openPortal": "Open the customer portal",
     "portalFallback": "Complete this step on the licensing portal website",
     "close": "Close dialog"
