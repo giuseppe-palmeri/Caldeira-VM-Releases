@@ -326,8 +326,6 @@ function initLoginModal() {
     const card = overlay.querySelector('.auth-card');
     const closeBtn = overlay.querySelector('[data-modal-close]');
     const msg = overlay.querySelector('[data-auth-msg]');
-    const fallback = overlay.querySelector('[data-auth-fallback]');
-    const fallbackLink = overlay.querySelector('[data-auth-fallback-link]');
     const openAccountBtn = overlay.querySelector('[data-auth-open-account]');
     const steps = [...overlay.querySelectorAll('[data-auth-step]')];
     const gotoButtons = overlay.querySelectorAll('[data-auth-goto]');
@@ -352,23 +350,10 @@ function initLoginModal() {
     const hideMsg = () => {
         if (msg) msg.hidden = true;
     };
-    const hideFallback = () => {
-        if (fallback) fallback.hidden = true;
-    };
-    // Rete/TLS non raggiungibili → avviso NEUTRO (niente dettagli tecnici) con
-    // link al portale: un blocco lato client/estensione o un rallentamento
-    // momentaneo del provider NON devono produrre un messaggio allarmistico.
-    const showUnreachable = (portalPath, err) => {
-        if (msg) { msg.hidden = true; }
-        if (fallbackLink) fallbackLink.setAttribute('href', PORTAL_BASE + portalPath);
-        if (fallback) fallback.hidden = false;
-        if (err) console.warn('[auth] licensing API unreachable:', err);
-    };
 
     const goto = (name, { focus } = {}) => {
         steps.forEach((s) => { s.hidden = s.dataset.authStep !== name; });
         hideMsg();
-        hideFallback();
         const step = overlay.querySelector(`[data-auth-step="${name}"]`);
         if (focus !== false) {
             const firstInput = step ? step.querySelector('input, button') : null;
@@ -479,7 +464,7 @@ function initLoginModal() {
             setOpenAccountHref();
             goto('success');
         } catch (err) {
-            showUnreachable('/portal/login', err);
+            console.warn('[auth] licensing API unreachable (login):', err);
         } finally {
             btn.disabled = false;
         }
@@ -507,7 +492,7 @@ function initLoginModal() {
             goto('verify');
             showMsg(t('auth.verificationSent'), 'info');
         } catch (err) {
-            showUnreachable('/portal/register', err);
+            console.warn('[auth] licensing API unreachable (register):', err);
         } finally {
             btn.disabled = false;
         }
@@ -536,7 +521,7 @@ function initLoginModal() {
             setOpenAccountHref();
             goto('success');
         } catch (err) {
-            showUnreachable(`/portal/verify?email=${encodeURIComponent(email)}`, err);
+            console.warn('[auth] licensing API unreachable (verify):', err);
         } finally {
             btn.disabled = false;
         }
@@ -562,7 +547,7 @@ function initLoginModal() {
             goto('reset');
             showMsg(t('auth.checkEmail'), 'info');
         } catch (err) {
-            showUnreachable('/portal/forgot', err);
+            console.warn('[auth] licensing API unreachable (forgot):', err);
         } finally {
             btn.disabled = false;
         }
@@ -589,7 +574,7 @@ function initLoginModal() {
             goto('login');
             showMsg(t('auth.resetDone'), 'ok');
         } catch (err) {
-            showUnreachable(`/portal/forgot/verify?email=${encodeURIComponent(email)}`, err);
+            console.warn('[auth] licensing API unreachable (forgot/verify):', err);
         } finally {
             btn.disabled = false;
         }
