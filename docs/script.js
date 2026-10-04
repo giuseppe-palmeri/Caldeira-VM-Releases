@@ -329,6 +329,7 @@ function initLoginModal() {
     const fallback = overlay.querySelector('[data-auth-fallback]');
     const fallbackLink = overlay.querySelector('[data-auth-fallback-link]');
     const fallbackDetail = overlay.querySelector('[data-auth-fallback-detail]');
+    const openAccountBtn = overlay.querySelector('[data-auth-open-account]');
     const steps = [...overlay.querySelectorAll('[data-auth-step]')];
     const gotoButtons = overlay.querySelectorAll('[data-auth-goto]');
     const verifyEmailInput = overlay.querySelector('[data-auth-verify-email]');
@@ -394,6 +395,14 @@ function initLoginModal() {
 
     const serverMessage = (data) => (data && data.message) ? data.message : t('auth.genericError');
 
+    // SSO: dopo il login riuscito il pulsante apre il portale già autenticato
+    // (/portal/sso imposta il cookie sessione first-party in navigazione top-level).
+    const setOpenAccountHref = () => {
+        if (!openAccountBtn) return;
+        const base = PORTAL_BASE + (authToken ? `/portal/sso?token=${encodeURIComponent(authToken)}` : '/portal/login');
+        openAccountBtn.setAttribute('href', base);
+    };
+
     const open = (trigger) => {
         overlay.hidden = false;
         document.body.classList.add('menu-open');
@@ -447,6 +456,7 @@ function initLoginModal() {
             if (authToken) {
                 try { sessionStorage.setItem('caldeira_sess_api', authToken); } catch (_) { /* ignore */ }
             }
+            setOpenAccountHref();
             goto('success');
         } catch (err) {
             showUnreachable('/portal/login', err);
@@ -503,6 +513,7 @@ function initLoginModal() {
             if (authToken) {
                 try { sessionStorage.setItem('caldeira_sess_api', authToken); } catch (_) { /* ignore */ }
             }
+            setOpenAccountHref();
             goto('success');
         } catch (err) {
             showUnreachable(`/portal/verify?email=${encodeURIComponent(email)}`, err);
