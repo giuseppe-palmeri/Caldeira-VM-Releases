@@ -440,7 +440,6 @@ function initLoginModal() {
         const email = String(form.email.value || '').trim().toLowerCase();
         const password = form.password.value;
         hideMsg();
-        hideFallback();
         const btn = form.querySelector('[type="submit"]');
         btn.disabled = true;
         try {
@@ -478,7 +477,6 @@ function initLoginModal() {
         const password = form.password.value;
         const license_id = String(form.license_id.value || '').trim() || undefined;
         hideMsg();
-        hideFallback();
         const btn = form.querySelector('[type="submit"]');
         btn.disabled = true;
         try {
@@ -505,7 +503,6 @@ function initLoginModal() {
         const email = String(form.email.value || authEmail || '').trim().toLowerCase();
         const code = String(form.code.value || '').trim();
         hideMsg();
-        hideFallback();
         const btn = form.querySelector('[type="submit"]');
         btn.disabled = true;
         try {
@@ -533,7 +530,6 @@ function initLoginModal() {
         const form = e.target;
         const email = String(form.email.value || '').trim().toLowerCase();
         hideMsg();
-        hideFallback();
         const btn = form.querySelector('[type="submit"]');
         btn.disabled = true;
         try {
@@ -561,7 +557,6 @@ function initLoginModal() {
         const code = String(form.code.value || '').trim();
         const new_password = form.new_password.value;
         hideMsg();
-        hideFallback();
         const btn = form.querySelector('[type="submit"]');
         btn.disabled = true;
         try {
