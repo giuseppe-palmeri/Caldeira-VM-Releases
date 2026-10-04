@@ -328,7 +328,6 @@ function initLoginModal() {
     const msg = overlay.querySelector('[data-auth-msg]');
     const fallback = overlay.querySelector('[data-auth-fallback]');
     const fallbackLink = overlay.querySelector('[data-auth-fallback-link]');
-    const fallbackDetail = overlay.querySelector('[data-auth-fallback-detail]');
     const openAccountBtn = overlay.querySelector('[data-auth-open-account]');
     const steps = [...overlay.querySelectorAll('[data-auth-step]')];
     const gotoButtons = overlay.querySelectorAll('[data-auth-goto]');
@@ -356,17 +355,12 @@ function initLoginModal() {
     const hideFallback = () => {
         if (fallback) fallback.hidden = true;
     };
-    // Network/TLS failures (server unresponsive) → visible notice with a
-    // working path to the portal page for the current step. The raw browser
-    // error is kept visible so ad-blocking, DNS and TLS failures can be told
-    // apart ("Failed to fetch", net::ERR_NAME_NOT_RESOLVED, …).
+    // Rete/TLS non raggiungibili → avviso NEUTRO (niente dettagli tecnici) con
+    // link al portale: un blocco lato client/estensione o un rallentamento
+    // momentaneo del provider NON devono produrre un messaggio allarmistico.
     const showUnreachable = (portalPath, err) => {
         if (msg) { msg.hidden = true; }
         if (fallbackLink) fallbackLink.setAttribute('href', PORTAL_BASE + portalPath);
-        if (fallbackDetail) {
-            const reason = (err && (err.message || String(err))) || t('auth.genericError');
-            fallbackDetail.textContent = reason;
-        }
         if (fallback) fallback.hidden = false;
         if (err) console.warn('[auth] licensing API unreachable:', err);
     };
@@ -382,15 +376,41 @@ function initLoginModal() {
         }
     };
 
+    // POST con timeout (12s) + un retry automatico: i rallentamenti momentanei
+    // del provider o un blip di rete NON devono mostrare subito il fallback.
     const api = async (path, body) => {
-        const res = await fetch(AUTH_API_BASE + path, {
-            method: 'POST',
-            headers: { 'content-type': 'application/json' },
-            body: JSON.stringify(body),
-        });
-        let data = null;
-        try { data = await res.json(); } catch (_) { /* non-JSON */ }
-        return { status: res.status, data };
+        const attempt = async (signal) => {
+            const res = await fetch(AUTH_API_BASE + path, {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify(body),
+                signal,
+            });
+            let data = null;
+            try { data = await res.json(); } catch (_) { /* non-JSON */ }
+            return { status: res.status, data };
+        };
+        const withTimeout = () => {
+            const ctrl = new AbortController();
+            const timer = setTimeout(() => ctrl.abort(), 12000);
+            return { signal: ctrl.signal, clear: () => clearTimeout(timer) };
+        };
+        try {
+            const t1 = withTimeout();
+            const r = await attempt(t1.signal);
+            t1.clear();
+            return r;
+        } catch (_) {
+            // un solo retry automatico; poi risale il fallback neutro
+            const t2 = withTimeout();
+            try {
+                const r2 = await attempt(t2.signal);
+                t2.clear();
+                return r2;
+            } finally {
+                t2.clear();
+            }
+        }
     };
 
     const serverMessage = (data) => (data && data.message) ? data.message : t('auth.genericError');
