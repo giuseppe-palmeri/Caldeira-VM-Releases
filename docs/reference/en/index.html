@@ -722,8 +722,41 @@ code {
 /* Un <dialog> SENZA [open] deve restare nascosto (non forzare display:flex
    anche da chiuso, altrimenti si vede dietro la sidebar). */
 .doc-drawer:not([open]) { display: none; }
-.doc-drawer[open] { display: flex; flex-direction: column; }
-.doc-drawer::backdrop { background: rgba(0, 0, 0, .5); }
+
+/* ── Animazione da SINISTRA (a scomparsa), IN ENTRATA e IN USCITA ──
+   Tecnica: `transition` + `allow-discrete` + `@starting-style`, cosi' il <dialog>
+   scivola da -100% a 0 all'apertura e torna a -100% alla chiusura (il top-layer
+   resta visibile durante l'uscita grazie a `overlay`+`allow-discrete`).
+   Su browser che non supportano `allow-discrete`, apre/chiude senza animazione
+   (nessun bug: solo istantaneo). */
+.doc-drawer {
+  transform: translateX(-100%);
+  transition: transform var(--transition-med) cubic-bezier(.22,.61,.36,1),
+              display var(--transition-med) allow-discrete,
+              overlay var(--transition-med) allow-discrete;
+}
+.doc-drawer[open] {
+  display: flex; flex-direction: column;
+  transform: translateX(0);
+  /* stato INIZIALE (entrata) quando un dialog passa da chiuso ad aperto */
+  @starting-style { transform: translateX(-100%); }
+}
+.doc-drawer::backdrop {
+  background: rgba(0, 0, 0, .5);
+  opacity: 0;
+  transition: opacity var(--transition-med),
+              display var(--transition-med) allow-discrete,
+              overlay var(--transition-med) allow-discrete;
+}
+.doc-drawer[open]::backdrop {
+  opacity: 1;
+  @starting-style { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .doc-drawer, .doc-drawer[open], .doc-drawer::backdrop, .doc-drawer[open]::backdrop {
+    transition: none;
+  }
+}
 .doc-drawer .drawer-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: .75rem 1rem; border-bottom: 1px solid var(--border);
