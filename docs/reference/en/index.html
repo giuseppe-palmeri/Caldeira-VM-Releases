@@ -737,6 +737,7 @@ code {
             <li><a href="#sys-sys-millis">sys_millis</a></li>
             <li><a href="#sys-sys-static-ptr">sys_static_ptr</a></li>
             <li><a href="#sys-sys-event-id">sys_event_id</a></li>
+            <li><a href="#sys-sys-ed25519-verify">sys_ed25519_verify</a></li>
           </ul>
         </li>
         <li class="nav-cat"><a href="#sys-0x10">0x10 — HAL</a>
@@ -803,6 +804,8 @@ code {
         <li><a href="#ch8-ecosistema">8. The ecosystem</a></li>
         <li><a href="#ch9-futuro">9. The future</a></li>
       </ul>
+    </li>
+    <li><a href="#ch9-start" class="nav-chapter"><span class="material-icons nav-icon">play_circle</span> Quick Start (CLI)</a>
     </li>
 
   </ul>
@@ -6225,6 +6228,10 @@ lava primo.lava</code></pre>
 <td><code>sys_event_id</code></td>
 <td><code>()-&gt;(id:U32)</code></td>
 <td>ID Evento corrente (0xFFFFFFFF = nessuno)</td></tr>
+    <tr id="sys-sys-ed25519-verify"><td><code>all</code></td><td><code>0x06</code></td>
+<td><code>sys_ed25519_verify</code></td>
+<td><code>(pub:PTR,msg:PTR,len:U32,sig:PTR)-&gt;(ok:U32)</code></td>
+<td>Verifica firma Ed25519 detached</td></tr>
     </tbody>
   </table>
   </div>
@@ -9948,6 +9955,367 @@ RULE temperature &gt; 85:
 <p>Qualunque cosa sia, Caldeira è solo lo strumento. <strong>L'ingegneria sei tu.</strong></p>
 <hr>
 <p><em>Fine del libro.</em></p>
+</section>
+<section id="ch9-start" class="doc-section"><h2 class="section-title"><span class="material-icons section-icon">play_circle</span> Quick Start (CLI)</h2>
+<blockquote><p><strong>A cosa serve questo documento.</strong> È la guida <strong>pratica</strong> per iniziare a usare il tool da riga di comando <code>caldeira</code>, dal primo comando all'app protetta in esecuzione. Ogni comando qui è <strong>verificato sul codice</strong> del tool.  Se cerchi il modello concettuale (ruoli, livelli, flussi) leggi anche <code>LICENSING-ROLES.md</code> e <code>XENOLITE.md</code>. Se cerchi il contratto API del server: <code>LICENSING-API-SPEC.md</code>. I documenti <code>LICENSING-CLI.md</code> e <code>LICENSING-ROLES.md</code> contengono <strong>comandi storici superati</strong> (<code>get-license</code>, <code>provision pc</code>, <code>module list</code>, <code>login</code>): <strong>non usarli</strong>, la fonte è <code>caldeira help</code>.</p></blockquote>
+<hr>
+<h2 style="margin-top:1.5em">0. Il percorso in una mappa</h2>
+<p>Il tool è organizzato per <strong>tappe</strong>, e <code>caldeira</code> da solo ti dice sempre <strong>dove sei</strong> e <strong>qual è il prossimo passo</strong>. Il percorso è questo (in ordine):</p>
+<pre class="code-block "><code>SDK  →  ACCOUNT  →  LICENZA  →  PROGETTO  →  (device)  →  (workstation)  →  (prodotto)</code></pre>
+<div class="table-wrap"><table class="doc-table">
+  <tr>
+    <th>Tappa</th>
+    <th>Comando chiave</th>
+    <th>Cosa ottieni</th>
+  </tr>
+  <tr>
+    <td>Strumenti</td>
+    <td><code>caldeira sdk get</code></td>
+    <td>l'SDK/toolchain installato</td>
+  </tr>
+  <tr>
+    <td>Identità</td>
+    <td><code>caldeira auth register</code> / <code>login</code></td>
+    <td>un <strong>account</strong> (email+password)</td>
+  </tr>
+  <tr>
+    <td>Credenziale</td>
+    <td><code>caldeira license issue</code></td>
+    <td>la tua <strong>licenza</strong> (<code>.lic</code>)</td>
+  </tr>
+  <tr>
+    <td>Lavoro</td>
+    <td><code>caldeira new</code> · <code>build</code> · <code>run</code> · <code>debug</code></td>
+    <td>l'app compilata ed eseguita</td>
+  </tr>
+  <tr>
+    <td>Hardware</td>
+    <td><code>caldeira device provision</code> · <code>flash</code></td>
+    <td>l'MCU abilitato e firmwareato</td>
+  </tr>
+  <tr>
+    <td>PC</td>
+    <td><code>caldeira workstation provision</code></td>
+    <td>questa macchina protetta (xenolite)</td>
+  </tr>
+  <tr>
+    <td>Software</td>
+    <td><code>caldeira products register</code></td>
+    <td>un prodotto distribuito (CLDP)</td>
+  </tr>
+</table></div>
+<blockquote><p><strong>Regola d'oro.</strong> In ogni momento puoi lanciare <code>caldeira</code> (senza argomenti) per sapere dove sei; <code>caldeira help</code> per l'elenco completo; <code>caldeira help <comando></code> per l'aiuto di un gruppo. Quando manca un prerequisito, la CLI <strong>te lo dice e ti indica il comando successivo</strong> (gate pedagogico), invece di fallire in modo criptico.</p></blockquote>
+<hr>
+<h2 style="margin-top:1.5em">1. Installazione e primo contatto</h2>
+<h3 style="margin-top:1.5em">1.1 Installare l'SDK</h3>
+<pre class="code-block bash"><code>caldeira sdk get</code></pre>
+<ul>
+  <li>Se non hai ancora il binario <code>caldeira</code>, installalo dallo script di bootstrap</li>
+</ul>
+<p>distribuito col sito (una sola volta); da lì in poi <code>caldeira sdk get</code> aggiorna SDK e toolchain.</p>
+<ul>
+  <li>Comandi SDK utili:</li>
+</ul>
+<pre class="code-block bash"><code>caldeira sdk list              # versioni SDK installate
+caldeira sdk use &lt<span class="hl-cmt">;version&gt;     # passa a una versione specifica</span>
+caldeira sdk extension install # estensione VS Code (sintassi, LSP)</code></pre>
+<h3 style="margin-top:1.5em">1.2 La prima cosa da fare in ogni sessione: <code>caldeira</code></h3>
+<pre class="code-block bash"><code>caldeira</code></pre>
+<p>Esempio di output (l'ambiente reale viene rilevato):</p>
+<pre class="code-block "><code>Caldeira VM — Toolchain
+Versione &lt;versione&gt;
+
+Ambiente
+  • SDK       &lt;versione SDK&gt;
+  • Licenza   assente | presente (~/.caldeira/license.lic)
+  • Account   non autenticato (caldeira auth login) | autenticato
+  • Anagrafica Nome Cognome · email
+
+Nessun progetto Caldeira nella cartella corrente.   (oppure il progetto rilevato)
+
+Prossimo passo
+  • installa l'SDK           caldeira sdk get</code></pre>
+<p>Il "Prossimo passo" mostra <strong>una sola voce per volta</strong>, in ordine di percorso, e <strong>cambia in base a ciò che hai già fatto</strong>:</p>
+<div class="table-wrap"><table class="doc-table">
+  <tr>
+    <th>Se manca…</th>
+    <th>Ti suggerisce</th>
+  </tr>
+  <tr>
+    <td>l'SDK</td>
+    <td><code>caldeira sdk get</code></td>
+  </tr>
+  <tr>
+    <td>la licenza</td>
+    <td><code>caldeira license issue</code></td>
+  </tr>
+  <tr>
+    <td>un progetto nella cartella</td>
+    <td><code>caldeira new mia-app</code></td>
+  </tr>
+  <tr>
+    <td>tutto a posto (progetto presente)</td>
+    <td><code>caldeira build</code> + <code>caldeira workstation provision</code></td>
+  </tr>
+</table></div>
+<h3 style="margin-top:1.5em">1.3 Diagnosi quando qualcosa non torna</h3>
+<pre class="code-block bash"><code>caldeira doctor</code></pre>
+<p>Controlla in un colpo: SDK, licenza, account, raggiungibilità del server, fiducia e contenuti. Segnala con <code>[ok]</code> / <code>[--]</code> e, per ogni punto mancante, <strong>il comando per risolverlo</strong> (es. <code>→ caldeira auth login</code>). Se qualcosa non va, parti sempre da qui.</p>
+<hr>
+<h2 style="margin-top:1.5em">2. Account: la tua identità (email + password)</h2>
+<p>Da questo punto in poi <strong>la licenza è legata a un'identità</strong>: per emettere o recuperare una licenza serve un account. L'account è <strong>email + password</strong>; puoi avere più dispositivi con la stessa licenza, ma <strong>una sola identità</strong>.</p>
+<h3 style="margin-top:1.5em">2.1 Creare l'account</h3>
+<pre class="code-block bash"><code>caldeira auth register --email you@example<span class="hl-dir">.com</span> --password &quot<span class="hl-cmt">;una-password-lunga&quot;</span>
+# alias: caldeira auth signup</code></pre>
+<ul>
+  <li>Senza flag, la CLI <strong>chiede</strong> email e password in modo interattivo.</li>
+  <li>Dopo la richiesta, il server invia un <strong>codice a 6 cifre</strong> via email: inseriscilo</li>
+</ul>
+<p>quando richiesto. L'account diventa verificato e la sessione viene salvata.</p>
+<h3 style="margin-top:1.5em">2.2 Accedere (sessioni successive)</h3>
+<pre class="code-block bash"><code>caldeira auth login            # interattivo
+caldeira auth login --email you@example<span class="hl-dir">.com</span> --password &quot<span class="hl-cmt">;...&quot;</span></code></pre>
+<p>La sessione è salvata in <code>~/.caldeira/session</code> (permessi ristretti). Da qui in poi <code>license issue</code> e <code>license recover</code> funzionano senza reinserire la password.</p>
+<h3 style="margin-top:1.5em">2.3 Controllare chi sei / uscire</h3>
+<pre class="code-block bash"><code>caldeira auth whoami           # mostra l'account collegato
+caldeira auth logout           # chiude la sessione</code></pre>
+<blockquote><p>Se <code>auth login</code> risponde <strong>"email non verificata"</strong>, completa la registrazione: <code>caldeira auth register --email <la-tua-email></code>.</p></blockquote>
+<hr>
+<h2 style="margin-top:1.5em">3. Licenza: la tua credenziale (<code>.lic</code>)</h2>
+<p>La licenza è un file firmato (<code>~/.caldeira/license.lic</code>) che ti identifica e porta le tue risorse (<strong>unità</strong>). Le unità <strong>non scadono</strong> e vivono in gruppi chiamati <strong>moduli</strong>.</p>
+<h3 style="margin-top:1.5em">3.1 Emettere una licenza (la prima volta)</h3>
+<pre class="code-block bash"><code>caldeira license issue --email you@example<span class="hl-dir">.com</span> --name Nome --surname Cognome
+# opzionali: --company &quot<span class="hl-cmt">;ACME&quot; --role ... --country IT</span>
+#            --yes (assume sì alla conferma di sovrascrittura)</code></pre>
+<p>Puoi anche lanciarlo <strong>senza flag</strong>: la CLI chiede i campi mancanti.</p>
+<p><strong>Serve un account</strong> (§2): se non hai fatto il login, il comando te lo ricorda. Il tier gratuito include una dotazione iniziale di unità. L'emissione <strong>non</strong> ha un fallback automatico su <code>recover</code>: <code>issue</code> <strong>crea</strong> una licenza nuova.</p>
+<blockquote><p><strong>Email = account.</strong> L'email che passi a <code>issue</code> <strong>deve</strong> coincidere con quella dell'account: la licenza è legata all'identità. Se non combaciano, la CLI te lo dice.  <strong>Se hai già una licenza free</strong> per quell'account, <code>issue</code> risponde <code>FREE_CAP_REACHED</code> e ti invita a riprenderla con <code>license recover</code>. Una licenza <strong>nuova e aggiuntiva</strong> (a pagamento) si richiede dal portale: <code>https://licensing.skyhome.it/portal/account/orders?tab=activation</code>.</p></blockquote>
+<h3 style="margin-top:1.5em">3.2 Recuperare la licenza su un ALTRO dispositivo</h3>
+<p>Stessa identità, altro PC (o <code>.lic</code> persa):</p>
+<pre class="code-block bash"><code>caldeira auth login            # accedi con lo STESSO account
+caldeira license recover</code></pre>
+<p><code>recover</code> <strong>riprende la stessa licenza</strong> (moduli, fiducia e riserve <strong>intatti</strong>): è il modo corretto per usare <strong>la stessa licenza su più PC</strong>. Il <strong>consumo</strong> resta legato all'<strong>identità</strong>, non al singolo PC.</p>
+<blockquote><p>Non fare <code>issue</code> su un secondo PC pensando di "copiare" la licenza: creeresti una <strong>licenza nuova</strong>. Per la stessa identità si usa <strong>sempre <code>recover</code></strong>.</p></blockquote>
+<h3 style="margin-top:1.5em">3.3 Vedere lo stato</h3>
+<pre class="code-block bash"><code>caldeira license status            # albero: unità, moduli, riserve (dal server)
+caldeira license status --json     # output JSON (per script/GUI)
+caldeira license show              # alias di status</code></pre>
+<hr>
+<h2 style="margin-top:1.5em">4. Progetto: il lavoro quotidiano</h2>
+<h3 style="margin-top:1.5em">4.1 Creare un progetto</h3>
+<pre class="code-block bash"><code>caldeira new mia-app
+caldeira new mia-app --target esp32          # target MCU (default: linux)
+caldeira new mia-app --mode standard|extended</code></pre>
+<h3 style="margin-top:1.5em">4.2 Compilare, eseguire, debuggare</h3>
+<pre class="code-block bash"><code>cd mia-app
+caldeira build      # compila (build/Release + build/Debug)
+caldeira run        # esegue in locale (release)
+caldeira debug      # esegue sotto GDB (runner di debug)</code></pre>
+<h3 style="margin-top:1.5em">4.3 Diagnosticare un fault</h3>
+<pre class="code-block bash"><code>caldeira diagnose                 # esegue e riporta il PRIMO fault (alias: diag)
+caldeira diagnose --json          # report JSON
+caldeira diagnose --no-launch     # non avvia: usa i file già presenti
+# opzioni avanzate: --host H --port N --gdb &lt<span class="hl-cmt">;path&gt; --elf &lt;path&gt;</span></code></pre>
+<p><code>diagnose</code> è il primo posto dove guardare quando <code>run</code>/<code>debug</code> si comportano male.</p>
+<hr>
+<h2 style="margin-top:1.5em">5. Risorse: unità e riserve</h2>
+<h3 style="margin-top:1.5em">5.1 Cosa sono le unità</h3>
+<p>Tre tipi di unità, una per <strong>cosa</strong> producono:</p>
+<div class="table-wrap"><table class="doc-table">
+  <tr>
+    <th>Tipo di unità</th>
+    <th>A cosa serve</th>
+    <th>Consumo</th>
+  </tr>
+  <tr>
+    <td><strong>device</strong> (flash)</td>
+    <td>abilitare/flashare una scheda MCU</td>
+    <td>1 unità per <code>device flash</code></td>
+  </tr>
+  <tr>
+    <td><strong>product</strong> (register)</td>
+    <td>registrare un prodotto che distribuisci</td>
+    <td>1 unità per registrazione</td>
+  </tr>
+  <tr>
+    <td><strong>workstation</strong> (develop)</td>
+    <td>abilitare questa macchina (xenolite)</td>
+    <td>1 unità per macchina</td>
+  </tr>
+</table></div>
+<h3 style="margin-top:1.5em">5.2 Vedere la disponibilità</h3>
+<pre class="code-block bash"><code>caldeira units device      list [--json]
+caldeira units product     list [--json]
+caldeira units workstation list [--json]</code></pre>
+<p>Questi comandi sono <strong>sola lettura</strong>.</p>
+<h3 style="margin-top:1.5em">5.3 Acquistare unità/licenze → <strong>dal portale</strong></h3>
+<p>L'acquisto è <strong>transazionale</strong> (pagamento + fatturazione) e si fa <strong>solo dal portale web</strong>, non da CLI. Il tool ti indirizza lì:</p>
+<pre class="code-block bash"><code>caldeira units device buy      # (qualsiasi tipo) → stampa il link al portale</code></pre>
+<p>Portale: <code>https://licensing.skyhome.it/portal/account/orders?tab=new</code></p>
+<p>Da lì scegli tipo e quantità; l'ordine resta <strong>in attesa di pagamento</strong> finché l'operatore non conferma. Alla conferma, le unità compaiono nella tua licenza.</p>
+<h3 style="margin-top:1.5em">5.4 Riserve offline (lavorare senza internet)</h3>
+<pre class="code-block bash"><code>caldeira reserves status                     # albo: locale + server (cosa inviare)
+caldeira reserves request [--units N] [--yes]  # chiedi una riserva (grazia offline)
+caldeira reserves reconcile                  # riporta consumo e device al server
+caldeira reserves list [--json]              # elenca le riserve (server)
+caldeira reserves show &lt<span class="hl-cmt">;id&gt; [--json]         # dettaglio di una riserva</span>
+caldeira reserves revoke --id &lt<span class="hl-cmt">;id&gt; [--reason R] [--declared N]   # revoca</span>
+caldeira reserves settle --id &lt<span class="hl-cmt">;id&gt; [--order-ref R]               # sanatoria SFORO</span></code></pre>
+<ul>
+  <li>Il <strong>consumo</strong> di una riserva non avviene qui: si fa con <code>device flash</code> (anche</li>
+</ul>
+<p><strong>offline</strong>, dalla riserva).</p>
+<ul>
+  <li><strong>Fiducia</strong>: punteggio 0–100 della licenza. <strong>Sotto 40</strong> le riserve sono bloccate.</li>
+  <li><code>reserves settle</code> serve a <strong>regolarizzare uno sforo</strong> (unità usate oltre la riserva)</li>
+</ul>
+<p>pagando: ripristina la fiducia alla soglia precedente.</p>
+<hr>
+<h2 style="margin-top:1.5em">6. Hardware: il dispositivo (device)</h2>
+<p>Il <strong>device</strong> è il chip MCU collegato. Due passi distinti:</p>
+<h3 style="margin-top:1.5em">6.1 Registrare il device (senza flashare)</h3>
+<pre class="code-block bash"><code>caldeira device provision                 # rileva il device collegato
+caldeira device provision --fp &lt<span class="hl-cmt">;hex&gt;      # fingerprint esplicito (<span class="hl-num">32</span> byte hex)</span>
+caldeira device provision --from-reserve  # consuma dalla riserva (offline)</code></pre>
+<p>Produce l'identità firmata del device. Il blob viene <strong>salvato su file</strong>; il deploy lo esegue <code>device flash</code> (che è un <strong>reflash</strong>, non riaddebita).</p>
+<ul>
+  <li><strong>Senza</strong> <code>--from-reserve</code>: va <strong>sempre</strong> via server.</li>
+  <li><strong>Con</strong> <code>--from-reserve</code>: consuma dalla riserva (offline).</li>
+</ul>
+<h3 style="margin-top:1.5em">6.2 Flashare</h3>
+<pre class="code-block bash"><code>caldeira device flash                    # firmware + blob CLDL (<span class="hl-num">1</span> unità flash)
+caldeira device flash --debug            # variante debug
+caldeira device flash --from-reserve     # offline, dalla riserva
+caldeira device install-vm               # installa la VM sul MCU
+caldeira device install-vm --partition   # include bootloader + partition table
+caldeira device install-vm --debug
+caldeira device monitor                  # monitor seriale</code></pre>
+<h3 style="margin-top:1.5em">6.3 Inventario device</h3>
+<pre class="code-block bash"><code>caldeira device list [--json]            # device abilitati
+caldeira device show &lt<span class="hl-cmt">;serial&gt; [--json]   # dettaglio di un device</span></code></pre>
+<hr>
+<h2 style="margin-top:1.5em">7. Questa macchina: la workstation (protezione xenolite)</h2>
+<p>Una <strong>workstation</strong> è <strong>questa macchina</strong> abilitata alla protezione xenolite (unità <code>develop</code>). È <strong>simmetrica a <code>device</code></strong>: come per il device, una licenza può averne più d'una.</p>
+<pre class="code-block bash"><code>caldeira workstation provision            # abilita QUESTA macchina (→ session<span class="hl-dir">.props</span>)
+caldeira workstation list [--json]        # workstation abilitate
+caldeira workstation show &lt<span class="hl-cmt">;serial&gt; [--json]  # dettaglio</span></code></pre>
+<hr>
+<h2 style="margin-top:1.5em">8. Prodotti: il software che distribuisci (CLDP)</h2>
+<p>Un <strong>prodotto</strong> è il software che distribuisci e proteggi. Registrarlo consuma <strong>1 slot</strong> (unità <code>product</code>) e produce un <strong>certificato</strong> CLDP.</p>
+<pre class="code-block bash"><code>caldeira products register --scope N [--force]  # registra un prodotto
+caldeira products list [--json]                 # prodotti registrati (CLDP)
+caldeira products show &lt<span class="hl-cmt">;id&gt; [--json]            # dettaglio di un prodotto</span></code></pre>
+<ul>
+  <li><code>--scope N</code> è l'ambito/livello del prodotto.</li>
+  <li><code>--force</code> salta la conferma.</li>
+</ul>
+<hr>
+<h2 style="margin-top:1.5em">9. Riepilogo dei comandi</h2>
+<p>Elenco completo (fonte: <code>caldeira help</code>):</p>
+<pre class="code-block "><code>AMBIENTE
+  sdk get | sdk list | sdk use &lt;version&gt; | sdk extension install | doctor
+
+ACCOUNT
+  auth register (signup) | auth login | auth logout | auth whoami
+
+LICENZA
+  license issue [--yes] | license recover | license status (show) [--json]
+
+PROGETTO
+  new &lt;name&gt; [--target &lt;mcu&gt;] [--mode standard|extended]
+  build | run | debug | diagnose (diag) [--json]
+
+DISPOSITIVO (device)
+  device provision [--fp &lt;hex&gt;] [--from-reserve]
+  device flash [--debug] [--from-reserve]
+  device install-vm [--partition] [--debug]
+  device monitor | device list [--json] | device show &lt;serial&gt; [--json]
+
+WORKSTATION
+  workstation provision | workstation list [--json] | workstation show &lt;serial&gt; [--json]
+
+PRODOTTI
+  products register --scope N [--force] | products list [--json] | products show &lt;id&gt; [--json]
+
+RISORSE
+  units device|product|workstation list [--json]
+  reserves status | reserves request [--units N] [--yes] | reserves reconcile
+  reserves list [--json] | reserves show &lt;id&gt; [--json]
+  reserves revoke --id &lt;id&gt; [--reason R] [--declared N]
+  reserves settle --id &lt;id&gt; [--order-ref R]</code></pre>
+<p>Extra utili: <code>caldeira --version</code> / <code>-v</code> / <code>version</code>.</p>
+<hr>
+<h2 style="margin-top:1.5em">10. Glossario</h2>
+<div class="table-wrap"><table class="doc-table">
+  <tr>
+    <th>Termine</th>
+    <th>Significato</th>
+  </tr>
+  <tr>
+    <td><strong>Licenza</strong></td>
+    <td>la tua credenziale (file <code>.lic</code>): identifica te e le tue risorse.</td>
+  </tr>
+  <tr>
+    <td><strong>Unità</strong></td>
+    <td>i "gettoni" della licenza; <strong>non scadono</strong>; vivono in gruppi detti <strong>moduli</strong>.</td>
+  </tr>
+  <tr>
+    <td><strong>Device</strong></td>
+    <td>una scheda/MCU collegato; <code>device flash</code> consuma 1 unità flash e produce un CLDL.</td>
+  </tr>
+  <tr>
+    <td><strong>Prodotto</strong></td>
+    <td>software che distribuisci; la registrazione consuma 1 unità prodotto e produce un CLDP.</td>
+  </tr>
+  <tr>
+    <td><strong>Workstation</strong></td>
+    <td>questa macchina abilitata a xenolite; consuma 1 unità sviluppo.</td>
+  </tr>
+  <tr>
+    <td><strong>Riserva</strong></td>
+    <td>unità flash messe da parte per lavorare <strong>senza internet</strong>, poi riconciliate.</td>
+  </tr>
+  <tr>
+    <td><strong>Fiducia</strong></td>
+    <td>punteggio 0–100 della licenza; <strong>sotto 40</strong> le riserve sono bloccate.</td>
+  </tr>
+  <tr>
+    <td><strong>Account</strong></td>
+    <td>la tua identità (email+password) sul server: prerequisito per <code>issue</code>/<code>recover</code>.</td>
+  </tr>
+</table></div>
+<hr>
+<h2 style="margin-top:1.5em">11. Percorso rapido (TL;DR)</h2>
+<pre class="code-block bash"><code># <span class="hl-num">1</span>. Strumenti
+caldeira sdk get
+
+# <span class="hl-num">2</span>. Identità
+caldeira auth register --email you@example<span class="hl-dir">.com</span>   # (segui il codice via email)
+#    oppure, se hai già l'account:
+caldeira auth login
+
+# <span class="hl-num">3</span>. Licenza
+caldeira license issue --email you@example<span class="hl-dir">.com</span> --name Nome --surname Cognome
+#    su un altro PC, con lo stesso account:
+#    caldeira license recover
+
+# <span class="hl-num">4</span>. Progetto
+caldeira new mia-app
+cd mia-app
+caldeira build
+caldeira run
+
+# <span class="hl-num">5</span>. (quando serve l'hardware)
+caldeira device provision
+caldeira device flash
+
+# <span class="hl-num">6</span>. (per proteggere questa macchina)
+caldeira workstation provision
+
+# In ogni momento:
+caldeira            # dove sono, prossimo passo
+caldeira doctor     # diagnosi ambiente
+caldeira help       # elenco completo</code></pre>
 </section>
   
   <footer class="doc-footer">
