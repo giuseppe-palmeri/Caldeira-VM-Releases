@@ -150,6 +150,8 @@ async function setLanguage(lang, { persist = true } = {}) {
 
     applyTranslations(activeLangData);
     renderDynamicCards();
+    // La lingua è applicata: mostra i testi (tolgo il gate anti-flash).
+    document.documentElement.classList.remove('i18n-pending');
 
     if (persist) {
         try {

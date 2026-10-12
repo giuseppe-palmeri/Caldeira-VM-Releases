@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="i18n-pending">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +18,40 @@
     <meta property="og:image" content="images/og-image.png">
 
     <meta name="theme-color" content="#0d1117">
+
+    <!-- Lingua PRIMA del paint: evita il flash "inglese → italiano".
+         Imposta lang + tiene nascosti i nodi traducibili finché script.js non
+         applica le traduzioni (poi rimuove .i18n-pending). -->
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('caldeira-language');
+          var langs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+          var lang = null;
+          if (saved === 'it' || saved === 'en') { lang = saved; }
+          else {
+            for (var i = 0; i < langs.length; i++) {
+              var l = String(langs[i]).toLowerCase();
+              if (l.indexOf('it') === 0) { lang = 'it'; break; }
+              if (l.indexOf('en') === 0) { lang = 'en'; break; }
+            }
+          }
+          if (lang) document.documentElement.lang = lang;
+        } catch (e) { /* ignore */ }
+        // Rete di sicurezza: se le traduzioni non arrivano, mostra comunque (max 2.5s).
+        setTimeout(function () {
+          document.documentElement.classList.remove('i18n-pending');
+        }, 2500);
+      })();
+    </script>
+    <style>
+      /* Finché la lingua non è applicata, non mostrare i testi traducibili
+         (evita il flash della lingua di default). */
+      html.i18n-pending [data-i18n],
+      html.i18n-pending [data-i18n-aria],
+      html.i18n-pending [data-i18n-title],
+      html.i18n-pending [data-i18n-placeholder] { visibility: hidden; }
+    </style>
 
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
