@@ -253,120 +253,9 @@ code {
 
 /* .icon-btn / .theme-toggle / .lang-select → vedi docs/design/base.css */
 
-/* Mobile / crowded header button row.
-   On small screens the Documentation button moves into the mobile menu
-   and the GitHub button becomes icon-only: the fixed header cannot fit
-   brand + both labelled buttons + theme + language + hamburger at 320px. */
-@media (max-width: 720px) {
-    .btn-docs,
-    .btn-login {
-        display: none;
-    }
+/* Topbar responsive (bottoni/header/nav) → vedi docs/design/base.css */
 
-    .btn-github {
-        padding: 0 0.55rem;
-    }
-
-    .btn-github span {
-        display: none;
-    }
-}
-
-@media (max-width: 480px) {
-    /* Ultra-compact header: logo chip only, compact language selector */
-    .brand-name {
-        display: none;
-    }
-
-    .header-inner {
-        gap: var(--space-2);
-    }
-
-    .header-tools {
-        gap: var(--space-2);
-    }
-
-    .lang-select {
-        font-size: 0.82rem;
-        padding: 0.38rem 1.4rem 0.38rem 0.55rem;
-    }
-
-    .lang-select-wrap::after {
-        right: 0.45rem;
-    }
-}
-
-/* Mobile menu */
-.menu-toggle {
-    display: none;
-}
-
-/* JS-driven fluid nav: when the inline nav cannot fit its available space
-   (any language / font / zoom), fall back to the hamburger menu. */
-.nav-crowded .main-nav {
-    display: none;
-}
-
-.nav-crowded .menu-toggle {
-    display: inline-flex;
-}
-
-.nav-crowded .mobile-menu.open {
-    display: block;
-}
-
-.mobile-menu {
-    display: none;
-    position: absolute;
-    top: var(--header-height);
-    left: 0;
-    right: 0;
-    background: var(--bg-elevated);
-    border-bottom: 1px solid var(--border);
-    box-shadow: var(--shadow-lg);
-    padding: var(--space-3) 0 var(--space-5);
-    max-height: calc(100vh - var(--header-height));
-    overflow-y: auto;
-    overscroll-behavior: contain;
-}
-
-.mobile-menu ul {
-    list-style: none;
-    margin: 0;
-    padding: 0 clamp(1rem, 4vw, 1.75rem);
-}
-
-.mobile-menu a {
-    display: block;
-    padding: var(--space-3) var(--space-2);
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-    font-weight: var(--weight-medium);
-    font-size: 0.95rem;
-}
-
-.mobile-menu a:hover {
-    color: var(--accent-text);
-    text-decoration: none;
-    background: var(--bg-hover);
-}
-
-/* Login CTA in the mobile menu: keep it a real button, not a list item */
-.mobile-menu .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: var(--space-4);
-    padding: 0.6rem 1.2rem;
-    border-bottom: none;
-    color: var(--accent-contrast);
-    font-weight: var(--weight-semibold);
-}
-
-.mobile-menu .btn:hover {
-    color: var(--accent-contrast);
-    background: linear-gradient(180deg, var(--accent-strong), var(--accent-strong));
-}
+/* .menu-toggle / .nav-crowded / .mobile-menu → vedi docs/design/base.css */
 
 /* ── Hero ──────────────────────────────────────────────────────────────── */
 .hero {
@@ -2084,31 +1973,8 @@ code {
 }
 
 /* ── Responsive ────────────────────────────────────────────────────────── */
-@media (max-width: 1320px) {
-    .nav-list {
-        gap: 0;
-    }
-
-    .nav-list a,
-    .nav-toggle {
-        padding: 0.45rem 0.35rem;
-        font-size: 0.82rem;
-        white-space: nowrap;
-    }
-}
-
 @media (max-width: 1120px) {
-    .main-nav {
-        display: none;
-    }
-
-    .menu-toggle {
-        display: inline-flex;
-    }
-
-    .mobile-menu.open {
-        display: block;
-    }
+    /* .main-nav / .menu-toggle / .mobile-menu → vedi docs/design/base.css */
 
     /* Two-column panels stay readable with a touch more breathing room */
     .github-layout {

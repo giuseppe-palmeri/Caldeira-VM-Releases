@@ -394,6 +394,43 @@ a { color: var(--accent-text); text-decoration: none; transition: color var(--tr
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   TOPBAR RESPONSIVE (condivisa sito + doc)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Menu piu' compatto prima che scatti l'hamburger. */
+@media (max-width: 1320px) {
+  .nav-list { gap: 0; }
+  .nav-list a,
+  .nav-toggle { padding: 0.45rem 0.35rem; font-size: 0.82rem; white-space: nowrap; }
+}
+
+/* Sotto questa soglia il menu inline non entra: hamburger + pannello mobile.
+   Deterministico via CSS (non dipende dal timing del JS di fluid-nav) e
+   CONDIVISO: sito e doc si comportano allo stesso modo. */
+@media (max-width: 1120px) {
+  .main-nav { display: none; }
+  .menu-toggle { display: inline-flex; }
+  .mobile-menu.open { display: block; }
+}
+
+/* Bottoni etichettati fuori: GitHub diventa icon-only. */
+@media (max-width: 720px) {
+  .btn-docs,
+  .btn-login { display: none; }
+  .btn-github { padding: 0 0.55rem; }
+  .btn-github span { display: none; }
+}
+
+/* Header ultra-compatto: solo il chip del logo, selettore lingua ridotto. */
+@media (max-width: 480px) {
+  .brand-name { display: none; }
+  .header-inner { gap: var(--space-2); }
+  .header-tools { gap: var(--space-2); }
+  .lang-select { font-size: 0.82rem; padding: 0 1.4rem 0 0.55rem; }
+  .lang-select-wrap::after { right: 0.45rem; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    Caldeira VM — Stili SPECIFICI della documentazione
    ═══════════════════════════════════════════════════════════════════════════
    Solo ciò che NON è condiviso con il sito: layout doc (sidebar + main),
@@ -10920,6 +10957,11 @@ window.addEventListener('click', function(e) {
     document.body.classList.toggle('nav-crowded', crowded);
   }
   fluid();
+  // Ricalcola quando il layout e i font sono pronti (al load la misura può
+  // essere prematura: il menu risulterebbe "non crowded" e resterebbe visibile).
+  requestAnimationFrame(fluid);
+  setTimeout(fluid, 120);
+  window.addEventListener('load', fluid);
   window.addEventListener('resize', fluid);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fluid).catch(function(){});
 
