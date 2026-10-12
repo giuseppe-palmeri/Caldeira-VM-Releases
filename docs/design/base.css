@@ -103,11 +103,20 @@ a { color: var(--accent-text); text-decoration: none; transition: color var(--tr
   color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-md);
   font-family: var(--font-sans); font-size: 0.88rem;
   height: var(--control-h); box-sizing: border-box;
+  color-scheme: inherit;
   padding: 0 1.7rem 0 0.7rem; cursor: pointer;
   transition: border-color var(--transition-fast), color var(--transition-fast),
               box-shadow var(--transition-fast);
 }
 .lang-select:hover { color: var(--text); border-color: var(--accent); }
+/* Il menu a tendina nativo (popup delle <option>) non eredita sempre i colori:
+   su tema scuro le opzioni risultavano testo chiaro su sfondo bianco. Colori
+   espliciti da tema per select e option. */
+.lang-select option,
+select option {
+  background-color: var(--bg-elevated);
+  color: var(--text);
+}
 .lang-select-wrap::after {
   content: ""; position: absolute; right: 0.55rem; top: 50%;
   width: 8px; height: 8px;
