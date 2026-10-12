@@ -693,14 +693,14 @@ code {
 .doc-nav-btn,
 .site-nav-btn { display: none; }
 
-/* Backdrop condiviso per chiudere i drawer. */
+/* Backdrop condiviso per chiudere i drawer (istantaneo, senza transizione:
+   affidabile su ogni browser). */
 .drawer-scrim {
   position: fixed; inset: var(--header-height) 0 0 0;
-  background: rgba(0, 0, 0, .45);
-  opacity: 0; visibility: hidden; z-index: 130;
-  transition: opacity var(--transition-fast), visibility var(--transition-fast);
+  background: rgba(0, 0, 0, .5);
+  display: none; z-index: 130;
 }
-.drawer-scrim.open { opacity: 1; visibility: visible; }
+.drawer-scrim.open { display: block; }
 
 @media (max-width: 900px) {
   /* Mostra i due pulsanti-drawer nella topbar. */
@@ -709,35 +709,29 @@ code {
 
   .main-content { margin: 0 auto; padding: 1.5rem 1.25rem; }
 
-  /* Sidebar (indice doc) = drawer da sinistra. */
-  .sidebar {
-    position: fixed;
-    top: var(--header-height); left: 0;
-    width: min(320px, 86vw);
-    height: calc(100vh - var(--header-height));
-    transform: translateX(-100%);
-    transition: transform var(--transition-med);
-    z-index: 140;
-    box-shadow: var(--shadow-lg);
-  }
-  .sidebar.open { transform: translateX(0); }
-
-  /* Menu del sito = drawer da sinistra (stesso stile). */
+  /* DRAWER da sinistra (Indice doc | Sezioni sito).
+     NESSUN affidamento sull'animazione: apertura/chiusura sono ISTANTANEE
+     (display/visibility). Cosi' il pannello e' SEMPRE dentro e cliccabile,
+     su qualunque browser, anche se le transizioni non girano. */
+  .sidebar,
   .mobile-menu {
     position: fixed;
-    top: var(--header-height); left: 0; right: auto;
+    top: var(--header-height);
+    left: 0;
+    right: auto;
     width: min(320px, 86vw);
     height: calc(100vh - var(--header-height));
-    transform: translateX(-100%);
-    transition: transform var(--transition-med);
+    margin: 0;
+    display: none;
     z-index: 140;
-    border-bottom: none;
-    border-right: 1px solid var(--border);
     box-shadow: var(--shadow-lg);
-    padding: var(--space-3) 0 var(--space-5);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
   }
-  /* Il pannello del sito si apre SOLO via JS (.open), non via .nav-crowded. */
-  .mobile-menu.open { transform: translateX(0); display: block; }
+  .sidebar.open,
+  .mobile-menu.open {
+    display: block;
+  }
 }
 
 /* La doc ha i PROPRI pulsanti-drawer: tra 901 e 1120px il menu inline del
