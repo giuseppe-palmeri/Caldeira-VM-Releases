@@ -708,9 +708,12 @@ code {
   border: 0; border-right: 1px solid var(--border);
   background: var(--bg-elevated); color: var(--text);
   box-shadow: var(--shadow-lg);
-  display: flex; flex-direction: column;
   overflow: hidden;
 }
+/* Un <dialog> SENZA [open] deve restare nascosto (non forzare display:flex
+   anche da chiuso, altrimenti si vede dietro la sidebar). */
+.doc-drawer:not([open]) { display: none; }
+.doc-drawer[open] { display: flex; flex-direction: column; }
 .doc-drawer::backdrop { background: rgba(0, 0, 0, .5); }
 .doc-drawer .drawer-head {
   display: flex; align-items: center; justify-content: space-between;
