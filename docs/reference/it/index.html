@@ -188,6 +188,22 @@ body {
   transition: background-color .2s, color .2s;
 }
 
+/* ── Scrollbar coerenti col tema (sito + doc) ── */
+* {
+  scrollbar-width: thin;                       /* Firefox */
+  scrollbar-color: var(--border-strong) transparent;
+}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-strong);
+  border-radius: var(--radius-pill);
+  border: 2px solid transparent;               /* thumb piu' snello del binario */
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background-color: var(--text-tertiary); }
+::-webkit-scrollbar-corner { background: transparent; }
+
 /* Link di base: accent, senza sottolineatura (il sito lo faceva inline;
    ora è condiviso così anche la doc ha link coerenti, non "sottolineati"). */
 a { color: var(--accent-text); text-decoration: none; transition: color var(--transition-fast); }
@@ -666,9 +682,7 @@ code {
 .doc-footer-copy { color: var(--text-tertiary); }
 .doc-footer-note { max-width: 46rem; margin-left: auto; margin-right: auto; color: var(--text-tertiary); font-size: .75rem; line-height: 1.5; }
 
-/* ── SCROLLBAR ── */
-.sidebar::-webkit-scrollbar { width: 6px; }
-.sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+/* ── SCROLLBAR: stile globale coerente (in base.css) ── */
 
 /* ── RESPONSIVE: due DRAWER da sinistra (Indice | Sezioni del sito) ──
    I due pulsanti in topbar compaiono solo sotto 900px; sidebar e menu del sito
@@ -816,7 +830,7 @@ code {
       </button>
     </div>
   </div>
-  <div class="mobile-menu" id="mobile-menu" hidden><nav aria-label="Mobile"><ul><li><a href="../../index.html#top">Overview</a></li><li><a href="../../index.html#why">Why Caldeira VM</a></li><li><a href="../../index.html#concepts">Core Concepts</a></li><li><a href="../../index.html#how-it-works">How It Works</a></li><li><a href="../../index.html#architecture">Architecture</a></li><li><a href="../../index.html#ecosystem">Ecosystem</a></li><li><a href="../../index.html#platforms">Platforms</a></li><li><a href="../../index.html#installation">Installation</a></li><li><a href="../../index.html#vscode">VS Code</a></li><li><a href="../../index.html#activity">Activity</a></li><li><a href="../../index.html#releases">Releases</a></li><li><a href="../../index.html#community">Community</a></li><li><a href="../../index.html#roadmap">Roadmap</a></li><li><a href="../../index.html#commercial">Commercial Integration</a></li><li><a href="../../index.html#pricing">Pricing</a></li></ul></nav></div>
+  <div class="mobile-menu" id="mobile-menu"><nav aria-label="Mobile"><ul><li><a href="../../index.html#top">Overview</a></li><li><a href="../../index.html#why">Why Caldeira VM</a></li><li><a href="../../index.html#concepts">Core Concepts</a></li><li><a href="../../index.html#how-it-works">How It Works</a></li><li><a href="../../index.html#architecture">Architecture</a></li><li><a href="../../index.html#ecosystem">Ecosystem</a></li><li><a href="../../index.html#platforms">Platforms</a></li><li><a href="../../index.html#installation">Installation</a></li><li><a href="../../index.html#vscode">VS Code</a></li><li><a href="../../index.html#activity">Activity</a></li><li><a href="../../index.html#releases">Releases</a></li><li><a href="../../index.html#community">Community</a></li><li><a href="../../index.html#roadmap">Roadmap</a></li><li><a href="../../index.html#commercial">Commercial Integration</a></li><li><a href="../../index.html#pricing">Pricing</a></li></ul></nav></div>
 </header>
 
 
