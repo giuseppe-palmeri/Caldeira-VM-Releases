@@ -334,13 +334,7 @@ select option {
 .nav-toggle:hover { color: var(--text); background-color: var(--bg-hover); text-decoration: none; }
 
 .nav-has-sub { position: relative; }
-/* Hover bridge: ponte invisibile tra il toggle e il pannello (evita che il
-   cursore esca dal :hover attraversando il piccolo gap). */
-.nav-has-sub::after {
-  content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
-  width: 15.5rem; height: 0.6rem; z-index: 119;
-}
-.nav-list > .nav-has-sub:last-child::after { left: auto; right: -0.5rem; transform: none; }
+/* (il vecchio "hover bridge" ::after non serve piu': il menu apre solo su click) */
 
 .nav-toggle {
   appearance: none; -webkit-appearance: none; display: inline-flex; align-items: center;
@@ -353,8 +347,6 @@ select option {
   border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
   transform: rotate(45deg) translateY(-2px); transition: transform var(--transition-fast);
 }
-.nav-has-sub:hover .nav-toggle::after,
-.nav-has-sub:focus-within .nav-toggle::after,
 .nav-has-sub.open .nav-toggle::after { transform: rotate(225deg) translateY(-1px); }
 
 .nav-sub {
@@ -363,8 +355,8 @@ select option {
   list-style: none; background: var(--bg-elevated); border: 1px solid var(--border);
   border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 120;
 }
-.nav-has-sub:hover .nav-sub,
-.nav-has-sub:focus-within .nav-sub,
+/* Il pannello apre SOLO su click (.open): niente :hover/:focus-within, cosi'
+   non si apre mai il menu della voce adiacente. */
 .nav-has-sub.open .nav-sub { display: block; animation: nav-sub-in var(--transition-med); }
 @keyframes nav-sub-in {
   from { opacity: 0; transform: translateX(-50%) translateY(4px); }
