@@ -50,6 +50,10 @@
   --content-max: 72rem;
   --content-narrow: 56rem;
 
+  /* Altezza UNICA dei controlli della topbar (bottoni, icon-btn, select lingua):
+     così tutti gli elementi della barra sono allineati in altezza. */
+  --control-h: 2.25rem;
+
   --shadow-sm: 0 1px 2px rgba(15, 22, 32, 0.06), 0 1px 3px rgba(15, 22, 32, 0.05);
   --shadow-md: 0 6px 16px -4px rgba(15, 22, 32, 0.14), 0 2px 6px -2px rgba(15, 22, 32, 0.08);
   --shadow-lg: 0 20px 44px -12px rgba(15, 22, 32, 0.25), 0 6px 16px -6px rgba(15, 22, 32, 0.12);

@@ -62,6 +62,10 @@
   --content-max: 72rem;
   --content-narrow: 56rem;
 
+  /* Altezza UNICA dei controlli della topbar (bottoni, icon-btn, select lingua):
+     così tutti gli elementi della barra sono allineati in altezza. */
+  --control-h: 2.25rem;
+
   --shadow-sm: 0 1px 2px rgba(15, 22, 32, 0.06), 0 1px 3px rgba(15, 22, 32, 0.05);
   --shadow-md: 0 6px 16px -4px rgba(15, 22, 32, 0.14), 0 2px 6px -2px rgba(15, 22, 32, 0.08);
   --shadow-lg: 0 20px 44px -12px rgba(15, 22, 32, 0.25), 0 6px 16px -6px rgba(15, 22, 32, 0.12);
@@ -219,7 +223,7 @@ body {
 /* ── Icon button + theme toggle ── */
 .icon-btn {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 2.25rem; height: 2.25rem; padding: 0;
+  width: var(--control-h); height: var(--control-h); padding: 0;
   border: 1px solid var(--border-strong); border-radius: var(--radius-md);
   background: transparent; color: var(--text-secondary); cursor: pointer;
   transition: color var(--transition-fast), border-color var(--transition-fast),
@@ -234,12 +238,13 @@ body {
 :root[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
 
 /* ── Selettore lingua ── */
-.lang-select-wrap { position: relative; }
+.lang-select-wrap { position: relative; display: inline-flex; align-items: center; }
 .lang-select {
   appearance: none; -webkit-appearance: none; background-color: transparent;
   color: var(--text-secondary); border: 1px solid var(--border-strong); border-radius: var(--radius-md);
   font-family: var(--font-sans); font-size: 0.88rem;
-  padding: 0.42rem 1.7rem 0.42rem 0.7rem; cursor: pointer;
+  height: var(--control-h); box-sizing: border-box;
+  padding: 0 1.7rem 0 0.7rem; cursor: pointer;
   transition: border-color var(--transition-fast), color var(--transition-fast),
               box-shadow var(--transition-fast);
 }
@@ -254,7 +259,8 @@ body {
 /* ── Bottoni (valori dal SITO — autorevoli, condivisi con la doc) ── */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
-  padding: 0.6rem 1.2rem; border-radius: var(--radius-md);
+  padding: 0 1.2rem; height: var(--control-h); box-sizing: border-box;
+  border-radius: var(--radius-md);
   font-size: var(--text-sm); font-weight: var(--weight-semibold); line-height: 1.3;
   border: 1px solid transparent; cursor: pointer; text-decoration: none; white-space: nowrap;
   transition: background-color var(--transition-fast), border-color var(--transition-fast),
@@ -266,16 +272,116 @@ body {
 .btn-ghost { background-color: transparent; color: var(--text); border-color: transparent; }
 .btn-ghost:hover { background-color: var(--bg-hover); color: var(--text); }
 .btn-docs {
-  padding: 0.45rem 0.9rem; border: 1px solid var(--border-strong);
+  padding: 0 0.9rem; border: 1px solid var(--border-strong);
   border-radius: var(--radius-md); font-size: 0.88rem; background: transparent;
 }
 .btn-docs:hover { border-color: var(--accent); color: var(--accent-text); background-color: transparent; }
 .btn-github {
-  gap: var(--space-2); padding: 0.45rem 0.9rem; border: 1px solid var(--border-strong);
+  gap: var(--space-2); padding: 0 0.9rem; border: 1px solid var(--border-strong);
   border-radius: var(--radius-md); font-size: 0.88rem; background: transparent;
 }
 .btn-github svg { flex-shrink: 0; }
 .btn-github:hover { border-color: var(--accent); color: var(--accent-text); background-color: transparent; }
+
+/* ── Navigazione principale (menu a dropdown) — CONDIVISA sito + doc ── */
+.main-nav { flex: 1; min-width: 0; }
+.nav-list {
+  display: flex; list-style: none; margin: 0; padding: 0;
+  gap: var(--space-1); justify-content: center; flex-wrap: nowrap;
+}
+.nav-list a,
+.nav-toggle {
+  display: block; padding: 0.45rem 0.7rem; font-size: 0.9rem;
+  font-weight: var(--weight-medium); line-height: 1.65;
+  color: var(--text-secondary); border-radius: var(--radius-sm); white-space: nowrap;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+.nav-list a:hover,
+.nav-toggle:hover { color: var(--text); background-color: var(--bg-hover); text-decoration: none; }
+
+.nav-has-sub { position: relative; }
+/* Hover bridge: ponte invisibile tra il toggle e il pannello (evita che il
+   cursore esca dal :hover attraversando il piccolo gap). */
+.nav-has-sub::after {
+  content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  width: 15.5rem; height: 0.6rem; z-index: 119;
+}
+.nav-list > .nav-has-sub:last-child::after { left: auto; right: -0.5rem; transform: none; }
+
+.nav-toggle {
+  appearance: none; -webkit-appearance: none; display: inline-flex; align-items: center;
+  gap: 0.3rem; margin: 0; background: transparent; border: none;
+  font-family: var(--font-sans); cursor: pointer;
+}
+.nav-toggle[aria-expanded="true"] { color: var(--text); background-color: var(--bg-hover); }
+.nav-toggle::after {
+  content: ""; width: 7px; height: 7px; margin-left: 2px;
+  border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-2px); transition: transform var(--transition-fast);
+}
+.nav-has-sub:hover .nav-toggle::after,
+.nav-has-sub:focus-within .nav-toggle::after,
+.nav-has-sub.open .nav-toggle::after { transform: rotate(225deg) translateY(-1px); }
+
+.nav-sub {
+  display: none; position: absolute; top: calc(100% + 0.3rem); left: 50%;
+  transform: translateX(-50%); min-width: 15.5rem; margin: 0; padding: 0.35rem;
+  list-style: none; background: var(--bg-elevated); border: 1px solid var(--border);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 120;
+}
+.nav-has-sub:hover .nav-sub,
+.nav-has-sub:focus-within .nav-sub,
+.nav-has-sub.open .nav-sub { display: block; animation: nav-sub-in var(--transition-med); }
+@keyframes nav-sub-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+.nav-list > .nav-has-sub:last-child .nav-sub { left: auto; right: -0.5rem; transform: none; }
+.nav-list > .nav-has-sub:last-child .nav-sub { animation-name: nav-sub-in-right; }
+@keyframes nav-sub-in-right {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.nav-sub a {
+  display: block; padding: 0.55rem 0.85rem; border-radius: var(--radius-sm);
+  font-size: 0.88rem; font-weight: var(--weight-medium); color: var(--text-secondary);
+  white-space: nowrap; transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+.nav-sub a:hover { color: var(--text); background: var(--bg-hover); text-decoration: none; }
+.nav-sub a:focus-visible { outline-offset: -2px; }
+.nav-sub::before {
+  content: ""; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 2.25rem; height: 4px; border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+}
+.nav-list > .nav-has-sub:last-child .nav-sub::before { left: auto; right: 1rem; transform: none; }
+
+/* ── Navigazione mobile (hamburger + pannello) — CONDIVISA ── */
+.menu-toggle { display: none; }
+.nav-crowded .main-nav { display: none; }
+.nav-crowded .menu-toggle { display: inline-flex; }
+.nav-crowded .mobile-menu.open { display: block; }
+.mobile-menu {
+  display: none; position: absolute; top: var(--header-height); left: 0; right: 0;
+  background: var(--bg-elevated); border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-lg); padding: var(--space-3) 0 var(--space-5);
+  max-height: calc(100vh - var(--header-height)); overflow-y: auto; overscroll-behavior: contain;
+}
+.mobile-menu ul { list-style: none; margin: 0; padding: 0 clamp(1rem, 4vw, 1.75rem); }
+.mobile-menu a {
+  display: block; padding: var(--space-3) var(--space-2); border-bottom: 1px solid var(--border);
+  color: var(--text); font-weight: var(--weight-medium); font-size: 0.95rem;
+}
+.mobile-menu a:hover { color: var(--accent-text); text-decoration: none; background: var(--bg-hover); }
+.mobile-menu .btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-top: var(--space-4); padding: 0 1.2rem; border-bottom: none;
+  color: var(--accent-contrast); font-weight: var(--weight-semibold);
+}
+.mobile-menu .btn:hover {
+  color: var(--accent-contrast);
+  background: linear-gradient(180deg, var(--accent-strong), var(--accent-strong));
+}
 
 /* ── Utility ── */
 .sr-only {
@@ -544,6 +650,46 @@ code {
       </span>
       <span class="brand-name">Caldeira&nbsp;VM</span>
     </a>
+    <nav class="main-nav" aria-label="Primary">
+    <ul class="nav-list">
+        <li><a href="../../index.html#top">Panoramica</a></li>
+        <li class="nav-has-sub">
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-haspopup="true">Impara</button>
+            <ul class="nav-sub">
+                <li><a href="../../index.html#why">Perché Caldeira VM</a></li>
+                <li><a href="../../index.html#concepts">Concetti chiave</a></li>
+                <li><a href="../../index.html#how-it-works">Come funziona</a></li>
+                <li><a href="../../index.html#architecture">Architettura</a></li>
+            </ul>
+        </li>
+        <li class="nav-has-sub">
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-haspopup="true">Piattaforma</button>
+            <ul class="nav-sub">
+                <li><a href="../../index.html#ecosystem">Ecosistema</a></li>
+                <li><a href="../../index.html#platforms">Piattaforme</a></li>
+                <li><a href="../../index.html#installation">Installazione</a></li>
+                <li><a href="../../index.html#vscode">VS Code</a></li>
+            </ul>
+        </li>
+        <li class="nav-has-sub">
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-haspopup="true">Community</button>
+            <ul class="nav-sub">
+                <li><a href="../../index.html#activity">Attività</a></li>
+                <li><a href="../../index.html#releases">Release</a></li>
+                <li><a href="../../index.html#community">Community</a></li>
+                <li><a href="../../index.html#roadmap">Roadmap</a></li>
+            </ul>
+        </li>
+        <li class="nav-has-sub">
+            <button type="button" class="nav-toggle" aria-expanded="false" aria-haspopup="true">Azienda</button>
+            <ul class="nav-sub">
+                <li><a href="../../index.html#commercial">Integrazione commerciale</a></li>
+                <li><a href="../../index.html#pricing">Prezzi</a></li>
+                <li><a href="https://licensing.skyhome.it/portal/" target="_blank" rel="noopener noreferrer">Portale clienti</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
     <div class="header-tools">
       <a class="btn btn-ghost btn-docs" href="../../index.html">Home</a>
       <a class="btn btn-ghost btn-github" href="https://github.com/giuseppe-palmeri/Caldeira-VM-Releases" target="_blank" rel="noopener noreferrer">
@@ -561,8 +707,12 @@ code {
           <option value="it" selected>Italiano</option>
         </select>
       </div>
+      <button class="icon-btn menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label="Menu">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
     </div>
   </div>
+  <div class="mobile-menu" id="mobile-menu" hidden><nav aria-label="Mobile"><ul><li><a href="../../index.html#top">Overview</a></li><li><a href="../../index.html#why">Why Caldeira VM</a></li><li><a href="../../index.html#concepts">Core Concepts</a></li><li><a href="../../index.html#how-it-works">How It Works</a></li><li><a href="../../index.html#architecture">Architecture</a></li><li><a href="../../index.html#ecosystem">Ecosystem</a></li><li><a href="../../index.html#platforms">Platforms</a></li><li><a href="../../index.html#installation">Installation</a></li><li><a href="../../index.html#vscode">VS Code</a></li><li><a href="../../index.html#activity">Activity</a></li><li><a href="../../index.html#releases">Releases</a></li><li><a href="../../index.html#community">Community</a></li><li><a href="../../index.html#roadmap">Roadmap</a></li><li><a href="../../index.html#commercial">Commercial Integration</a></li><li><a href="../../index.html#pricing">Pricing</a></li></ul></nav></div>
 </header>
 
 
@@ -10741,6 +10891,54 @@ window.addEventListener('click', function(e) {
   bindToggles();
 
   window.toggleTheme = function() { apply(root.dataset.theme === 'light' ? 'dark' : 'light'); };
+})();
+
+// ── Menu del sito (condiviso): dropdown a click + menu mobile + fluid nav ──
+(function() {
+  var nav = document.querySelector('.main-nav');
+  if (!nav) return;
+  var items = nav.querySelectorAll('.nav-has-sub');
+  function closeAll() {
+    items.forEach(function(it) {
+      it.classList.remove('open');
+      var b = it.querySelector('.nav-toggle');
+      if (b) b.setAttribute('aria-expanded', 'false');
+    });
+  }
+  items.forEach(function(it) {
+    var btn = it.querySelector('.nav-toggle');
+    if (!btn) return;
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var shouldOpen = !it.classList.contains('open');
+      closeAll();
+      if (shouldOpen) { it.classList.add('open'); btn.setAttribute('aria-expanded', 'true'); }
+    });
+    it.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && it.classList.contains('open')) { closeAll(); btn.focus(); }
+    });
+  });
+  document.addEventListener('click', closeAll);
+
+  // Fluid nav: se il menu inline non entra, passa all'hamburger.
+  function fluid() {
+    var crowded = nav.scrollWidth > nav.clientWidth + 8;
+    document.body.classList.toggle('nav-crowded', crowded);
+  }
+  fluid();
+  window.addEventListener('resize', fluid);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fluid).catch(function(){});
+
+  // Hamburger: apre/chiude il pannello mobile.
+  var mtoggle = document.querySelector('[data-menu-toggle]');
+  var menu = document.getElementById('mobile-menu');
+  if (mtoggle && menu) {
+    mtoggle.addEventListener('click', function() {
+      var open = menu.classList.toggle('open');
+      mtoggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      document.body.classList.toggle('menu-open', open);
+    });
+  }
 })();
 </script>
 </body>
