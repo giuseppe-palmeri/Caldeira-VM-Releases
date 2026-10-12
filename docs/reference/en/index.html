@@ -670,14 +670,72 @@ code {
 .sidebar::-webkit-scrollbar { width: 6px; }
 .sidebar::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) { .sidebar { width: 240px; } .main-content { margin: 0 auto; padding: 4.5rem 1.5rem; } }
-@media (max-width: 700px) {
-  /* Su schermi stretti la sidebar va SOPRA il contenuto: si impila
-     .docs-body (era il bug: si cambiava `body`, non `.docs-body`). */
-  .docs-body { flex-direction: column; }
-  .sidebar { position: relative; width: 100%; height: auto; max-height: 50vh; top: auto; overflow-y: auto; }
-  .main-content { margin: 0; padding: 1rem; width: 100%; max-width: 100%; }
+/* ── RESPONSIVE: due DRAWER da sinistra (Indice | Sezioni del sito) ──
+   I due pulsanti in topbar compaiono solo sotto 900px; sidebar e menu del sito
+   diventano pannelli off-canvas che scivolano da sinistra (niente piu' sidebar
+   "sopra" e niente pannello a tendina: una cosa alla volta). */
+
+/* Pulsanti drawer: nascosti su schermi larghi. */
+.doc-nav-btn,
+.site-nav-btn { display: none; }
+
+/* Backdrop condiviso per chiudere i drawer. */
+.drawer-scrim {
+  position: fixed; inset: var(--header-height) 0 0 0;
+  background: rgba(0, 0, 0, .45);
+  opacity: 0; visibility: hidden; z-index: 130;
+  transition: opacity var(--transition-fast), visibility var(--transition-fast);
+}
+.drawer-scrim.open { opacity: 1; visibility: visible; }
+
+@media (max-width: 900px) {
+  /* Mostra i due pulsanti-drawer nella topbar. */
+  .doc-nav-btn,
+  .site-nav-btn { display: inline-flex; }
+
+  .main-content { margin: 0 auto; padding: 1.5rem 1.25rem; }
+
+  /* Sidebar (indice doc) = drawer da sinistra. */
+  .sidebar {
+    position: fixed;
+    top: var(--header-height); left: 0;
+    width: min(320px, 86vw);
+    height: calc(100vh - var(--header-height));
+    transform: translateX(-100%);
+    transition: transform var(--transition-med);
+    z-index: 140;
+    box-shadow: var(--shadow-lg);
+  }
+  .sidebar.open { transform: translateX(0); }
+
+  /* Menu del sito = drawer da sinistra (stesso stile). */
+  .mobile-menu {
+    position: fixed;
+    top: var(--header-height); left: 0; right: auto;
+    width: min(320px, 86vw);
+    height: calc(100vh - var(--header-height));
+    transform: translateX(-100%);
+    transition: transform var(--transition-med);
+    z-index: 140;
+    border-bottom: none;
+    border-right: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-3) 0 var(--space-5);
+  }
+  /* Il pannello del sito si apre SOLO via JS (.open), non via .nav-crowded. */
+  .mobile-menu.open { transform: translateX(0); display: block; }
+}
+
+/* La doc ha i PROPRI pulsanti-drawer: tra 901 e 1120px il menu inline del
+   sito resta visibile (base.css lo nascondeva a 1120 per l'hamburger del sito). */
+@media (min-width: 901px) and (max-width: 1120px) {
+  .main-nav { display: block; }
+}
+
+/* Sopra 901px i drawer non esistono: sidebar fissa + menu sito in topbar. */
+@media (min-width: 901px) {
+  .drawer-scrim { display: none; }
+  .mobile-menu { display: none; }
 }
 
 </style>
@@ -750,14 +808,19 @@ code {
           <option value="it">Italiano</option>
         </select>
       </div>
-      <button class="icon-btn menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label="Menu">
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      <button class="icon-btn doc-nav-btn" type="button" data-doc-nav-toggle aria-expanded="false" aria-controls="sidebar" aria-label="Documentation index" title="Documentation index">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <button class="icon-btn site-nav-btn" type="button" data-site-nav-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label="Site sections" title="Site sections">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg>
       </button>
     </div>
   </div>
   <div class="mobile-menu" id="mobile-menu" hidden><nav aria-label="Mobile"><ul><li><a href="../../index.html#top">Overview</a></li><li><a href="../../index.html#why">Why Caldeira VM</a></li><li><a href="../../index.html#concepts">Core Concepts</a></li><li><a href="../../index.html#how-it-works">How It Works</a></li><li><a href="../../index.html#architecture">Architecture</a></li><li><a href="../../index.html#ecosystem">Ecosystem</a></li><li><a href="../../index.html#platforms">Platforms</a></li><li><a href="../../index.html#installation">Installation</a></li><li><a href="../../index.html#vscode">VS Code</a></li><li><a href="../../index.html#activity">Activity</a></li><li><a href="../../index.html#releases">Releases</a></li><li><a href="../../index.html#community">Community</a></li><li><a href="../../index.html#roadmap">Roadmap</a></li><li><a href="../../index.html#commercial">Commercial Integration</a></li><li><a href="../../index.html#pricing">Pricing</a></li></ul></nav></div>
 </header>
 
+
+<div id="drawer-scrim" class="drawer-scrim" aria-hidden="true"></div>
 
 <div class="docs-body">
 <nav id="sidebar" class="sidebar" role="navigation" aria-label="Documentation navigation">
@@ -10982,6 +11045,50 @@ window.addEventListener('click', function(e) {
       document.body.classList.toggle('menu-open', open);
     });
   }
+})();
+
+// ── Doc responsive: DUE drawer da sinistra (Indice | Sezioni del sito) ──
+(function() {
+  var scrim = document.getElementById('drawer-scrim');
+  var sidebar = document.getElementById('sidebar');
+  var siteMenu = document.getElementById('mobile-menu');
+  var btnIndex = document.querySelector('[data-doc-nav-toggle]');
+  var btnSite = document.querySelector('[data-site-nav-toggle]');
+
+  function closeAll() {
+    if (sidebar) sidebar.classList.remove('open');
+    if (siteMenu) siteMenu.classList.remove('open');
+    if (scrim) scrim.classList.remove('open');
+    document.body.classList.remove('drawer-open');
+    if (btnIndex) btnIndex.setAttribute('aria-expanded', 'false');
+    if (btnSite) btnSite.setAttribute('aria-expanded', 'false');
+  }
+  function open(el, btn) {
+    closeAll();
+    if (!el) return;
+    el.classList.add('open');
+    if (scrim) scrim.classList.add('open');
+    document.body.classList.add('drawer-open');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+  }
+  if (btnIndex && sidebar) btnIndex.addEventListener('click', function() {
+    sidebar.classList.contains('open') ? closeAll() : open(sidebar, btnIndex);
+  });
+  if (btnSite && siteMenu) btnSite.addEventListener('click', function() {
+    siteMenu.classList.contains('open') ? closeAll() : open(siteMenu, btnSite);
+  });
+  if (scrim) scrim.addEventListener('click', closeAll);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeAll(); });
+  // Tornando a desktop i drawer non hanno senso: chiudili.
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 900) closeAll();
+  });
+  // Un click su un link dentro un drawer lo chiude (navigazione).
+  [sidebar, siteMenu].forEach(function(el) {
+    if (el) el.addEventListener('click', function(e) {
+      if (e.target.closest('a')) closeAll();
+    });
+  });
 })();
 </script>
 </body>
