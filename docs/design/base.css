@@ -22,6 +22,10 @@ body {
   transition: background-color .2s, color .2s;
 }
 
+/* Link di base: accent, senza sottolineatura (il sito lo faceva inline;
+   ora è condiviso così anche la doc ha link coerenti, non "sottolineati"). */
+a { color: var(--accent-text); text-decoration: none; transition: color var(--transition-fast); }
+
 /* ── HEADER del sito (condiviso) ── */
 .site-header {
   position: sticky; top: 0; z-index: 100;

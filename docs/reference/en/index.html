@@ -183,6 +183,10 @@ body {
   transition: background-color .2s, color .2s;
 }
 
+/* Link di base: accent, senza sottolineatura (il sito lo faceva inline;
+   ora è condiviso così anche la doc ha link coerenti, non "sottolineati"). */
+a { color: var(--accent-text); text-decoration: none; transition: color var(--transition-fast); }
+
 /* ── HEADER del sito (condiviso) ── */
 .site-header {
   position: sticky; top: 0; z-index: 100;
@@ -405,7 +409,8 @@ body {
 /* ── DOCS BODY WRAPPER (sidebar + main sotto l'header) ── */
 .docs-body { display: flex; flex: 1; min-height: 0; }
 body { display: flex; flex-direction: column; }
-/* Nella doc l'header non ha la .main-nav: gli strumenti vanno spinti a destra. */
+/* Header doc = stesso menu del sito (.main-nav, condiviso).
+   margin-left:auto tiene gli strumenti a destra anche se il nav manca. */
 .header-tools { margin-left: auto; }
 
 /* ── SIDEBAR ── */
@@ -421,12 +426,6 @@ body { display: flex; flex-direction: column; }
   border-right: 1px solid var(--border);
   flex-shrink: 0;
 }
-.sidebar-header { padding: 1.25rem 1rem; display: flex; flex-direction: column; align-items: center; gap: .5rem; border-bottom: 1px solid var(--border); background: var(--bg-elevated); flex-shrink: 0; }
-.logo-link { flex-shrink: 0; display: flex; }
-.sidebar-logo { width: 100%; max-width: 220px; height: auto; border-radius: 8px; object-fit: contain; }
-.sidebar-title { display: flex; flex-direction: column; align-items: center; text-align: center; }
-.sidebar-brand { font-weight: 800; font-size: 1.05rem; color: var(--accent-text); }
-.sidebar-sub { font-size: .75rem; color: var(--text-tertiary); margin-top: -2px; }
 .sidebar-search { padding: .75rem 1rem; border-bottom: 1px solid var(--border); background: var(--bg-inset); flex-shrink: 0; }
 .sidebar-search input {
   width: 100%; padding: .5rem .75rem; border: 1px solid var(--border-strong); border-radius: 6px;
@@ -718,11 +717,6 @@ code {
 
 <div class="docs-body">
 <nav id="sidebar" class="sidebar" role="navigation" aria-label="Documentation navigation">
-  <div class="sidebar-header">
-    <a href="index.html" class="logo-link">
-      <img src="../caldeira.png" alt="Caldeira VM" class="sidebar-logo" />
-    </a>
-  </div>
   <div class="sidebar-search">
     <input type="text" id="nav-search" placeholder="Search instructions..." oninput="filterNav(this.value)" />
   </div>
