@@ -693,57 +693,68 @@ code {
 .doc-nav-btn,
 .site-nav-btn { display: none; }
 
-/* Backdrop condiviso per chiudere i drawer (istantaneo, senza transizione:
-   affidabile su ogni browser). */
-.drawer-scrim {
-  position: fixed; inset: var(--header-height) 0 0 0;
-  background: rgba(0, 0, 0, .5);
-  display: none; z-index: 130;
+/* Backdrop condiviso: non piu' necessario (i <dialog> usano ::backdrop nativo). */
+
+/* ── DRAWER nativi (<dialog>): Indice | Sezioni del sito ──
+   Il <dialog>.showModal() sta nel TOP LAYER del browser: sempre sopra tutto,
+   cliccabile, BLOCCA scroll/tocchi sotto, chiusura con ESC nativa. Solo mobile
+   (i pulsanti-drawer compaiono sotto 900px); su desktop i dialog non si aprono. */
+.doc-drawer {
+  padding: 0; margin: 0;
+  position: fixed;
+  top: var(--header-height); left: 0; bottom: 0; right: auto;
+  width: min(340px, 88vw);
+  max-width: none; max-height: none; height: auto;
+  border: 0; border-right: 1px solid var(--border);
+  background: var(--bg-elevated); color: var(--text);
+  box-shadow: var(--shadow-lg);
+  display: flex; flex-direction: column;
+  overflow: hidden;
 }
-.drawer-scrim.open { display: block; }
+.doc-drawer::backdrop { background: rgba(0, 0, 0, .5); }
+.doc-drawer .drawer-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .75rem 1rem; border-bottom: 1px solid var(--border);
+  font-weight: 600; font-size: .95rem; flex-shrink: 0;
+}
+.doc-drawer .drawer-close {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 2rem; height: 2rem; padding: 0; cursor: pointer;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-md);
+  background: transparent; color: var(--text-secondary);
+}
+.doc-drawer .drawer-close:hover { color: var(--text); border-color: var(--accent); }
+.doc-drawer .drawer-body { flex: 1; min-height: 0; overflow-y: auto; padding: .5rem 0; }
+.doc-drawer .drawer-search {
+  width: calc(100% - 2rem); margin: .5rem 1rem; padding: .5rem .75rem;
+  border: 1px solid var(--border-strong); border-radius: 6px;
+  background: var(--bg-inset); color: var(--text); font-family: var(--font-sans); font-size: .85rem;
+}
+.doc-drawer .nav-tree { padding: 0; }
+.doc-drawer .site-nav-list { list-style: none; margin: 0; padding: 0 clamp(.75rem, 4vw, 1.25rem); }
+.doc-drawer .site-nav-list a {
+  display: block; padding: .65rem .5rem; border-bottom: 1px solid var(--border);
+  color: var(--text); font-weight: var(--weight-medium); font-size: .95rem;
+}
+.doc-drawer .site-nav-list a:hover { color: var(--accent-text); background: var(--bg-hover); text-decoration: none; }
 
 @media (max-width: 900px) {
   /* Mostra i due pulsanti-drawer nella topbar. */
   .doc-nav-btn,
   .site-nav-btn { display: inline-flex; }
-
   .main-content { margin: 0 auto; padding: 1.5rem 1.25rem; }
+}
 
-  /* DRAWER da sinistra (Indice doc | Sezioni sito).
-     NESSUN affidamento sull'animazione: apertura/chiusura sono ISTANTANEE
-     (display/visibility). Cosi' il pannello e' SEMPRE dentro e cliccabile,
-     su qualunque browser, anche se le transizioni non girano. */
-  .sidebar,
-  .mobile-menu {
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
-    right: auto;
-    width: min(320px, 86vw);
-    height: calc(100vh - var(--header-height));
-    margin: 0;
-    display: none;
-    z-index: 140;
-    box-shadow: var(--shadow-lg);
-    border-right: 1px solid var(--border);
-    overflow-y: auto;
-  }
-  .sidebar.open,
-  .mobile-menu.open {
-    display: block;
-  }
+/* Sopra 900px: i pulsanti-drawer non servono (sidebar fissa + menu in topbar). */
+@media (min-width: 901px) {
+  .doc-nav-btn,
+  .site-nav-btn { display: none; }
 }
 
 /* La doc ha i PROPRI pulsanti-drawer: tra 901 e 1120px il menu inline del
    sito resta visibile (base.css lo nascondeva a 1120 per l'hamburger del sito). */
 @media (min-width: 901px) and (max-width: 1120px) {
   .main-nav { display: block; }
-}
-
-/* Sopra 901px i drawer non esistono: sidebar fissa + menu sito in topbar. */
-@media (min-width: 901px) {
-  .drawer-scrim { display: none; }
-  .mobile-menu { display: none; }
 }
 
 </style>
@@ -824,11 +835,9 @@ code {
       </button>
     </div>
   </div>
-  <div class="mobile-menu" id="mobile-menu"><nav aria-label="Mobile"><ul><li><a href="../../index.html#top">Overview</a></li><li><a href="../../index.html#why">Why Caldeira VM</a></li><li><a href="../../index.html#concepts">Core Concepts</a></li><li><a href="../../index.html#how-it-works">How It Works</a></li><li><a href="../../index.html#architecture">Architecture</a></li><li><a href="../../index.html#ecosystem">Ecosystem</a></li><li><a href="../../index.html#platforms">Platforms</a></li><li><a href="../../index.html#installation">Installation</a></li><li><a href="../../index.html#vscode">VS Code</a></li><li><a href="../../index.html#activity">Activity</a></li><li><a href="../../index.html#releases">Releases</a></li><li><a href="../../index.html#community">Community</a></li><li><a href="../../index.html#roadmap">Roadmap</a></li><li><a href="../../index.html#commercial">Commercial Integration</a></li><li><a href="../../index.html#pricing">Pricing</a></li></ul></nav></div>
+  <dialog id="doc-site-dialog" class="doc-drawer" aria-label="Sezioni del sito"><div class="drawer-head"><span>Sezioni del sito</span><button type="button" class="drawer-close" data-close-drawer aria-label="Chiudi"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><div class="drawer-body"><ul class="site-nav-list"><li><a href="../../index.html#top">Overview</a></li><li><a href="../../index.html#why">Why Caldeira VM</a></li><li><a href="../../index.html#concepts">Core Concepts</a></li><li><a href="../../index.html#how-it-works">How It Works</a></li><li><a href="../../index.html#architecture">Architecture</a></li><li><a href="../../index.html#ecosystem">Ecosystem</a></li><li><a href="../../index.html#platforms">Platforms</a></li><li><a href="../../index.html#installation">Installation</a></li><li><a href="../../index.html#vscode">VS Code</a></li><li><a href="../../index.html#activity">Activity</a></li><li><a href="../../index.html#releases">Releases</a></li><li><a href="../../index.html#community">Community</a></li><li><a href="../../index.html#roadmap">Roadmap</a></li><li><a href="../../index.html#commercial">Commercial Integration</a></li><li><a href="../../index.html#pricing">Pricing</a></li></ul></div></dialog>
 </header>
 
-
-<div id="drawer-scrim" class="drawer-scrim" aria-hidden="true"></div>
 
 <div class="docs-body">
 <nav id="sidebar" class="sidebar" role="navigation" aria-label="Navigazione documentazione">
@@ -1186,6 +1195,370 @@ code {
 
   </ul>
 </nav>
+
+<!-- Indice come <dialog> nativo (solo mobile): sta nel TOP LAYER del browser,
+     quindi e' sempre sopra, cliccabile, e BLOCCA lo scroll/tocchi sotto. -->
+<dialog id="doc-index-dialog" class="doc-drawer" aria-label="Indice della documentazione">
+  <div class="drawer-head">
+    <span>Indice della documentazione</span>
+    <button type="button" class="drawer-close" data-close-drawer aria-label="Chiudi">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="drawer-body">
+    <input type="text" class="drawer-search" placeholder="Cerca istruzioni..." oninput="filterNav(this.value)" />
+    <ul class="nav-tree">
+    <li class="expanded"><a href="#ch1-quickstart" class="nav-chapter current"><span class="material-icons nav-icon">rocket_launch</span> Primo programma</a>
+    </li>
+    <li><a href="#ch2-registers" class="nav-chapter has-subs"><span class="material-icons nav-icon">developer_board</span> Architettura registri</a>
+      <ul class="nav-subs">
+        <li><a href="#reg-table">Registri R0–R15</a></li>
+        <li><a href="#flags-psr">Flags PSR</a></li>
+      </ul>
+    </li>
+    <li><a href="#ch3-isa" class="nav-chapter has-subs"><span class="material-icons nav-icon">code</span> Set di istruzioni (ISA)</a>
+      <ul class="nav-subs">
+        <li class="nav-cat"><a href="#aritmetica-e-logica">Aritmetica e logica</a>
+          <ul class="nav-subs">
+            <li><a href="#aritmetica-e-logica" data-instr="instr-add">ADD</a></li>
+            <li><a href="#aritmetica-e-logica" data-instr="instr-sub">SUB</a></li>
+            <li><a href="#aritmetica-e-logica" data-instr="instr-and">AND</a></li>
+            <li><a href="#aritmetica-e-logica" data-instr="instr-or">OR</a></li>
+            <li><a href="#aritmetica-e-logica" data-instr="instr-xor">XOR</a></li>
+            <li><a href="#aritmetica-e-logica" data-instr="instr-shl">SHL</a></li>
+            <li><a href="#aritmetica-e-logica" data-instr="instr-shr">SHR</a></li>
+            <li><a href="#aritmetica-e-logica" data-instr="instr-asr">ASR</a></li>
+            <li><a href="#aritmetica-e-logica" data-instr="instr-mul">MUL</a></li>
+            <li><a href="#aritmetica-e-logica" data-instr="instr-div">DIV</a></li>
+            <li><a href="#aritmetica-e-logica" data-instr="instr-mod">MOD</a></li>
+            <li><a href="#aritmetica-e-logica" data-instr="instr-not">NOT</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#aritmetica-64-bit">Aritmetica 64-bit</a>
+          <ul class="nav-subs">
+            <li><a href="#aritmetica-64-bit" data-instr="instr-mac">MAC</a></li>
+            <li><a href="#aritmetica-64-bit" data-instr="instr-clracc">CLRACC</a></li>
+            <li><a href="#aritmetica-64-bit" data-instr="instr-getacc">GETACC</a></li>
+            <li><a href="#aritmetica-64-bit" data-instr="instr-setacc">SETACC</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#confronto-e-salti-condizionali">Confronto e salti condizionali</a>
+          <ul class="nav-subs">
+            <li><a href="#confronto-e-salti-condizionali" data-instr="instr-cmp">CMP</a></li>
+            <li><a href="#confronto-e-salti-condizionali" data-instr="instr-beq">BEQ</a></li>
+            <li><a href="#confronto-e-salti-condizionali" data-instr="instr-bne">BNE</a></li>
+            <li><a href="#confronto-e-salti-condizionali" data-instr="instr-blt">BLT</a></li>
+            <li><a href="#confronto-e-salti-condizionali" data-instr="instr-bgt">BGT</a></li>
+            <li><a href="#confronto-e-salti-condizionali" data-instr="instr-ble">BLE</a></li>
+            <li><a href="#confronto-e-salti-condizionali" data-instr="instr-bge">BGE</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#caricamento-costanti">Caricamento costanti</a>
+          <ul class="nav-subs">
+            <li><a href="#caricamento-costanti" data-instr="instr-mov-h">MOV.H</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#memoria">Memoria</a>
+          <ul class="nav-subs">
+            <li><a href="#memoria" data-instr="instr-ld8">LD8</a></li>
+            <li><a href="#memoria" data-instr="instr-ld16">LD16</a></li>
+            <li><a href="#memoria" data-instr="instr-ld32">LD32</a></li>
+            <li><a href="#memoria" data-instr="instr-st8">ST8</a></li>
+            <li><a href="#memoria" data-instr="instr-st16">ST16</a></li>
+            <li><a href="#memoria" data-instr="instr-st32">ST32</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#allocazione">Allocazione</a>
+          <ul class="nav-subs">
+            <li><a href="#allocazione" data-instr="instr-alloc">ALLOC</a></li>
+            <li><a href="#allocazione" data-instr="instr-alloc-fr">ALLOC.FR</a></li>
+            <li><a href="#allocazione" data-instr="instr-alloc-u">ALLOC.U</a></li>
+            <li><a href="#allocazione" data-instr="instr-mark">MARK</a></li>
+            <li><a href="#allocazione" data-instr="instr-free">FREE</a></li>
+            <li><a href="#allocazione" data-instr="instr-mark-fr">MARK.FR</a></li>
+            <li><a href="#allocazione" data-instr="instr-free-fr">FREE.FR</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#oggetti-e-metodi-virtuali">Oggetti e metodi virtuali</a>
+          <ul class="nav-subs">
+            <li><a href="#oggetti-e-metodi-virtuali" data-instr="instr-new">NEW</a></li>
+            <li><a href="#oggetti-e-metodi-virtuali" data-instr="instr-new-fr">NEW.FR</a></li>
+            <li><a href="#oggetti-e-metodi-virtuali" data-instr="instr-callm">CALLM</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#controllo-di-flusso">Controllo di flusso</a>
+          <ul class="nav-subs">
+            <li><a href="#controllo-di-flusso" data-instr="instr-jmp">JMP</a></li>
+            <li><a href="#controllo-di-flusso" data-instr="instr-call">CALL</a></li>
+            <li><a href="#controllo-di-flusso" data-instr="instr-jmp-r">JMP.R</a></li>
+            <li><a href="#controllo-di-flusso" data-instr="instr-call-r">CALL.R</a></li>
+            <li><a href="#controllo-di-flusso" data-instr="instr-ret">RET</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#stack">Stack</a>
+          <ul class="nav-subs">
+            <li><a href="#stack" data-instr="instr-push">PUSH</a></li>
+            <li><a href="#stack" data-instr="instr-pop">POP</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#protezione-e-fault-handling">Protezione e fault handling</a>
+          <ul class="nav-subs">
+            <li><a href="#protezione-e-fault-handling" data-instr="instr-guard">GUARD</a></li>
+            <li><a href="#protezione-e-fault-handling" data-instr="instr-fault">FAULT</a></li>
+            <li><a href="#protezione-e-fault-handling" data-instr="instr-unguard">UNGUARD</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#i-o-e-system-call">I/O e System Call</a>
+          <ul class="nav-subs">
+            <li><a href="#i-o-e-system-call" data-instr="instr-getc">GETC</a></li>
+            <li><a href="#i-o-e-system-call" data-instr="instr-putc">PUTC</a></li>
+            <li><a href="#i-o-e-system-call" data-instr="instr-syscall">SYSCALL</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#eventi">Eventi</a>
+          <ul class="nav-subs">
+            <li><a href="#eventi" data-instr="instr-fire">FIRE</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#gestione-vm">Gestione VM</a>
+          <ul class="nav-subs">
+            <li><a href="#gestione-vm" data-instr="instr-slice">SLICE</a></li>
+            <li><a href="#gestione-vm" data-instr="instr-exit">EXIT</a></li>
+            <li><a href="#gestione-vm" data-instr="instr-halt">HALT</a></li>
+            <li><a href="#gestione-vm" data-instr="instr-yield">YIELD</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#altro">Altro</a>
+          <ul class="nav-subs">
+            <li><a href="#altro" data-instr="instr-nop">NOP</a></li>
+            <li><a href="#altro" data-instr="instr-cmp-s">CMP.S</a></li>
+            <li><a href="#altro" data-instr="instr-add-s">ADD.S</a></li>
+            <li><a href="#altro" data-instr="instr-and-u">AND.U</a></li>
+            <li><a href="#altro" data-instr="instr-or-u">OR.U</a></li>
+            <li><a href="#altro" data-instr="instr-sub-s">SUB.S</a></li>
+            <li><a href="#altro" data-instr="instr-mul-s">MUL.S</a></li>
+            <li><a href="#altro" data-instr="instr-div-s">DIV.S</a></li>
+            <li><a href="#altro" data-instr="instr-mod-s">MOD.S</a></li>
+            <li><a href="#altro" data-instr="instr-xor-u">XOR.U</a></li>
+            <li><a href="#altro" data-instr="instr-shl-u">SHL.U</a></li>
+            <li><a href="#altro" data-instr="instr-shr-u">SHR.U</a></li>
+            <li><a href="#altro" data-instr="instr-asr-u">ASR.U</a></li>
+            <li><a href="#altro" data-instr="instr-mov-s">MOV.S</a></li>
+            <li><a href="#altro" data-instr="instr-mov-u">MOV.U</a></li>
+            <li><a href="#altro" data-instr="instr-lda">LDA</a></li>
+            <li><a href="#altro" data-instr="instr-alloc-fr-u">ALLOC.FR.U</a></li>
+            <li><a href="#altro" data-instr="instr-blo">BLO</a></li>
+            <li><a href="#altro" data-instr="instr-bhs">BHS</a></li>
+            <li><a href="#altro" data-instr="instr-bhi">BHI</a></li>
+            <li><a href="#altro" data-instr="instr-bls">BLS</a></li>
+            <li><a href="#altro" data-instr="instr-fire-u">FIRE.U</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#ch4-faults" class="nav-chapter has-subs"><span class="material-icons nav-icon">warning</span> Codici di fault</a>
+      <ul class="nav-subs">
+        <li><a href="#fault-user-generic">USER_GENERIC</a></li>
+        <li><a href="#fault-null-pointer">NULL_POINTER</a></li>
+        <li><a href="#fault-invalid-obj">INVALID_OBJ</a></li>
+        <li><a href="#fault-oom-scratch">OOM_SCRATCH</a></li>
+        <li><a href="#fault-oom-frame">OOM_FRAME</a></li>
+        <li><a href="#fault-stack-overflow">STACK_OVERFLOW</a></li>
+        <li><a href="#fault-stack-underflow">STACK_UNDERFLOW</a></li>
+        <li><a href="#fault-mark-overflow">MARK_OVERFLOW</a></li>
+        <li><a href="#fault-div-zero">DIV_ZERO</a></li>
+        <li><a href="#fault-invalid-opcode">INVALID_OPCODE</a></li>
+        <li><a href="#fault-invalid-pc">INVALID_PC</a></li>
+        <li><a href="#fault-event-overflow">EVENT_OVERFLOW</a></li>
+        <li><a href="#fault-bad-class-id">BAD_CLASS_ID</a></li>
+        <li><a href="#fault-no-method">NO_METHOD</a></li>
+        <li><a href="#fault-field-bounds">FIELD_BOUNDS</a></li>
+        <li><a href="#fault-illegal-yield">ILLEGAL_YIELD</a></li>
+        <li><a href="#fault-invalid-char">INVALID_CHAR</a></li>
+        <li><a href="#fault-mark-underflow">MARK_UNDERFLOW</a></li>
+        <li><a href="#fault-unguard-without-guard">UNGUARD_WITHOUT_GUARD</a></li>
+        <li><a href="#fault-method-bounds">METHOD_BOUNDS</a></li>
+        <li><a href="#fault-invalid-event">INVALID_EVENT</a></li>
+        <li><a href="#fault-invalid-syscall">INVALID_SYSCALL</a></li>
+        <li><a href="#fault-invalid-read">INVALID_READ</a></li>
+        <li><a href="#fault-invalid-write">INVALID_WRITE</a></li>
+        <li><a href="#fault-static-not-loaded">STATIC_NOT_LOADED</a></li>
+        <li><a href="#fault-dead">DEAD</a></li>
+      </ul>
+    </li>
+    <li><a href="#ch5-events" class="nav-chapter has-subs"><span class="material-icons nav-icon">rss_feed</span> Eventi</a>
+      <ul class="nav-subs">
+        <li class="nav-cat"><a href="#evt-0x00">0x00 — SISTEMA</a>
+          <ul class="nav-subs">
+            <li><a href="#evt-evt-reset-flags-flg">EVT_RESET(flags:FLG)</a></li>
+            <li><a href="#evt-evt-tick-1ms-tick-flg">EVT_TICK_1MS(tick:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#evt-0x04">0x04 — DEEP SLEEP</a>
+          <ul class="nav-subs">
+            <li><a href="#evt-evt-wake-deep-timer-flags-flg">EVT_WAKE_DEEP_TIMER(flags:FLG)</a></li>
+            <li><a href="#evt-evt-wake-deep-gpio-flags-flg">EVT_WAKE_DEEP_GPIO(flags:FLG)</a></li>
+            <li><a href="#evt-evt-wake-deep-touch-flags-flg">EVT_WAKE_DEEP_TOUCH(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#evt-0x20">0x20 — TIMER HARDWARE</a>
+          <ul class="nav-subs">
+            <li><a href="#evt-evt-timer0-exp-flags-flg">EVT_TIMER0_EXP(flags:FLG)</a></li>
+            <li><a href="#evt-evt-timer1-exp-flags-flg">EVT_TIMER1_EXP(flags:FLG)</a></li>
+            <li><a href="#evt-evt-timer2-exp-flags-flg">EVT_TIMER2_EXP(flags:FLG)</a></li>
+            <li><a href="#evt-evt-timer3-exp-flags-flg">EVT_TIMER3_EXP(flags:FLG)</a></li>
+            <li><a href="#evt-evt-watchdog-flags-flg">EVT_WATCHDOG(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#evt-0x40">0x40 — I/O DIGITALE & ANALOGICO</a>
+          <ul class="nav-subs">
+            <li><a href="#evt-evt-gpio-bank0-flags-flg">EVT_GPIO_BANK0(flags:FLG)</a></li>
+            <li><a href="#evt-evt-gpio-bank1-flags-flg">EVT_GPIO_BANK1(flags:FLG)</a></li>
+            <li><a href="#evt-evt-adc-ready-buf-ptr-len-u16">EVT_ADC_READY(buf:PTR,len:U16)</a></li>
+            <li><a href="#evt-evt-adc-thr-cross-flags-flg">EVT_ADC_THR_CROSS(flags:FLG)</a></li>
+            <li><a href="#evt-evt-dac-empty">EVT_DAC_EMPTY</a></li>
+            <li><a href="#evt-evt-pwm-fault-flags-flg">EVT_PWM_FAULT(flags:FLG)</a></li>
+            <li><a href="#evt-evt-sdl-keydown-scancode-u32">EVT_SDL_KEYDOWN(scancode:U32)</a></li>
+            <li><a href="#evt-evt-sdl-keyup-scancode-u32">EVT_SDL_KEYUP(scancode:U32)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#evt-0x80">0x80 — COMUNICAZIONE SERIALE</a>
+          <ul class="nav-subs">
+            <li><a href="#evt-evt-uart0-rx-buf-ptr-len-u16">EVT_UART0_RX(buf:PTR,len:U16)</a></li>
+            <li><a href="#evt-evt-uart0-tx-empty">EVT_UART0_TX_EMPTY</a></li>
+            <li><a href="#evt-evt-uart0-err-flags-flg">EVT_UART0_ERR(flags:FLG)</a></li>
+            <li><a href="#evt-evt-uart1-rx-buf-ptr-len-u16">EVT_UART1_RX(buf:PTR,len:U16)</a></li>
+            <li><a href="#evt-evt-uart1-tx-empty">EVT_UART1_TX_EMPTY</a></li>
+            <li><a href="#evt-evt-spi0-trans-buf-ptr-len-u16">EVT_SPI0_TRANS(buf:PTR,len:U16)</a></li>
+            <li><a href="#evt-evt-spi0-tx-empty">EVT_SPI0_TX_EMPTY</a></li>
+            <li><a href="#evt-evt-i2c0-slave-rx-buf-ptr-len-u16">EVT_I2C0_SLAVE_RX(buf:PTR,len:U16)</a></li>
+            <li><a href="#evt-evt-i2c0-slave-tx">EVT_I2C0_SLAVE_TX</a></li>
+            <li><a href="#evt-evt-i2c0-master-done-flags-flg">EVT_I2C0_MASTER_DONE(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#evt-0xc0">0xC0 — NETWORK & PROTOCOLLI</a>
+          <ul class="nav-subs">
+            <li><a href="#evt-evt-net-link-flags-flg">EVT_NET_LINK(flags:FLG)</a></li>
+            <li><a href="#evt-evt-net-pkt-rx-buf-ptr-len-u16">EVT_NET_PKT_RX(buf:PTR,len:U16)</a></li>
+            <li><a href="#evt-evt-net-pkt-tx-done">EVT_NET_PKT_TX_DONE</a></li>
+            <li><a href="#evt-evt-bt-stack-flags-flg">EVT_BT_STACK(flags:FLG)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#evt-0xd0">0xD0 — TOUCH SCREEN</a>
+          <ul class="nav-subs">
+            <li><a href="#evt-evt-touch-down-x-u32-y-u32">EVT_TOUCH_DOWN(x:U32,y:U32)</a></li>
+            <li><a href="#evt-evt-touch-move-x-u32-y-u32">EVT_TOUCH_MOVE(x:U32,y:U32)</a></li>
+            <li><a href="#evt-evt-touch-up-x-u32-y-u32">EVT_TOUCH_UP(x:U32,y:U32)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#evt-0xe0-0xf8">0xE0-0xF8 — SPAZIO UTENTE</a>
+          <ul class="nav-subs">
+            <li><a href="#evt-evt-user-custom-0">EVT_USER_CUSTOM_0</a></li>
+            <li><a href="#evt-evt-user-custom-1-flags-flg">EVT_USER_CUSTOM_1(flags:FLG)</a></li>
+            <li><a href="#evt-evt-user-custom-2-value-u32">EVT_USER_CUSTOM_2(value:U32)</a></li>
+            <li><a href="#evt-evt-user-custom-3-buf-ptr-len-u16">EVT_USER_CUSTOM_3(buf:PTR,len:U16)</a></li>
+            <li><a href="#evt-evt-user-custom-4-cmd-u32-ptr-ptr">EVT_USER_CUSTOM_4(cmd:U32,ptr:PTR)</a></li>
+            <li><a href="#evt-evt-user-custom-5-dst-ptr-src-ptr-size-u32">EVT_USER_CUSTOM_5(dst:PTR,src:PTR,size:U32)</a></li>
+            <li><a href="#evt-evt-user-custom-6-flags-flg-buf-ptr-len-u16">EVT_USER_CUSTOM_6(flags:FLG,buf:PTR,len:U16)</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#evt-uncategorized">Uncategorized</a>
+          <ul class="nav-subs">
+            <li><a href="#evt-evt-sdl-quit">EVT_SDL_QUIT</a></li>
+            <li><a href="#evt-evt-sdl-close">EVT_SDL_CLOSE</a></li>
+            <li><a href="#evt-evt-sdl-mousemotion-x-u32-y-u32">EVT_SDL_MOUSEMOTION(x:U32,y:U32)</a></li>
+            <li><a href="#evt-evt-sdl-mousebuttondown-btn-u32-x-u32-y-u32">EVT_SDL_MOUSEBUTTONDOWN(btn:U32,x:U32,y:U32)</a></li>
+            <li><a href="#evt-evt-sdl-mousebuttonup-btn-u32-x-u32-y-u32">EVT_SDL_MOUSEBUTTONUP(btn:U32,x:U32,y:U32)</a></li>
+            <li><a href="#evt-evt-sdl-mousewheel-sx-s32-sy-s32">EVT_SDL_MOUSEWHEEL(sx:S32,sy:S32)</a></li>
+            <li><a href="#evt-evt-sdl-window-resized-width-u32-height-u32">EVT_SDL_WINDOW_RESIZED(width:U32,height:U32)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#ch6-syscalls" class="nav-chapter has-subs"><span class="material-icons nav-icon">api</span> Syscall</a>
+      <ul class="nav-subs">
+        <li class="nav-cat"><a href="#sys-0x00">0x00 — SISTEMA</a>
+          <ul class="nav-subs">
+            <li><a href="#sys-sys-reset">sys_reset</a></li>
+            <li><a href="#sys-sys-version">sys_version</a></li>
+            <li><a href="#sys-sys-features">sys_features</a></li>
+            <li><a href="#sys-sys-millis">sys_millis</a></li>
+            <li><a href="#sys-sys-static-ptr">sys_static_ptr</a></li>
+            <li><a href="#sys-sys-event-id">sys_event_id</a></li>
+            <li><a href="#sys-sys-ed25519-verify">sys_ed25519_verify</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#sys-0x10">0x10 — HAL</a>
+          <ul class="nav-subs">
+            <li><a href="#sys-sys-print">sys_print</a></li>
+            <li><a href="#sys-sys-print-status">sys_print_status</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#sys-0x20">0x20 — GPIO</a>
+          <ul class="nav-subs">
+            <li><a href="#sys-sys-gpio-set-dir">sys_gpio_set_dir</a></li>
+            <li><a href="#sys-sys-gpio-write">sys_gpio_write</a></li>
+            <li><a href="#sys-sys-gpio-read">sys_gpio_read</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#sys-0x30">0x30 — UART</a>
+          <ul class="nav-subs">
+            <li><a href="#sys-sys-uart-send">sys_uart_send</a></li>
+            <li><a href="#sys-sys-uart-read">sys_uart_read</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#sys-0x40">0x40 — Timer</a>
+          <ul class="nav-subs">
+            <li><a href="#sys-sys-delay">sys_delay</a></li>
+          </ul>
+        </li>
+        <li class="nav-cat"><a href="#sys-0xd0">0xD0 — GRAPHICS</a>
+          <ul class="nav-subs">
+            <li><a href="#sys-sys-gfx-open">sys_gfx_open</a></li>
+            <li><a href="#sys-sys-gfx-flush">sys_gfx_flush</a></li>
+            <li><a href="#sys-sys-gfx-poll">sys_gfx_poll</a></li>
+            <li><a href="#sys-sys-gfx-close">sys_gfx_close</a></li>
+            <li><a href="#sys-sys-gfx-info">sys_gfx_info</a></li>
+            <li><a href="#sys-sys-gfx-get-input-addr">sys_gfx_get_input_addr</a></li>
+            <li><a href="#sys-sys-gfx-read-input">sys_gfx_read_input</a></li>
+            <li><a href="#sys-sys-gfx-get-mouse">sys_gfx_get_mouse</a></li>
+            <li><a href="#sys-sys-gfx-get-winsize">sys_gfx_get_winsize</a></li>
+            <li><a href="#sys-sys-text-print">sys_text_print</a></li>
+            <li><a href="#sys-sys-ttf-render">sys_ttf_render</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#ch7-assembler" class="nav-chapter has-subs"><span class="material-icons nav-icon">article</span> Direttive assembler</a>
+      <ul class="nav-subs">
+        <li><a href="#ch6-intro">Struttura file e utilità</a></li>
+        <li><a href="#ch6-data">Dati e costanti</a></li>
+        <li><a href="#ch6-if">Condizionali e ripetizioni</a></li>
+        <li><a href="#ch6-modular">Modularizzazione (.INCLUDE)</a></li>
+        <li><a href="#ch6-pseudo">Pseudo-istruzioni e macro</a></li>
+        <li><a href="#ch6-classes">Classi, eventi e ABI</a></li>
+        <li><a href="#ch6-advanced">Avanzate</a></li>
+      </ul>
+    </li>
+    <li><a href="#ch8-book" class="nav-chapter has-subs"><span class="material-icons nav-icon">menu_book</span> Oltre il Bit — Il libro</a>
+      <ul class="nav-subs">
+        <li><a href="#ch1-castello">1. Il firmware è un castello di sabbia</a></li>
+        <li><a href="#ch2-vm">2. Macchine virtuali su MCU</a></li>
+        <li><a href="#ch3-determinismo">3. Determinismo come architettura</a></li>
+        <li><a href="#ch4-memoria">4. La memoria come territorio</a></li>
+        <li><a href="#ch5-oop">5. Oggetti, metodi e VTable</a></li>
+        <li><a href="#ch6-dsl">6. Metaprogrammazione e DSL</a></li>
+        <li><a href="#ch7-syscall">7. Syscall</a></li>
+        <li><a href="#ch8-ecosistema">8. L'ecosistema</a></li>
+        <li><a href="#ch9-futuro">9. Il futuro</a></li>
+      </ul>
+    </li>
+    <li><a href="#ch9-start" class="nav-chapter"><span class="material-icons nav-icon">play_circle</span> Guida rapida (CLI)</a>
+    </li>
+
+    </ul>
+  </div>
+</dialog>
 
 
 <main class="main-content">
@@ -11055,47 +11428,59 @@ window.addEventListener('click', function(e) {
   }
 })();
 
-// ── Doc responsive: DUE drawer da sinistra (Indice | Sezioni del sito) ──
+// ── Doc responsive: DUE drawer nativi (<dialog>): Indice | Sezioni del sito ──
+// Il <dialog> con showModal() sta nel TOP LAYER: sempre sopra, cliccabile,
+// blocca lo scroll e i tocchi sotto, si chiude con ESC nativamente.
 (function() {
-  var scrim = document.getElementById('drawer-scrim');
-  var sidebar = document.getElementById('sidebar');
-  var siteMenu = document.getElementById('mobile-menu');
+  var dlgIndex = document.getElementById('doc-index-dialog');
+  var dlgSite = document.getElementById('doc-site-dialog');
   var btnIndex = document.querySelector('[data-doc-nav-toggle]');
   var btnSite = document.querySelector('[data-site-nav-toggle]');
 
-  function closeAll() {
-    if (sidebar) sidebar.classList.remove('open');
-    if (siteMenu) siteMenu.classList.remove('open');
-    if (scrim) scrim.classList.remove('open');
-    document.body.classList.remove('drawer-open');
-    if (btnIndex) btnIndex.setAttribute('aria-expanded', 'false');
-    if (btnSite) btnSite.setAttribute('aria-expanded', 'false');
-  }
-  function open(el, btn) {
-    closeAll();
-    if (!el) return;
-    el.classList.add('open');
-    if (scrim) scrim.classList.add('open');
-    document.body.classList.add('drawer-open');
+  function openDlg(dlg, btn) {
+    if (!dlg) return;
+    // un drawer alla volta
+    [dlgIndex, dlgSite].forEach(function(d) { if (d && d.open) d.close(); });
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
     if (btn) btn.setAttribute('aria-expanded', 'true');
   }
-  if (btnIndex && sidebar) btnIndex.addEventListener('click', function() {
-    sidebar.classList.contains('open') ? closeAll() : open(sidebar, btnIndex);
+  function closeDlg(dlg, btn) {
+    if (dlg && dlg.open) { try { dlg.close(); } catch (e) { dlg.removeAttribute('open'); } }
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
+
+  if (btnIndex) btnIndex.addEventListener('click', function() {
+    if (dlgIndex && dlgIndex.open) closeDlg(dlgIndex, btnIndex); else openDlg(dlgIndex, btnIndex);
   });
-  if (btnSite && siteMenu) btnSite.addEventListener('click', function() {
-    siteMenu.classList.contains('open') ? closeAll() : open(siteMenu, btnSite);
+  if (btnSite) btnSite.addEventListener('click', function() {
+    if (dlgSite && dlgSite.open) closeDlg(dlgSite, btnSite); else openDlg(dlgSite, btnSite);
   });
-  if (scrim) scrim.addEventListener('click', closeAll);
-  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeAll(); });
-  // Tornando a desktop i drawer non hanno senso: chiudili.
-  window.addEventListener('resize', function() {
-    if (window.innerWidth > 900) closeAll();
-  });
-  // Un click su un link dentro un drawer lo chiude (navigazione).
-  [sidebar, siteMenu].forEach(function(el) {
-    if (el) el.addEventListener('click', function(e) {
-      if (e.target.closest('a')) closeAll();
+
+  [dlgIndex, dlgSite].forEach(function(dlg) {
+    if (!dlg) return;
+    // chiusura (X)
+    dlg.querySelectorAll('[data-close-drawer]').forEach(function(b) {
+      b.addEventListener('click', function() { closeDlg(dlg, dlg === dlgIndex ? btnIndex : btnSite); });
     });
+    // click sul backdrop (fuori dal box) chiude
+    dlg.addEventListener('click', function(e) {
+      if (e.target === dlg) closeDlg(dlg, dlg === dlgIndex ? btnIndex : btnSite);
+    });
+    // un click su un link chiude il drawer
+    dlg.addEventListener('click', function(e) {
+      if (e.target.closest('a')) closeDlg(dlg, dlg === dlgIndex ? btnIndex : btnSite);
+    });
+    // stato chiuso (ESC o .close()) → reset aria
+    dlg.addEventListener('close', function() {
+      if (btnIndex) btnIndex.setAttribute('aria-expanded', 'false');
+      if (btnSite) btnSite.setAttribute('aria-expanded', 'false');
+    });
+  });
+  // ESC esplicito (oltre a quello nativo del dialog, per robustezza)
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Escape') return;
+    closeDlg(dlgIndex, btnIndex);
+    closeDlg(dlgSite, btnSite);
   });
 })();
 </script>
