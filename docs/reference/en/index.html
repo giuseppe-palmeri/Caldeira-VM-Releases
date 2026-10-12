@@ -4,9 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Documentation — Caldeira VM</title>
+<!-- Font LOCALI (stessi del sito): niente FOUT, il testo non cambia al load. -->
+<link rel="preload" href="../../assets/fonts/inter-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/inter-latin-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../assets/fonts/jetbrainsmono-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../assets/fonts/fonts.css">
+<!-- Icone (Material Icons): risorsa esterna, non influenza il font del testo. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="icon" href="../../images/favicon.ico" type="image/x-icon">
 <style>
@@ -471,7 +476,7 @@ body { display: flex; flex-direction: column; }
 .sidebar-search input:focus { border-color: var(--accent); }
 .sidebar-search input::placeholder { color: var(--text-tertiary); }
 
-.nav-tree { list-style: none; padding: .5rem 0; flex: 1; overflow-y: auto; min-height: 0; }
+.nav-tree { list-style: none; padding: 0 0 .5rem; flex: 1; overflow-y: auto; min-height: 0; }
 .nav-tree li { position: relative; }
 .nav-tree a {
   display: block; padding: .35rem 1rem .35rem 1.25rem; color: var(--text-secondary);
@@ -668,9 +673,11 @@ code {
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) { .sidebar { width: 240px; } .main-content { margin: 0 auto; padding: 4.5rem 1.5rem; } }
 @media (max-width: 700px) {
-  body { flex-direction: column; }
-  .sidebar { position: relative; width: 100%; height: auto; max-height: 50vh; top: auto; }
-  .main-content { margin: 0; padding: 1rem; }
+  /* Su schermi stretti la sidebar va SOPRA il contenuto: si impila
+     .docs-body (era il bug: si cambiava `body`, non `.docs-body`). */
+  .docs-body { flex-direction: column; }
+  .sidebar { position: relative; width: 100%; height: auto; max-height: 50vh; top: auto; overflow-y: auto; }
+  .main-content { margin: 0; padding: 1rem; width: 100%; max-width: 100%; }
 }
 
 </style>

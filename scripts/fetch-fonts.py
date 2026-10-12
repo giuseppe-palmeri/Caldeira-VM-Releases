@@ -79,7 +79,7 @@ def main():
                 f.write(f"  font-family: '{family}';\n")
                 f.write(f"  font-style: normal;\n")
                 f.write(f"  font-weight: {weight};\n")
-                f.write(f"  font-display: swap;\n")
+                f.write(f"  font-display: optional;\n")
                 f.write(f"  src: url('./{fname}') format('woff2');\n")
                 f.write(f"  unicode-range: {urange};\n")
                 f.write(f"}}\n")
