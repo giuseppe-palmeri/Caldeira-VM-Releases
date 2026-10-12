@@ -1,0 +1,144 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Caldeira VM — Design tokens (SINGLE SOURCE OF TRUTH)
+   ═══════════════════════════════════════════════════════════════════════════
+   Unico posto dove vivono colori, tipografia, spaziatura, raggi e palette di
+   syntax-highlighting. Consumato da:
+     • il SITO pubblico  (home/docs/style.css → @import)
+     • la DOC generata   (scripts/gen_docs_html.py → inlina tokens+base+docs)
+   Regola: nessun altro file ridefinisce queste variabili; i componenti le usano.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Tipografia e spaziatura (indipendenti dal tema) ── */
+:root {
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.1875rem;
+  --text-xl: clamp(1.35rem, 2.6vw, 1.75rem);
+  --text-2xl: clamp(1.65rem, 3.4vw, 2.35rem);
+  --text-3xl: clamp(2rem, 4.6vw, 3.15rem);
+
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  --transition-fast: 160ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-med: 240ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  --header-height: 3.75rem;
+  --header-max: 80rem;
+  --content-max: 72rem;
+  --content-narrow: 56rem;
+
+  --shadow-sm: 0 1px 2px rgba(15, 22, 32, 0.06), 0 1px 3px rgba(15, 22, 32, 0.05);
+  --shadow-md: 0 6px 16px -4px rgba(15, 22, 32, 0.14), 0 2px 6px -2px rgba(15, 22, 32, 0.08);
+  --shadow-lg: 0 20px 44px -12px rgba(15, 22, 32, 0.25), 0 6px 16px -6px rgba(15, 22, 32, 0.12);
+  --shadow-focus: 0 0 0 3px var(--accent-soft);
+}
+
+/* ── Tema SCURO (default) ── */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0a0d12;
+  --bg-elevated: #10151d;
+  --bg-inset: #07090d;
+  --bg-hover: #161c26;
+  --border: #1f2733;
+  --border-strong: #2d3745;
+  --text: #e8eef5;
+  --text-secondary: #9aa7b5;
+  --text-tertiary: #67727f;
+  --text-heading: #f2f6fa;
+  --accent: #3fb950;
+  --accent-strong: #2ea043;
+  --accent-soft: rgba(63, 185, 80, 0.13);
+  --accent-softer: rgba(63, 185, 80, 0.07);
+  --accent-text: #58d16b;
+  --accent-contrast: #0a0d12;
+  --badge-avail-bg: rgba(63, 185, 80, 0.12);
+  --badge-avail: #3fb950;
+  --badge-incoming-bg: rgba(210, 153, 34, 0.15);
+  --badge-incoming: #d29922;
+  --glow-accent: rgba(63, 185, 80, 0.16);
+  --glow-ambient: rgba(96, 144, 255, 0.09);
+  --surface-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0) 55%);
+  --hero-line: rgba(139, 148, 158, 0.16);
+  --panel-shadow: var(--shadow-md);
+  --header-bg: rgba(10, 13, 18, 0.78);
+  --title-gradient: linear-gradient(180deg, var(--text-heading) 20%, var(--text-secondary) 100%);
+  /* Docs: sidebar e code */
+  --sidebar-bg: linear-gradient(180deg, #10151d 0%, #0b0f15 100%);
+  --code-bg: #07090d; --code-fg: #c9d1d9; --code-border: #1f2733;
+  --tok-bg: #07090d; --tok-fg: #c9d1d9; --tok-bar: #10151d;
+  /* Palette syntax highlighting */
+  --hl-cmt: #8b949e; --hl-dir: #79c0ff; --hl-pseudo: #ffa657; --hl-lbl: #7ee787;
+  --hl-op: #ff7b72; --hl-reg: #79c0ff; --hl-num: #d2a8ff; --hl-str: #a5d6ff;
+}
+
+/* ── Tema CHIARO ── */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f6f8;
+  --bg-elevated: #ffffff;
+  --bg-inset: #eceef1;
+  --bg-hover: #e9edf0;
+  --border: #e2e6ea;
+  --border-strong: #c7cdd4;
+  --text: #171b21;
+  --text-secondary: #515b66;
+  --text-tertiary: #79828e;
+  --text-heading: #0f1319;
+  --accent: #1a7f37;
+  --accent-strong: #116329;
+  --accent-soft: rgba(26, 127, 55, 0.1);
+  --accent-softer: rgba(26, 127, 55, 0.06);
+  --accent-text: #116329;
+  --accent-contrast: #ffffff;
+  --badge-avail-bg: rgba(26, 127, 55, 0.1);
+  --badge-avail: #1a7f37;
+  --badge-incoming-bg: rgba(154, 103, 0, 0.13);
+  --badge-incoming: #9a6700;
+  --glow-accent: rgba(26, 127, 55, 0.1);
+  --glow-ambient: rgba(60, 110, 220, 0.07);
+  --surface-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 60%);
+  --hero-line: rgba(23, 27, 33, 0.09);
+  --panel-shadow: var(--shadow-md);
+  --header-bg: rgba(255, 255, 255, 0.82);
+  --title-gradient: linear-gradient(180deg, var(--text-heading) 25%, var(--text-secondary) 100%);
+  /* Docs: sidebar e code */
+  --sidebar-bg: linear-gradient(180deg, #ffffff 0%, #eceef1 100%);
+  --code-bg: #f6f8fa; --code-fg: #24292e; --code-border: #d1d5da;
+  --tok-bg: #f6f8fa; --tok-fg: #24292e; --tok-bar: #eceef1;
+  /* Palette syntax highlighting */
+  --hl-cmt: #6a737d; --hl-dir: #0550ae; --hl-pseudo: #bc4c00; --hl-lbl: #116329;
+  --hl-op: #cf222e; --hl-reg: #0550ae; --hl-num: #8250df; --hl-str: #0a3069;
+}
+
+/* ── ALIAS di compatibilità (nomi brevi usati dalla doc generata) ──
+   Evitano di riscrivere le regole della doc: puntano ai token canonici. */
+:root {
+  --bg-elev: var(--bg-elevated);
+  --text-2: var(--text-secondary);
+  --text-3: var(--text-tertiary);
+}
