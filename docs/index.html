@@ -678,7 +678,13 @@
                     </label>
                     <label class="auth-field">
                         <span data-i18n="auth.passwordLabel">Password</span>
-                        <input name="password" type="password" autocomplete="current-password" placeholder="your password" required data-i18n-placeholder="auth.passwordPlaceholder">
+                        <span class="pw-wrap">
+                            <input name="password" type="password" autocomplete="current-password" placeholder="your password" required data-i18n-placeholder="auth.passwordPlaceholder">
+                            <button type="button" class="pw-toggle" data-pw-toggle aria-label="Mostra password" title="Mostra password">
+                                <svg class="pw-eye" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="pw-eye-off" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.4 18.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a18.4 18.4 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></svg>
+                            </button>
+                        </span>
                     </label>
                     <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.submit">Sign in</button>
                 </form>
@@ -698,7 +704,13 @@
                     </label>
                     <label class="auth-field">
                         <span data-i18n="auth.passwordLabel">Password</span>
-                        <input name="password" type="password" autocomplete="new-password" minlength="8" placeholder="min 8 characters" required data-i18n-placeholder="auth.passwordPlaceholderNew">
+                        <span class="pw-wrap">
+                            <input name="password" type="password" autocomplete="new-password" minlength="8" placeholder="min 8 characters" required data-i18n-placeholder="auth.passwordPlaceholderNew">
+                            <button type="button" class="pw-toggle" data-pw-toggle aria-label="Mostra password" title="Mostra password">
+                                <svg class="pw-eye" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="pw-eye-off" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.4 18.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a18.4 18.4 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></svg>
+                            </button>
+                        </span>
                     </label>
                     <label class="auth-field">
                         <span data-i18n="auth.licenseIdLabel">License ID (optional)</span>
@@ -759,7 +771,13 @@
                     </label>
                     <label class="auth-field">
                         <span data-i18n="auth.passwordNewLabel">New password</span>
-                        <input name="new_password" type="password" autocomplete="new-password" minlength="8" placeholder="min 8 characters" required data-i18n-placeholder="auth.passwordPlaceholderNew">
+                        <span class="pw-wrap">
+                            <input name="new_password" type="password" autocomplete="new-password" minlength="8" placeholder="min 8 characters" required data-i18n-placeholder="auth.passwordPlaceholderNew">
+                            <button type="button" class="pw-toggle" data-pw-toggle aria-label="Mostra password" title="Mostra password">
+                                <svg class="pw-eye" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="pw-eye-off" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.4 18.4 0 0 1 5.06-5.94M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 7 11 7a18.4 18.4 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="M1 1l22 22"/></svg>
+                            </button>
+                        </span>
                     </label>
                     <button type="submit" class="btn btn-primary btn-block" data-i18n="auth.resetSubmit">Set new password</button>
                 </form>

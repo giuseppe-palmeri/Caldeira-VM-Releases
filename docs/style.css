@@ -1847,6 +1847,42 @@ code {
     box-shadow: 0 0 0 3px var(--accent-softer);
 }
 
+/* Password con pulsante "mostra/nascondi" a destra dell'input. */
+.auth-field .pw-wrap {
+    position: relative;
+    display: block;
+    /* annulla lo stile dei <span> etichetta di .auth-field */
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+}
+.auth-field .pw-wrap input {
+    width: 100%;
+    padding-right: 2.6rem;   /* spazio per il pulsante occhio */
+}
+.auth-field .pw-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.4rem;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-tertiary);
+    cursor: pointer;
+}
+.auth-field .pw-toggle:hover { color: var(--text); }
+/* Icona: mostra l'occhio quando la password E' nascosta; occhio-barrato quando visibile. */
+.auth-field .pw-toggle .pw-eye-off { display: none; }
+.auth-field .pw-toggle.is-on .pw-eye { display: none; }
+.auth-field .pw-toggle.is-on .pw-eye-off { display: inline-block; }
+
 .auth-links {
     display: flex;
     flex-direction: column;

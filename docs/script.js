@@ -320,6 +320,22 @@ function initNavDropdowns() {
 }
 
 /* ── Auth modal (login / register / password recovery via the API) ─────── */
+function initPasswordToggles() {
+    document.querySelectorAll('[data-pw-toggle]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const wrap = btn.closest('.pw-wrap');
+            const input = wrap && wrap.querySelector('input');
+            if (!input) return;
+            const show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            btn.classList.toggle('is-on', show);
+            const label = show ? 'Nascondi password' : 'Mostra password';
+            btn.setAttribute('aria-label', label);
+            btn.setAttribute('title', label);
+        });
+    });
+}
+
 function initLoginModal() {
     const triggers = document.querySelectorAll('[data-login-modal]');
     const overlay = document.querySelector('[data-login-modal-panel]');
@@ -1019,6 +1035,7 @@ async function init() {
     initNavDropdowns();
     initLoginModal();
     initCopyButton();
+    initPasswordToggles();
     initFluidNav();
     initHeaderScroll();
     await setLanguage(detectBrowserLanguage(), { persist: true });
